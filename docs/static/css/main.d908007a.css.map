@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.d908007a.css","mappings":"AAAA,EAGE,qBAAsB,CAFtB,QAAS,CACT,SAEF,CAEA,MAEE,aAAc,CADd,YAEF,CAEA,OACE,eACF","sources":["index.css"],"sourcesContent":["* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\n.wrap {\n  width: 1200px;\n  margin: 0 auto;\n}\n\n.mt-16 {\n  margin-top: 16px;\n}\n"],"names":[],"sourceRoot":""}
