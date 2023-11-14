@@ -1,20 +1,20 @@
 import {
   Space,
 } from 'antd';
-import { useState } from 'react';
 import SignMessage from './components/SignMessage';
 import useNetwork from './hooks/useNetwork';
 import Network from './components/Network';
-import Connect from './components/Connect';
+import Connect from '../../components/Connect';
+import useConnect from './hooks/useConnect';
 
 function Evm() {
-  const [account, setAccount] = useState('');
   const { chainId, network } = useNetwork();
+  const { account, handleConnect } = useConnect();
 
   return (
     <Space direction="vertical">
       <Network chainId={chainId} network={network} account={account} />
-      <Connect setAccount={setAccount} />
+      <Connect handleConnect={handleConnect} />
       <SignMessage account={account} />
     </Space>
   );
