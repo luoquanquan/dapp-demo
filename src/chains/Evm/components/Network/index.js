@@ -12,11 +12,6 @@ export default function Network({ chainId, account, network }) {
       label: 'ChainId',
       children: chainId,
     },
-    {
-      key: 'Account',
-      label: 'Account',
-      children: account || '未连接',
-    },
   ];
 
   return (
