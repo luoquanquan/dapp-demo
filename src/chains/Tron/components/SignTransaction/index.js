@@ -75,7 +75,7 @@ export default function SignTransaction({ account }) {
   };
 
   return (
-    <Card title="签交易 (signTransaction)">
+    <Card title="合约交互 (signTransaction)">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Row gutter={6}>
           <Col span={12}>

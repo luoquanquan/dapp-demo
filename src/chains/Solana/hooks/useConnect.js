@@ -14,9 +14,9 @@ export default () => {
   };
 
   useEffect(() => {
-    okxwallet.solana.on('accountChanged', (publicKey) => {
-      if (publicKey) {
-        setAccount(publicKey.toString());
+    okxwallet.on('walletChanged', ([connected]) => {
+      if (connected) {
+        handleConnect();
       } else {
         setAccount('');
       }

@@ -19,8 +19,12 @@ export default () => {
   };
 
   useEffect(() => {
-    okxwallet.on('walletChanged', () => {
-      setAccount(okxwallet.tronWeb.defaultAddress.base58);
+    okxwallet.on('walletChanged', ([connected]) => {
+      if (connected) {
+        handleConnect();
+      } else {
+        setAccount('');
+      }
     });
   }, []);
 

@@ -25,5 +25,6 @@ module.exports = {
     'react/jsx-filename-extension': 0,
     'no-unused-vars': 'warn',
     'react/prop-types': 0,
+    'no-unused-expressions': 0,
   },
 };
