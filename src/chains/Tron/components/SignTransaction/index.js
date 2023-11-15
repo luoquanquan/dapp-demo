@@ -34,6 +34,7 @@ export default function SignTransaction({ account }) {
         extParams: {
           canSupplyGas: true,
         },
+      // eslint-disable-next-line no-console
       }).then((resp) => { console.log('签名结果 : ', resp); });
     } catch (error) {
       message.error(error.message);
@@ -66,6 +67,7 @@ export default function SignTransaction({ account }) {
           fee_limit: 300000000,
           timestamp: Date.now(),
         },
+      // eslint-disable-next-line no-console
       }).then((resp) => { console.log('签名结果 : ', resp); });
     } catch (error) {
       message.error(error.message);

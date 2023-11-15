@@ -1,6 +1,6 @@
 import { Card, Descriptions } from 'antd';
 
-export default function Network({ chainId, account, network }) {
+export default function Network({ chainId, network }) {
   const networkInfos = [
     {
       key: 'Network',
