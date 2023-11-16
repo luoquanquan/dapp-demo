@@ -8,6 +8,7 @@ import Sui from './chains/Sui';
 import Stacks from './chains/Stacks';
 import Starknet from './chains/Starknet';
 import Cosmos from './chains/Cosmos';
+import Bitcoin from './chains/Bitcoin';
 
 const tabs = [
   Evm,
@@ -16,6 +17,7 @@ const tabs = [
   Aptos,
   Cosmos,
   Sui,
+  Bitcoin,
   Stacks,
   Starknet,
 ];

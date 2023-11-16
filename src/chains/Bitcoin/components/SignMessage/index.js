@@ -5,13 +5,17 @@ import {
 import { useState } from 'react';
 
 function SignMessage({ account }) {
-  const [signMsgRet, setSignMsgRet] = useState('');
+  const [signMsg, setSignMsg] = useState('');
 
   const handleSignMsg = async () => {
     try {
-      const msg = 'hello Stacks';
-      const { signature } = await window.stacks.signMessage({ message: msg });
-      setSignMsgRet(signature);
+      const resp = await okxwallet.bitcoin.signMessage(
+        'hello Bitcoin',
+        {
+          from: account,
+        },
+      );
+      setSignMsg(resp);
     } catch (error) {
       message.error(error.message);
     }
@@ -26,7 +30,7 @@ function SignMessage({ account }) {
             <Alert
               type="warning"
               message="Result"
-              description={signMsgRet}
+              description={signMsg}
             />
           </Space>
         </Card>

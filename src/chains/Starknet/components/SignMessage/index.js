@@ -9,10 +9,34 @@ function SignMessage({ account }) {
 
   const handleSignMsg = async () => {
     try {
-      const msg = 'hello world';
-      const encodedMsg = new TextEncoder().encode(msg);
-      const { signature } = await okxwallet.sui.signMessage({ message: encodedMsg });
-      setSignMsgRet(signature);
+      const data = {
+        domain: {
+          name: 'OKX',
+          chainId: 'SN_MAIN',
+          version: '0.0.1',
+        },
+        types: {
+          StarkNetDomain: [
+            {
+              name: 'name',
+              type: 'felt',
+            },
+          ],
+          Message: [
+            {
+              name: 'message',
+              type: 'felt',
+            },
+          ],
+        },
+        primaryType: 'Message',
+        message: {
+          message: 'hello',
+        },
+      };
+
+      const { r, s } = await okxwallet.starknet.account.signMessage(data);
+      setSignMsgRet(r + s);
     } catch (error) {
       message.error(error.message);
     }
