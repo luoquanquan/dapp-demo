@@ -26,5 +26,6 @@ module.exports = {
     'no-unused-vars': 'warn',
     'react/prop-types': 0,
     'no-unused-expressions': 0,
+    camelcase: 0,
   },
 };

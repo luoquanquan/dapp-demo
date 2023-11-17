@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import { useState } from 'react';
 
-function SignMessage({ account }) {
+function SignMessage({ account, chainId }) {
   const [ethSignRet, setEthSignRet] = useState('');
   const handleEthSign = async () => {
     try {
@@ -66,48 +66,261 @@ function SignMessage({ account }) {
     }
   };
 
+  const [eth_signTypedData_v3Ret, setEth_signTypedData_v3Ret] = useState('');
+  const eth_signTypedData_v3 = async () => {
+    const msgParams = {
+      types: {
+        EIP712Domain: [
+          { name: 'name', type: 'string' },
+          { name: 'version', type: 'string' },
+          { name: 'chainId', type: 'uint256' },
+          { name: 'verifyingContract', type: 'address' },
+        ],
+        Person: [
+          { name: 'name', type: 'string' },
+          { name: 'wallet', type: 'address' },
+        ],
+        Mail: [
+          { name: 'from', type: 'Person' },
+          { name: 'to', type: 'Person' },
+          { name: 'contents', type: 'string' },
+        ],
+      },
+      primaryType: 'Mail',
+      domain: {
+        name: 'Ether Mail',
+        version: '1',
+        chainId,
+        verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+      },
+      message: {
+        from: {
+          name: 'Cow',
+          test: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+        },
+        to: {
+          name: 'Bob',
+          wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+        },
+        contents: 'Hello, Bob!',
+      },
+    };
+
+    try {
+      const ret = await ethereum.request({
+        method: 'eth_signTypedData_v3',
+        params: [account, JSON.stringify(msgParams)],
+      });
+      setEth_signTypedData_v3Ret(ret);
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const [eth_signTypedData_v4Ret, setEth_signTypedData_v4Ret] = useState('');
+  const eth_signTypedData_v4 = async () => {
+    const msgParams = {
+      domain: {
+        chainId: chainId.toString(),
+        name: 'Ether Mail',
+        verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+        version: '1',
+      },
+      message: {
+        contents: 'Hello, Bob!',
+        from: {
+          name: 'Cow',
+          wallets: [
+            '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+            '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
+          ],
+        },
+        to: [
+          {
+            name: 'Bob',
+            wallets: [
+              '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+              '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
+            ],
+          },
+        ],
+      },
+      primaryType: 'Mail',
+      types: {
+        EIP712Domain: [
+          { name: 'name', type: 'string' },
+          { name: 'version', type: 'string' },
+          { name: 'chainId', type: 'uint256' },
+          { name: 'verifyingContract', type: 'address' },
+        ],
+        Group: [
+          { name: 'name', type: 'string' },
+          { name: 'members', type: 'Person[]' },
+        ],
+        Mail: [
+          { name: 'from', type: 'Person' },
+          { name: 'to', type: 'Person[]' },
+          { name: 'contents', type: 'string' },
+        ],
+        Person: [
+          { name: 'name', type: 'string' },
+          { name: 'wallets', type: 'address[]' },
+        ],
+      },
+    };
+
+    try {
+      const ret = await ethereum.request({
+        method: 'eth_signTypedData_v4',
+        params: [account, JSON.stringify(msgParams)],
+      });
+      setEth_signTypedData_v4Ret(ret);
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const eth_signTypedData_v4_withError = () => {
+    ethereum.request({
+      method: 'eth_signTypedData_v4',
+      params: [
+        account,
+        JSON.stringify({
+          domain: {
+            chainId: chainId.toString(),
+            name: 'Ether Mail',
+            verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+            version: '1',
+          },
+          message: {
+            '⁢target＂:＂THIS IS THE FAKE TARGET＂,＂message':
+              'THIS IS THE FAKE MESSAGE＂⁢}⁢ }⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            target: '0x0101010101010101010101010101010101010101',
+            message: 'Howdy',
+          },
+          primaryType: 'Mail',
+          types: {
+            EIP712Domain: [
+              { name: 'name', type: 'string' },
+              { name: 'version', type: 'string' },
+              { name: 'chainId', type: 'uint256' },
+              { name: 'verifyingContract', type: 'address' },
+            ],
+            Group: [
+              { name: 'name', type: 'string' },
+              { name: 'members', type: 'Person[]' },
+            ],
+            Mail: [
+              { name: 'from', type: 'Person' },
+              { name: 'to', type: 'Person[]' },
+              { name: 'contents', type: 'string' },
+            ],
+            Person: [
+              { name: 'name', type: 'string' },
+              { name: 'wallets', type: 'address[]' },
+            ],
+          },
+        }),
+      ],
+    }).then((resp) => {
+      // eslint-disable-next-line no-console
+      console.log(resp);
+    }).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    });
+  };
+
   return (
     <Card title="签名">
-      <Row gutter={16}>
-        <Col span={8}>
-          <Card direction="vertical" title="Eth Sign">
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <Button disabled={!account} block onClick={handleEthSign}>eth_sign</Button>
-              <Alert
-                type="info"
-                message="Result"
-                description={ethSignRet}
-              />
-            </Space>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card direction="vertical" title="Personal Sign">
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <Button disabled={!account} block onClick={handlePersonalSign}>personal_sign</Button>
-              <Alert
-                type="info"
-                message="Result"
-                description={personalSignRet}
-              />
-            </Space>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card direction="vertical" title="Sign Typed Data">
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <Button disabled={!account} block onClick={handleTypedDataSign}>
-                eth_signTypedData
-              </Button>
-              <Alert
-                type="info"
-                message="Result"
-                description={typedDataSignRet}
-              />
-            </Space>
-          </Card>
-        </Col>
-      </Row>
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Card direction="vertical" title="Eth Sign">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Button disabled={!account} block onClick={handleEthSign}>eth_sign</Button>
+                <Alert
+                  type="info"
+                  message="Result"
+                  description={ethSignRet}
+                />
+              </Space>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card direction="vertical" title="Personal Sign">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Button disabled={!account} block onClick={handlePersonalSign}>
+                  personal_sign
+                </Button>
+                <Alert
+                  type="info"
+                  message="Result"
+                  description={personalSignRet}
+                />
+              </Space>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card direction="vertical" title="Sign Typed Data">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Button disabled={!account} block onClick={handleTypedDataSign}>
+                  eth_signTypedData
+                </Button>
+                <Alert
+                  type="info"
+                  message="Result"
+                  description={typedDataSignRet}
+                />
+              </Space>
+            </Card>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Card direction="vertical" title="Sign Typed Data V3">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Button disabled={!account} block onClick={eth_signTypedData_v3}>
+                  eth_signTypedData_v3
+                </Button>
+                <Alert
+                  type="info"
+                  message="Result"
+                  description={eth_signTypedData_v3Ret}
+                />
+              </Space>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card direction="vertical" title="Sign Typed Data V4">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Button disabled={!account} block onClick={eth_signTypedData_v4}>
+                  eth_signTypedData_v4
+                </Button>
+                <Alert
+                  type="info"
+                  message="Result"
+                  description={eth_signTypedData_v4Ret}
+                />
+              </Space>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card direction="vertical" title="Sign Typed Data V4 with Error">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <Button disabled={!account} block onClick={eth_signTypedData_v4_withError}>
+                  eth_signTypedData
+                </Button>
+                <Alert
+                  type="info"
+                  message="Result"
+                  description={typedDataSignRet}
+                />
+              </Space>
+            </Card>
+          </Col>
+        </Row>
+      </Space>
     </Card>
   );
 }
