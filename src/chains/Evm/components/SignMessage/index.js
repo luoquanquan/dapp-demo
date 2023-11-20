@@ -181,6 +181,7 @@ function SignMessage({ account, chainId }) {
     }
   };
 
+  const [eth_signTypedData_v4_withErrorRet, setEth_signTypedData_v4_withErrorRet] = useState('');
   const eth_signTypedData_v4_withError = () => {
     ethereum.request({
       method: 'eth_signTypedData_v4',
@@ -224,11 +225,9 @@ function SignMessage({ account, chainId }) {
         }),
       ],
     }).then((resp) => {
-      // eslint-disable-next-line no-console
-      console.log(resp);
+      setEth_signTypedData_v4_withErrorRet(resp);
     }).catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      message.error(error.message);
     });
   };
 
@@ -310,8 +309,13 @@ function SignMessage({ account, chainId }) {
             <Card direction="vertical" title="Sign Typed Data V4 with Error">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button disabled={!account} block onClick={eth_signTypedData_v4_withError}>
-                  eth_signTypedData
+                  eth_signTypedData_v4(withError)
                 </Button>
+                <Alert
+                  type="info"
+                  message="Result"
+                  description={eth_signTypedData_v4_withErrorRet}
+                />
               </Space>
             </Card>
           </Col>
