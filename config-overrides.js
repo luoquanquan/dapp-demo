@@ -13,7 +13,7 @@ module.exports = function override(config, env) {
   }));
 
   // eslint-disable-next-line max-len
-  // config.resolve.plugins = config.resolve.plugins.filter((plugin) => !(plugin instanceof ModuleScopePlugin));
+  config.resolve.plugins = config.resolve.plugins.filter((plugin) => !(plugin instanceof ModuleScopePlugin));
 
   return config;
 };
