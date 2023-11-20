@@ -8,10 +8,10 @@ import {
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
 
+const symbol = `OKX_FE-${Math.random().toString(16).slice(2)}`;
 function CreateToken() {
   // constant
   const decimals = 4;
-  const symbol = 'OKX_FE';
   const image = `${window.location.href}favicon.png`;
 
   // chain context
@@ -134,7 +134,7 @@ function CreateToken() {
   };
   return (
     <Col span={12}>
-      <Card direction="vertical" title="ERC 20 代币">
+      <Card direction="vertical" title={`ERC 20 代币(${symbol})`}>
         <Space direction="vertical" style={{ width: '100%' }}>
           <Alert
             type="info"
