@@ -312,11 +312,6 @@ function SignMessage({ account, chainId }) {
                 <Button disabled={!account} block onClick={eth_signTypedData_v4_withError}>
                   eth_signTypedData
                 </Button>
-                <Alert
-                  type="info"
-                  message="Result"
-                  description={typedDataSignRet}
-                />
               </Space>
             </Card>
           </Col>
