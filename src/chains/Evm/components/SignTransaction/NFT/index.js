@@ -125,7 +125,7 @@ function NFT() {
 
   return (
     <Col span={12}>
-      <Card direction="vertical" title="ERC 20 代币">
+      <Card direction="vertical" title="NFT">
         <Space direction="vertical" style={{ width: '100%' }}>
           <Alert
             type="info"
