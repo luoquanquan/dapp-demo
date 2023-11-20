@@ -3,6 +3,7 @@ import {
   Button, Card, Col, Row, Space, message,
 } from 'antd';
 import { useState } from 'react';
+import GetEncryptPublicKey from './components/GetEncryptPublicKey';
 
 function SignMessage({ account, chainId }) {
   const [ethSignRet, setEthSignRet] = useState('');
@@ -319,6 +320,9 @@ function SignMessage({ account, chainId }) {
               </Space>
             </Card>
           </Col>
+        </Row>
+        <Row gutter={16}>
+          <GetEncryptPublicKey />
         </Row>
       </Space>
     </Card>
