@@ -43,7 +43,7 @@ function CreateToken() {
   };
 
   const [watchAssetLoading, setWatchAssetLoading] = useState(false);
-  const handleWallet_watchAsset = async () => {
+  const wallet_watchAsset = async () => {
     try {
       setWatchAssetLoading(true);
       await ethereum.request({
@@ -152,7 +152,7 @@ function CreateToken() {
           <Button
             block
             loading={watchAssetLoading}
-            onClick={handleWallet_watchAsset}
+            onClick={wallet_watchAsset}
             disabled={!hstContract.address}
           >
             添加代币到钱包
@@ -166,42 +166,6 @@ function CreateToken() {
             }}
           />
           <Row gutter={12}>
-            <Col span={12}>
-              <Card title="转移代币">
-                <Space direction="vertical" style={{ width: '100%' }}>
-                  <Button
-                    block
-                    loading={transferTokensLoading}
-                    onClick={handleTransferToken({
-                      gasLimit: 60000,
-                      gasPrice: '20000000000',
-                    })}
-                    disabled={!hstContract.address}
-                  >
-                    dapp 传 gas
-                  </Button>
-                  <Button
-                    block
-                    loading={transferTokensLoading}
-                    onClick={handleTransferToken({
-                      gasLimit: 100,
-                      gasPrice: '200',
-                    }, false)}
-                    disabled={!hstContract.address}
-                  >
-                    dapp 传极低的 gas
-                  </Button>
-                  <Button
-                    block
-                    loading={transferTokensLoading}
-                    onClick={handleTransferToken()}
-                    disabled={!hstContract.address}
-                  >
-                    dapp 不传 gas
-                  </Button>
-                </Space>
-              </Card>
-            </Col>
             <Col span={12}>
               <Card title="授权代币">
                 <Space direction="vertical" style={{ width: '100%' }}>
@@ -242,6 +206,42 @@ function CreateToken() {
                     disabled={!hstContract.address}
                   >
                     IncreaseAllowance
+                  </Button>
+                </Space>
+              </Card>
+            </Col>
+            <Col span={12}>
+              <Card title="转移代币">
+                <Space direction="vertical" style={{ width: '100%' }}>
+                  <Button
+                    block
+                    loading={transferTokensLoading}
+                    onClick={handleTransferToken({
+                      gasLimit: 60000,
+                      gasPrice: '20000000000',
+                    })}
+                    disabled={!hstContract.address}
+                  >
+                    dapp 传 gas
+                  </Button>
+                  <Button
+                    block
+                    loading={transferTokensLoading}
+                    onClick={handleTransferToken({
+                      gasLimit: 100,
+                      gasPrice: '200',
+                    }, false)}
+                    disabled={!hstContract.address}
+                  >
+                    dapp 传极低的 gas
+                  </Button>
+                  <Button
+                    block
+                    loading={transferTokensLoading}
+                    onClick={handleTransferToken()}
+                    disabled={!hstContract.address}
+                  >
+                    dapp 不传 gas
                   </Button>
                 </Space>
               </Card>

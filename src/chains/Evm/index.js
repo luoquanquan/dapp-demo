@@ -11,6 +11,7 @@ import useConnect from './hooks/useConnect';
 import Account from '../../components/Account';
 import SignTransaction from './components/SignTransaction';
 import EvmContext from './context';
+import Others from './components/Others';
 
 function Evm() {
   const { chainId, network } = useNetwork();
@@ -34,6 +35,7 @@ function Evm() {
         <Connect handleConnect={handleConnect} account={account} />
         <SignMessage account={account} chainId={chainId} />
         <SignTransaction />
+        <Others />
       </Space>
     </EvmContext.Provider>
 
