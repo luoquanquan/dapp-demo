@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Space, Tabs } from 'antd';
 
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
@@ -9,6 +9,7 @@ import Stacks from './chains/Stacks';
 import Starknet from './chains/Starknet';
 import Cosmos from './chains/Cosmos';
 import Bitcoin from './chains/Bitcoin';
+import ProjectInfo from './components/ProjectInfo';
 
 const tabs = [
   Evm,
@@ -25,7 +26,10 @@ const tabs = [
 export default function App() {
   return (
     <div className="wrap">
-      <Tabs defaultActiveKey="Evm" items={tabs} />
+      <Space direction="vertical">
+        <Tabs defaultActiveKey="Evm" items={tabs} />
+        <ProjectInfo />
+      </Space>
     </div>
   );
 }
