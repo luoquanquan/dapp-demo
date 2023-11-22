@@ -1,16 +1,16 @@
 import { useContext, useState } from 'react';
 import {
-  Button, Card, Col, Space, message,
+  Button, Card, Space, message,
 } from 'antd';
 import EvmContext from '../../../context';
 
 function GrayAddress() {
   const { account } = useContext(EvmContext);
 
-  const [txWithGrayAddressLoading, setTxWithGrayAddressLoading] = useState(false);
-  const txWithGrayAddress = async () => {
+  const [toGrayLoading, setToGrayLoading] = useState(false);
+  const toGray = async () => {
     try {
-      setTxWithGrayAddressLoading(true);
+      setToGrayLoading(true);
       const txParams = {
         from: account,
         to: '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
@@ -24,25 +24,82 @@ function GrayAddress() {
     } catch (error) {
       message.error(message);
     } finally {
-      setTxWithGrayAddressLoading(false);
+      setToGrayLoading(false);
+    }
+  };
+
+  const [projectGrayLoading, setProjectGrayLoading] = useState(false);
+  const projectGray = async () => {
+    try {
+      setProjectGrayLoading(true);
+      const txParams = {
+        from: account,
+        to: '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+        value: '1',
+        data: '0x39509351000000000000000000000000ae8dd22b30f0a88c04dc61b125bed99a397a47c9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+      };
+
+      await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [txParams],
+      });
+    } catch (error) {
+      message.error(message);
+    } finally {
+      setProjectGrayLoading(false);
+    }
+  };
+
+  const [transferLoading, setTransferLoading] = useState(false);
+  const transfer = async () => {
+    try {
+      setTransferLoading(true);
+      const txParams = {
+        from: account,
+        to: '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+        value: `${(10 ** 13).toString(16)}`,
+      };
+
+      await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [txParams],
+      });
+    } catch (error) {
+      message.error(message);
+    } finally {
+      setTransferLoading(false);
     }
   };
 
   return (
-    <Col span={12}>
-      <Card direction="vertical" title="灰地址">
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <Button
-            block
-            loading={txWithGrayAddressLoading}
-            onClick={txWithGrayAddress}
-            disabled={!account}
-          >
-            触发灰地址交互
-          </Button>
-        </Space>
-      </Card>
-    </Col>
+    <Card direction="vertical" title="灰地址 & 转主币">
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Button
+          block
+          loading={toGrayLoading}
+          onClick={toGray}
+          disabled={!account}
+        >
+          合约地址为灰地址
+        </Button>
+        <Button
+          block
+          loading={projectGrayLoading}
+          onClick={projectGray}
+          disabled={!account}
+        >
+          项目方地址为灰地址
+        </Button>
+        <Button
+          block
+          loading={transferLoading}
+          onClick={transfer}
+          disabled={!account}
+        >
+          转主币(交易)
+        </Button>
+      </Space>
+    </Card>
   );
 }
 

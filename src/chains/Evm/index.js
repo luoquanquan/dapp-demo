@@ -14,7 +14,7 @@ import EvmContext from './context';
 import Others from './components/Others';
 
 function Evm() {
-  const { chainId, network } = useNetwork();
+  const { chainId } = useNetwork();
   const { account, handleConnect } = useConnect();
   const [provider, setProvider] = useState(null);
   useEffect(() => {
@@ -30,7 +30,7 @@ function Evm() {
   return (
     <EvmContext.Provider value={context}>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Network chainId={chainId} network={network} account={account} />
+        <Network chainId={chainId} account={account} />
         <Account account={account} />
         <Connect handleConnect={handleConnect} account={account} />
         <SignMessage account={account} chainId={chainId} />

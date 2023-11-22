@@ -124,57 +124,55 @@ function NFT() {
   };
 
   return (
-    <Col span={12}>
-      <Card direction="vertical" title="NFT">
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <Alert
-            type="info"
-            message="合集地址"
-            description={nftsContract.address}
-          />
-          <Button
-            block
-            loading={createNftLoading}
-            onClick={createNft}
-            disabled={!account}
-          >
-            创建合集
-          </Button>
-          <Button
-            block
-            loading={mintLoading}
-            onClick={mint}
-            disabled={!canMint}
-          >
-            Mint
-          </Button>
-          <Button
-            block
-            loading={approveLoading}
-            onClick={approve}
-            disabled={!canApprove}
-          >
-            授权合集
-          </Button>
-          <Button
-            block
-            onClick={revoke}
-            loading={revokeLoading}
-            disabled={!canRevoke}
-          >
-            取消授权
-          </Button>
-          <Button
-            block
-            onClick={transferFrom}
-            loading={transferFromLoading}
-            disabled={!canTransferFrom}
-          >
-            转移 NFT
-          </Button>
-        </Space>
-      </Card>
-    </Col>
+    <Card direction="vertical" title="NFT">
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Alert
+          type="info"
+          message="合集地址"
+          description={nftsContract.address}
+        />
+        <Button
+          block
+          loading={createNftLoading}
+          onClick={createNft}
+          disabled={!account}
+        >
+          创建合集
+        </Button>
+        <Button
+          block
+          loading={mintLoading}
+          onClick={mint}
+          disabled={!canMint}
+        >
+          Mint
+        </Button>
+        <Button
+          block
+          loading={approveLoading}
+          onClick={approve}
+          disabled={!canApprove}
+        >
+          授权合集
+        </Button>
+        <Button
+          block
+          onClick={revoke}
+          loading={revokeLoading}
+          disabled={!canRevoke}
+        >
+          取消授权
+        </Button>
+        <Button
+          block
+          onClick={transferFrom}
+          loading={transferFromLoading}
+          disabled={!canTransferFrom}
+        >
+          转移 NFT
+        </Button>
+      </Space>
+    </Card>
   );
 }
 

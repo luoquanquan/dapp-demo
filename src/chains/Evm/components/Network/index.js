@@ -1,12 +1,12 @@
 import { Card, Descriptions } from 'antd';
 
-export default function Network({ chainId, network }) {
+export default function Network({ chainId }) {
   const networkInfos = [
-    {
-      key: 'Network',
-      label: 'Network',
-      children: network,
-    },
+    // {
+    //   key: 'Network',
+    //   label: 'Network',
+    //   children: network,
+    // },
     {
       key: 'ChainId',
       label: 'ChainId',

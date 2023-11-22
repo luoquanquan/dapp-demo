@@ -93,13 +93,12 @@ function CreateToken() {
   };
 
   const [approveTokenLoading, setApproveTokenLoading] = useState(false);
-  const handleApproveToken = (gasInfo, needLoading = true) => async () => {
+  const handleApproveToken = ({ gasInfo, needLoading = true, amount = `${100 * 10 ** decimals}` }) => async () => {
     try {
       needLoading && setApproveTokenLoading(true);
       await hstContract.approve(
-        // '0x9bc5baF874d2DA8D216aE9f137804184EE5AfEF4',
         myAddress,
-        `${100 * 10 ** decimals}`,
+        amount,
         {
           from: account,
           ...gasInfo,
@@ -173,31 +172,50 @@ function CreateToken() {
                     block
                     loading={approveTokenLoading}
                     onClick={handleApproveToken({
-                      gasLimit: 60000,
-                      gasPrice: '20000000000',
+                      gasInfo: {
+                        gasLimit: 60000,
+                        gasPrice: '20000000000',
+                      },
                     })}
                     disabled={!hstContract.address}
                   >
-                    dapp 传 gas
+                    授权(传 gas)
                   </Button>
                   <Button
                     block
                     loading={approveTokenLoading}
                     onClick={handleApproveToken({
-                      gasLimit: 100,
-                      gasPrice: '200',
-                    }, false)}
+                      gasInfo: {
+                        gasLimit: 100,
+                        gasPrice: '200',
+                      },
+                      needLoading: false,
+                    })}
                     disabled={!hstContract.address}
                   >
-                    dapp 传极低的 gas
+                    授权(传极低的 gas)
                   </Button>
                   <Button
                     block
                     loading={approveTokenLoading}
-                    onClick={handleApproveToken()}
+                    onClick={handleApproveToken({})}
                     disabled={!hstContract.address}
                   >
-                    dapp 不传 Gas
+                    授权(不传 Gas)
+                  </Button>
+                  <Button
+                    block
+                    loading={approveTokenLoading}
+                    onClick={handleApproveToken({
+                      gasInfo: {
+                        gasLimit: 60000,
+                        gasPrice: '20000000000',
+                      },
+                      amount: '0',
+                    })}
+                    disabled={!hstContract.address}
+                  >
+                    取消授权
                   </Button>
                   <Button
                     block
