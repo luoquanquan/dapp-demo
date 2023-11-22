@@ -26,6 +26,8 @@ export default () => {
         setAccount('');
       }
     });
+
+    handleConnect();
   }, []);
 
   return { account, handleConnect };
