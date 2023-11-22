@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
-import { useContext, useState } from 'react';
+import {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 
 import {
-  Alert,
   Button, Card, Col, Input, Row, Space, message,
 } from 'antd';
 import { hstAbi, hstBytecode } from './const';
@@ -14,11 +15,38 @@ function CreateToken() {
   const decimals = 4;
   const image = `${window.location.href}favicon.png`;
 
+  const createTokenRef = useRef();
+
   // chain context
   const { account, provider } = useContext(EvmContext);
 
   const [hstContract, setHstContract] = useState({});
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenAddress = urlParams.get('tokenAddress');
+    if (account && !hstContract.address && tokenAddress) {
+      const newHstContract = new ethers.Contract(
+        tokenAddress,
+        hstAbi,
+        provider.getSigner(),
+      );
+      setHstContract(newHstContract);
+      createTokenRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [account]);
   const [createBtnLoading, setCreateBtnLoading] = useState(false);
+  const openOwnedToken = async () => {
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [
+        {
+          chainId: '0x42',
+        },
+      ],
+    });
+
+    window.location.href = '/?tokenAddress=0x701911685C0A668D7ea8621Ca6022BF7DA1189FA';
+  };
   const handleCreateToken = async () => {
     try {
       setCreateBtnLoading(true);
@@ -27,14 +55,14 @@ function CreateToken() {
         hstBytecode,
         provider.getSigner(),
       );
-      const resp = await hstFactory.deploy(
+      const newHstContract = await hstFactory.deploy(
         1000,
         symbol,
         decimals,
         symbol,
       );
-      await resp.deployTransaction.wait();
-      setHstContract(resp);
+      await newHstContract.deployTransaction.wait();
+      setHstContract(newHstContract);
     } catch (error) {
       message.error('用户拒绝');
     } finally {
@@ -132,14 +160,13 @@ function CreateToken() {
     }
   };
   return (
-    <Col span={12}>
-      <Card direction="vertical" title={`ERC 20 代币(${symbol})`}>
+    <Col span={12} ref={createTokenRef}>
+      <Card
+        direction="vertical"
+        title="ERC 20 代币"
+        extra={hstContract.address || <Button type="link" onClick={openOwnedToken}>使用已有代币</Button>}
+      >
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Alert
-            type="info"
-            message="代币地址"
-            description={hstContract.address}
-          />
           <Button
             block
             loading={createBtnLoading}
@@ -154,7 +181,9 @@ function CreateToken() {
             onClick={wallet_watchAsset}
             disabled={!hstContract.address}
           >
-            添加代币到钱包
+            添加代币到钱包(
+            {symbol}
+            )
           </Button>
           <Input
             value={transferTokenTo}
@@ -240,7 +269,7 @@ function CreateToken() {
                     })}
                     disabled={!hstContract.address}
                   >
-                    dapp 传 gas
+                    转代币(传 gas)
                   </Button>
                   <Button
                     block
@@ -251,7 +280,7 @@ function CreateToken() {
                     }, false)}
                     disabled={!hstContract.address}
                   >
-                    dapp 传极低的 gas
+                    转代币(传极低的 gas)
                   </Button>
                   <Button
                     block
@@ -259,7 +288,7 @@ function CreateToken() {
                     onClick={handleTransferToken()}
                     disabled={!hstContract.address}
                   >
-                    dapp 不传 gas
+                    转代币(不传 gas)
                   </Button>
                 </Space>
               </Card>

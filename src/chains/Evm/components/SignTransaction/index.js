@@ -17,7 +17,6 @@ export default function SignTransaction() {
               <GrayAddress />
             </Space>
           </Col>
-
         </Row>
         <Row gutter={16} />
       </Space>

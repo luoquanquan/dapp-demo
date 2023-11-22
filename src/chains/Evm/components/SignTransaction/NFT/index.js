@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import {
   Alert,
   Button,
-  Card, Col, Space, message,
+  Card, Space, message,
 } from 'antd';
 import { nftsAbi, nftsBytecode } from './const';
 import EvmContext from '../../../context';
