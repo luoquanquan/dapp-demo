@@ -1,4 +1,6 @@
-import { useContext, useState } from 'react';
+import {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 import { ethers } from 'ethers';
 import {
   Alert,
@@ -14,7 +16,22 @@ function NFT() {
 
   const [nftsContract, setNftsContract] = useState({});
   const [createNftLoading, setCreateNftLoading] = useState(false);
-  const [canMint, setCanMint] = useState(false);
+
+  const createNftRef = useRef();
+  useEffect(() => {
+    ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
+    const urlParams = new URLSearchParams(window.location.search);
+    const nftAddress = urlParams.get('nftAddress');
+    if (account && !nftsContract.address && nftAddress) {
+      const newNftsContract = new ethers.Contract(
+        nftAddress,
+        nftsAbi,
+        provider.getSigner(),
+      );
+      setNftsContract(newNftsContract);
+      createNftRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [account]);
   const createNft = async () => {
     try {
       setCreateNftLoading(true);
@@ -27,7 +44,6 @@ function NFT() {
       const resp = await nftsFactory.deploy();
       await resp.deployTransaction.wait();
       setNftsContract(resp);
-      setCanMint(true);
       message.success('创建成功');
     } catch (error) {
       message.error('创建失败');
@@ -48,7 +64,6 @@ function NFT() {
       await result.wait();
       setCanApprove(true);
       setCanTransferFrom(true);
-      setCanMint(false);
       message.success('mint 成功');
     } catch (error) {
       message.error('mint 失败');
@@ -123,8 +138,10 @@ function NFT() {
     }
   };
 
+  //
+
   return (
-    <Card direction="vertical" title="NFT">
+    <Card ref={createNftRef} direction="vertical" title="NFT" extra={nftsContract.address || <a href="/?nftAddress=0x4c630970f03A7F5A286Af3821BE0b45F1E343bf7">使用已有合集</a>}>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Alert
           type="info"
@@ -135,7 +152,7 @@ function NFT() {
           block
           loading={createNftLoading}
           onClick={createNft}
-          disabled={!account}
+          disabled={nftsContract.address || !account}
         >
           创建合集
         </Button>
@@ -143,7 +160,7 @@ function NFT() {
           block
           loading={mintLoading}
           onClick={mint}
-          disabled={!canMint}
+          disabled={!nftsContract.address || !account}
         >
           Mint
         </Button>
@@ -151,7 +168,7 @@ function NFT() {
           block
           loading={approveLoading}
           onClick={approve}
-          disabled={!canApprove}
+          disabled={!canApprove || !account}
         >
           授权合集
         </Button>
@@ -159,7 +176,7 @@ function NFT() {
           block
           onClick={revoke}
           loading={revokeLoading}
-          disabled={!canRevoke}
+          disabled={!canRevoke || !account}
         >
           取消授权
         </Button>
@@ -167,7 +184,7 @@ function NFT() {
           block
           onClick={transferFrom}
           loading={transferFromLoading}
-          disabled={!canTransferFrom}
+          disabled={!canTransferFrom || !account}
         >
           转移 NFT
         </Button>

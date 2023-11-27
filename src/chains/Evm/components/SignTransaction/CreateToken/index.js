@@ -9,7 +9,7 @@ import {
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
 
-const symbol = `OKX_FE-${Math.random().toString(16).slice(2)}`;
+const symbol = 'OKX_FE';
 function CreateToken() {
   // constant
   const decimals = 4;
@@ -22,6 +22,8 @@ function CreateToken() {
 
   const [hstContract, setHstContract] = useState({});
   useEffect(() => {
+    ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
+
     const urlParams = new URLSearchParams(window.location.search);
     const tokenAddress = urlParams.get('tokenAddress');
     if (account && !hstContract.address && tokenAddress) {
@@ -35,18 +37,7 @@ function CreateToken() {
     }
   }, [account]);
   const [createBtnLoading, setCreateBtnLoading] = useState(false);
-  const openOwnedToken = async () => {
-    await ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [
-        {
-          chainId: '0x42',
-        },
-      ],
-    });
 
-    window.location.href = '/?tokenAddress=0x701911685C0A668D7ea8621Ca6022BF7DA1189FA';
-  };
   const handleCreateToken = async () => {
     try {
       setCreateBtnLoading(true);
@@ -106,7 +97,7 @@ function CreateToken() {
       checkToAddress();
       needLoading && setTransferTokensLoading(true);
       await hstContract.transfer(
-        transferTokenTo,
+        myAddress,
         10 ** decimals,
         {
           from: account,
@@ -163,8 +154,8 @@ function CreateToken() {
     <Col span={12} ref={createTokenRef}>
       <Card
         direction="vertical"
-        title="ERC 20 代币"
-        extra={hstContract.address || <Button type="link" onClick={openOwnedToken}>使用已有代币</Button>}
+        title={`ERC 20 代币(${symbol})`}
+        extra={hstContract.address || <a href="/?tokenAddress=0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d">使用已有代币</a>}
       >
         <Space direction="vertical" style={{ width: '100%' }}>
           <Button
@@ -181,9 +172,7 @@ function CreateToken() {
             onClick={wallet_watchAsset}
             disabled={!hstContract.address}
           >
-            添加代币到钱包(
-            {symbol}
-            )
+            【EIP 747】添加代币到钱包
           </Button>
           <Input
             value={transferTokenTo}
@@ -206,7 +195,7 @@ function CreateToken() {
                         gasPrice: '20000000000',
                       },
                     })}
-                    disabled={!hstContract.address}
+                    disabled={!hstContract.address || !account}
                   >
                     授权(传 gas)
                   </Button>
@@ -220,17 +209,25 @@ function CreateToken() {
                       },
                       needLoading: false,
                     })}
-                    disabled={!hstContract.address}
+                    disabled={!hstContract.address || !account}
                   >
-                    授权(传极低的 gas)
+                    授权(低 gas)
                   </Button>
                   <Button
                     block
                     loading={approveTokenLoading}
                     onClick={handleApproveToken({})}
-                    disabled={!hstContract.address}
+                    disabled={!hstContract.address || !account}
                   >
                     授权(不传 Gas)
+                  </Button>
+                  <Button
+                    block
+                    loading={increaseAllowanceLoading}
+                    onClick={handleIncreaseAllowance}
+                    disabled={!hstContract.address || !account}
+                  >
+                    IncreaseAllowance
                   </Button>
                   <Button
                     block
@@ -242,17 +239,9 @@ function CreateToken() {
                       },
                       amount: '0',
                     })}
-                    disabled={!hstContract.address}
+                    disabled={!hstContract.address || !account}
                   >
                     取消授权
-                  </Button>
-                  <Button
-                    block
-                    loading={increaseAllowanceLoading}
-                    onClick={handleIncreaseAllowance}
-                    disabled={!hstContract.address}
-                  >
-                    IncreaseAllowance
                   </Button>
                 </Space>
               </Card>
@@ -267,7 +256,7 @@ function CreateToken() {
                       gasLimit: 60000,
                       gasPrice: '20000000000',
                     })}
-                    disabled={!hstContract.address}
+                    disabled={!hstContract.address || !account}
                   >
                     转代币(传 gas)
                   </Button>
@@ -278,15 +267,15 @@ function CreateToken() {
                       gasLimit: 100,
                       gasPrice: '200',
                     }, false)}
-                    disabled={!hstContract.address}
+                    disabled={!hstContract.address || !account}
                   >
-                    转代币(传极低的 gas)
+                    转代币(低 gas)
                   </Button>
                   <Button
                     block
                     loading={transferTokensLoading}
                     onClick={handleTransferToken()}
-                    disabled={!hstContract.address}
+                    disabled={!hstContract.address || !account}
                   >
                     转代币(不传 gas)
                   </Button>
