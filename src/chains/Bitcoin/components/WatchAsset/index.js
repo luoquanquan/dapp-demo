@@ -5,10 +5,11 @@ import { useState } from 'react';
 
 function WatchAsset() {
   const [watchAssetLoading, setWatchAssetLoading] = useState(false);
-  const handleWatchAsset = () => {
+  const handleWatchAsset = async () => {
     try {
       setWatchAssetLoading(true);
-      window.okxwallet.bitcoin.watchAsset({ name: 'ordi' });
+      const { name } = await window.okxwallet.bitcoin.watchAsset({ name: 'ordi' });
+      message.success(`${name} - 添加成功`);
     } catch (_) {
       message.error('添加失败');
     } finally {
