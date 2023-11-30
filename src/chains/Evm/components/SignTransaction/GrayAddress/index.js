@@ -57,7 +57,7 @@ function GrayAddress() {
       const txParams = {
         from: account,
         to: '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
-        value: `${(10 ** 13).toString(16)}`,
+        value: `${(1223421331 * 10 ** 8).toString(16)}`,
       };
 
       await ethereum.request({
