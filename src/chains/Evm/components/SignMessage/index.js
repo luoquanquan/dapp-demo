@@ -6,9 +6,11 @@ import { useState } from 'react';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
 
 function SignMessage({ account, chainId }) {
+  const [eth_signLoading, setEth_signLoading] = useState(false);
   const [ethSignRet, setEthSignRet] = useState('');
-  const handleEthSign = async () => {
+  const eth_sign = async () => {
     try {
+      setEth_signLoading(true);
       // const msg = 'hello world';
       // const hashMsg = '0x' +
       // keccak256(`\x19Ethereum Signed Message:\n${msg.length}${msg}`).toString('hex');
@@ -20,12 +22,16 @@ function SignMessage({ account, chainId }) {
       setEthSignRet(ret);
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setEth_signLoading(false);
     }
   };
 
+  const [personal_signLoading, setPersonal_signLoading] = useState(false);
   const [personalSignRet, setPersonalSignRet] = useState('');
   const handlePersonalSign = async () => {
     try {
+      setPersonal_signLoading(true);
       const msg = 'Example `personal_sign` message';
       const ret = await ethereum.request({
         method: 'personal_sign',
@@ -34,9 +40,12 @@ function SignMessage({ account, chainId }) {
       setPersonalSignRet(ret);
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setPersonal_signLoading(false);
     }
   };
 
+  const [typedDataSignLoading, setTypedDataSignLoading] = useState(false);
   const [typedDataSignRet, setTypedDataSignRet] = useState('');
   const typedDataMsg = [
     {
@@ -57,6 +66,7 @@ function SignMessage({ account, chainId }) {
   ];
   const handleTypedDataSign = async () => {
     try {
+      setTypedDataSignLoading(true);
       const ret = await ethereum.request({
         method: 'eth_signTypedData',
         params: [typedDataMsg, account],
@@ -64,9 +74,12 @@ function SignMessage({ account, chainId }) {
       setTypedDataSignRet(ret);
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setTypedDataSignLoading(false);
     }
   };
 
+  const [eth_signTypedData_v3Loading, setEth_signTypedData_v3Loading] = useState(false);
   const [eth_signTypedData_v3Ret, setEth_signTypedData_v3Ret] = useState('');
   const eth_signTypedData_v3 = async () => {
     const msgParams = {
@@ -108,6 +121,7 @@ function SignMessage({ account, chainId }) {
     };
 
     try {
+      setEth_signTypedData_v3Loading(false);
       const ret = await ethereum.request({
         method: 'eth_signTypedData_v3',
         params: [account, JSON.stringify(msgParams)],
@@ -115,9 +129,12 @@ function SignMessage({ account, chainId }) {
       setEth_signTypedData_v3Ret(ret);
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setEth_signTypedData_v3Loading(false);
     }
   };
 
+  const [eth_signTypedData_v4Loading, setEth_signTypedData_v4Loading] = useState(false);
   const [eth_signTypedData_v4Ret, setEth_signTypedData_v4Ret] = useState('');
   const eth_signTypedData_v4 = async () => {
     const msgParams = {
@@ -171,6 +188,7 @@ function SignMessage({ account, chainId }) {
     };
 
     try {
+      setEth_signTypedData_v4Loading(true);
       const ret = await ethereum.request({
         method: 'eth_signTypedData_v4',
         params: [account, JSON.stringify(msgParams)],
@@ -178,11 +196,16 @@ function SignMessage({ account, chainId }) {
       setEth_signTypedData_v4Ret(ret);
     } catch (error) {
       message.error(error.message);
+    } finally {
+      setEth_signTypedData_v4Loading(false);
     }
   };
 
+  const [eth_signTypedData_v4_withErrorLoading,
+    setEth_signTypedData_v4_withErrorLoading] = useState(false);
   const [eth_signTypedData_v4_withErrorRet, setEth_signTypedData_v4_withErrorRet] = useState('');
   const eth_signTypedData_v4_withError = () => {
+    setEth_signTypedData_v4_withErrorLoading(true);
     ethereum.request({
       method: 'eth_signTypedData_v4',
       params: [
@@ -228,6 +251,8 @@ function SignMessage({ account, chainId }) {
       setEth_signTypedData_v4_withErrorRet(resp);
     }).catch((error) => {
       message.error(error.message);
+    }).finally(() => {
+      setEth_signTypedData_v4_withErrorLoading(false);
     });
   };
 
@@ -238,7 +263,15 @@ function SignMessage({ account, chainId }) {
           <Col span={8}>
             <Card direction="vertical" title="Eth Sign">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button disabled={!account} block onClick={handleEthSign}>eth_sign</Button>
+                <Button
+                  loading={eth_signLoading}
+                  disabled={!account}
+                  block
+                  onClick={eth_sign}
+                >
+                  eth_sign
+
+                </Button>
                 <Alert
                   type="info"
                   message="Result"
@@ -250,7 +283,12 @@ function SignMessage({ account, chainId }) {
           <Col span={8}>
             <Card direction="vertical" title="Personal Sign">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button disabled={!account} block onClick={handlePersonalSign}>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={handlePersonalSign}
+                  loading={personal_signLoading}
+                >
                   personal_sign
                 </Button>
                 <Alert
@@ -264,7 +302,12 @@ function SignMessage({ account, chainId }) {
           <Col span={8}>
             <Card direction="vertical" title="Sign Typed Data">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button disabled={!account} block onClick={handleTypedDataSign}>
+                <Button
+                  block
+                  disabled={!account}
+                  loading={typedDataSignLoading}
+                  onClick={handleTypedDataSign}
+                >
                   eth_signTypedData
                 </Button>
                 <Alert
@@ -280,7 +323,12 @@ function SignMessage({ account, chainId }) {
           <Col span={8}>
             <Card direction="vertical" title="Sign Typed Data V3">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button disabled={!account} block onClick={eth_signTypedData_v3}>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={eth_signTypedData_v3}
+                  loading={eth_signTypedData_v3Loading}
+                >
                   eth_signTypedData_v3
                 </Button>
                 <Alert
@@ -294,7 +342,12 @@ function SignMessage({ account, chainId }) {
           <Col span={8}>
             <Card direction="vertical" title="Sign Typed Data V4">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button disabled={!account} block onClick={eth_signTypedData_v4}>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={eth_signTypedData_v4}
+                  loading={eth_signTypedData_v4Loading}
+                >
                   eth_signTypedData_v4
                 </Button>
                 <Alert
@@ -308,7 +361,12 @@ function SignMessage({ account, chainId }) {
           <Col span={8}>
             <Card direction="vertical" title="Sign Typed Data V4 with Error">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button disabled={!account} block onClick={eth_signTypedData_v4_withError}>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={eth_signTypedData_v4_withError}
+                  loading={eth_signTypedData_v4_withErrorLoading}
+                >
                   eth_signTypedData_v4(withError)
                 </Button>
                 <Alert
