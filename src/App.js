@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { useEffect } from 'react';
-import { Space, Tabs, message } from 'antd';
+import {
+  Alert, Space, Tabs, message,
+} from 'antd';
 
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
@@ -41,16 +43,29 @@ export default function App() {
       }, 1e3);
     })();
 
-    okxwallet.on('disconnect', reload);
-    return () => okxwallet.off('disconnect', reload);
+    window.okxwallet?.on('disconnect', reload);
+    return () => window.okxwallet?.off('disconnect', reload);
   }, []);
 
   return (
     <div className="wrap">
-      <Space direction="vertical">
-        <Tabs defaultActiveKey="Evm" items={tabs} />
-        <ProjectInfo />
-      </Space>
+      {
+        window.okxwallet
+          ? (
+            <Space direction="vertical">
+              <Tabs defaultActiveKey="Evm" items={tabs} />
+              <ProjectInfo />
+            </Space>
+          )
+          : (
+            <Alert
+              style={{ marginTop: '100px' }}
+              message="请安装 okx wallet 再测试"
+              description="此工具仅用于 okxwallet 调试, 请先安装 okxwallet"
+              type="error"
+            />
+          )
+      }
     </div>
   );
 }
