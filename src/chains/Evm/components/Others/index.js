@@ -62,14 +62,14 @@ function Others() {
                 loading={addNetLoading}
                 onClick={addNet}
               >
-                添加网络
+                添加网络(仅用于测试添加网络, 目标网络不可用)
               </Button>
               <Button
                 block
                 loading={wallet_watchAssetLoading}
                 onClick={wallet_watchAsset}
               >
-                添加代币
+                添加代币(测试网需要先部署代币再添加, 此入口不可用)
               </Button>
             </Space>
           </Card>
