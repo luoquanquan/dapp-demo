@@ -13,7 +13,7 @@ const symbol = 'OKX_FE';
 function CreateToken() {
   // constant
   const decimals = 4;
-  const image = `${window.location.href}favicon.png`;
+  const image = `${window.location.href.split('?')[0]}favicon.png`;
 
   const createTokenRef = useRef();
 

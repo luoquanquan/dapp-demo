@@ -32,15 +32,16 @@ function Others() {
   const wallet_watchAsset = async () => {
     try {
       setWallet_watchAssetLoading(true);
+      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
       await ethereum.request({
         method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',
           options: {
-            address: '0x0833c935956A43fde5095d9302b35752FDA441aC',
-            symbol: 'OKX_FE-f4fbefcee985f',
+            address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
+            symbol: 'OKX_FE',
             decimals: 4,
-            image: 'http://localhost:3000/favicon.png',
+            image: `${window.location.href.split('?')[0]}favicon.png`,
           },
         },
       });
@@ -62,14 +63,14 @@ function Others() {
                 loading={addNetLoading}
                 onClick={addNet}
               >
-                添加网络(仅用于测试添加网络, 目标网络不可用)
+                添加网络
               </Button>
               <Button
                 block
                 loading={wallet_watchAssetLoading}
                 onClick={wallet_watchAsset}
               >
-                添加代币(测试网需要先部署代币再添加, 此入口不可用)
+                添加代币(OKT 链测试代币)
               </Button>
             </Space>
           </Card>
