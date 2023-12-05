@@ -105,7 +105,7 @@ function CreateToken() {
         },
       );
     } catch (error) {
-      message.error(error.message);
+      message.error(error?.error?.message || error.message);
     } finally {
       setTransferTokensLoading(false);
     }
