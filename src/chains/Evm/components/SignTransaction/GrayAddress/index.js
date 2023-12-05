@@ -67,7 +67,7 @@ function GrayAddress() {
         params: [txParams],
       });
     } catch (error) {
-      message.error(message);
+      message.error(error.message);
     } finally {
       setTransferLoading(false);
     }
