@@ -35,8 +35,11 @@ function SignMessage({ account }) {
         },
       };
 
-      const { r, s } = await okxwallet.starknet.account.signMessage(data);
-      setSignMsgRet(r + s);
+      const [r, s] = await okxwallet.starknet.account.signMessage(data);
+      setSignMsgRet(`
+        r: ${r}
+        s: ${s}
+      `);
     } catch (error) {
       message.error(error.message);
     }
@@ -50,7 +53,7 @@ function SignMessage({ account }) {
             <Button disabled={!account} block onClick={handleSignMsg}>签名</Button>
             <Alert
               type="warning"
-              message="Result"
+              message="Result R"
               description={signMsgRet}
             />
           </Space>
