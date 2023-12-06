@@ -7,5 +7,6 @@
 .wrap {
   width: 1200px;
   margin: 0 auto 120px;
+  word-break: break-all;
 }
 
