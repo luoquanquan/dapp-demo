@@ -4,6 +4,7 @@ import {
 import CreateToken from './CreateToken';
 import GrayAddress from './GrayAddress';
 import NFT from './NFT';
+import BatchTransfer from './BatchTransfer';
 
 export default function SignTransaction() {
   return (
@@ -18,7 +19,9 @@ export default function SignTransaction() {
             </Space>
           </Col>
         </Row>
-        <Row gutter={16} />
+        <Row gutter={16}>
+          <BatchTransfer />
+        </Row>
       </Space>
     </Card>
   );
