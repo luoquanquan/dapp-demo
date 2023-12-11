@@ -10,3 +10,6 @@
   word-break: break-all;
 }
 
+body > iframe {
+  display: none;
+}
