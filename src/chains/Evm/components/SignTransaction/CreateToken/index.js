@@ -22,11 +22,10 @@ function CreateToken() {
 
   const [hstContract, setHstContract] = useState({});
   useEffect(() => {
-    ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
-
     const urlParams = new URLSearchParams(window.location.search);
     const tokenAddress = urlParams.get('tokenAddress');
     if (account && !hstContract.address && tokenAddress) {
+      ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
       const newHstContract = new ethers.Contract(
         tokenAddress,
         hstAbi,

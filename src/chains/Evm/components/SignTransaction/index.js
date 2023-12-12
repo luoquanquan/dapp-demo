@@ -5,6 +5,7 @@ import CreateToken from './CreateToken';
 import GrayAddress from './GrayAddress';
 import NFT from './NFT';
 import BatchTransfer from './BatchTransfer';
+import Temp from './Temp';
 
 export default function SignTransaction() {
   return (
@@ -15,12 +16,21 @@ export default function SignTransaction() {
           <Col span={12}>
             <Space direction="vertical" style={{ width: '100%' }}>
               <NFT />
-              <GrayAddress />
             </Space>
           </Col>
         </Row>
         <Row gutter={16}>
-          <BatchTransfer />
+          <Col span={12}>
+            <BatchTransfer />
+          </Col>
+          <Col span={12}>
+            <Temp />
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={12}>
+            <GrayAddress />
+          </Col>
         </Row>
       </Space>
     </Card>

@@ -1,5 +1,5 @@
 import {
-  Button, Card, Col, Space, message,
+  Button, Card, Space, message,
 } from 'antd';
 import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
@@ -11,16 +11,16 @@ function BatchTransfer() {
   const transfer = async () => {
     try {
       setTransferLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      const txParams = {
-        from: account,
-        to: '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
-        value: `0x${(10 ** 9).toString(16)}`,
-      };
+      // await ethereum.request({ method: 'wallet_switchEthereumChain',
+      // params: [{ chainId: '0x89' }] });
 
       await ethereum.request({
         method: 'eth_sendTransaction',
-        params: [txParams],
+        params: [{
+          from: account,
+          to: '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+          value: `0x${(10 ** 9).toString(16)}`,
+        }],
       });
     } catch (error) {
       message.error(error.message);
@@ -141,60 +141,58 @@ function BatchTransfer() {
   };
 
   return (
-    <Col span={12}>
-      <Card direction="vertical" title="批量转账">
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <Button
-            block
-            loading={transferLoading}
-            onClick={transfer}
-            disabled={!account}
-          >
-            单一转主币
-          </Button>
-          <Button
-            block
-            loading={transferWithGrayAddressLoading}
-            onClick={transferWithGrayAddress}
-            disabled={!account}
-          >
-            单一转主币 - 命中灰地址
-          </Button>
-          <Button
-            block
-            loading={transferBaseTokenLoading}
-            onClick={transferBaseToken}
-            disabled={!account}
-          >
-            批量转主币
-          </Button>
-          <Button
-            block
-            loading={transferBaseTokenWithGrayAddressLoading}
-            onClick={transferBaseTokenWithGrayAddress}
-            disabled={!account}
-          >
-            批量转主币 - 命中灰地址
-          </Button>
-          <Button
-            block
-            loading={transferTokenLoading}
-            onClick={transferToken}
-            disabled={!account}
-          >
-            批量转代币
-          </Button>
-          <Button
-            block
-            loading={transferTokenWithGrayAddressLoading}
-            onClick={transferTokenWithGrayAddress}
-            disabled={!account}
-          >
-            批量转出代币 - 命中灰地址
-          </Button>
-        </Space>
-      </Card>
-    </Col>
+    <Card direction="vertical" title="批量转账">
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Button
+          block
+          loading={transferLoading}
+          onClick={transfer}
+          disabled={!account}
+        >
+          单一转主币
+        </Button>
+        <Button
+          block
+          loading={transferWithGrayAddressLoading}
+          onClick={transferWithGrayAddress}
+          disabled={!account}
+        >
+          单一转主币 - 命中灰地址
+        </Button>
+        <Button
+          block
+          loading={transferBaseTokenLoading}
+          onClick={transferBaseToken}
+          disabled={!account}
+        >
+          批量转主币
+        </Button>
+        <Button
+          block
+          loading={transferBaseTokenWithGrayAddressLoading}
+          onClick={transferBaseTokenWithGrayAddress}
+          disabled={!account}
+        >
+          批量转主币 - 命中灰地址
+        </Button>
+        <Button
+          block
+          loading={transferTokenLoading}
+          onClick={transferToken}
+          disabled={!account}
+        >
+          批量转代币
+        </Button>
+        <Button
+          block
+          loading={transferTokenWithGrayAddressLoading}
+          onClick={transferTokenWithGrayAddress}
+          disabled={!account}
+        >
+          批量转出代币 - 命中灰地址
+        </Button>
+      </Space>
+    </Card>
   );
 }
 
