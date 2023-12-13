@@ -10,16 +10,26 @@ import {
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
 
-const cachedToken = {
-  '0x41': {
-    chain: 'oktc',
+const usedTokens = [
+  {
+    chain: 'OKTC',
+    symbol: 'OKX_FE',
+    chainId: '0x41',
     address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
   },
-  '0x89': {
+  {
     chain: 'Polygon',
+    symbol: 'OKX_FE',
+    chainId: '0x89',
     address: '0xDf08549478dC76f2208F2D2bE30630068676b554',
   },
-};
+  {
+    chain: 'Polygon',
+    symbol: 'USDT',
+    chainId: '0x89',
+    address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
+  },
+];
 
 const symbol = 'OKX_FE';
 function CreateToken() {
@@ -37,11 +47,10 @@ function CreateToken() {
     const urlParams = new URLSearchParams(window.location.search);
     const tokenAddress = urlParams.get('tokenAddress');
     if (account && !hstContract.address && tokenAddress) {
-      Object.entries(cachedToken).forEach(([k, v]) => {
-        if (v.address === tokenAddress) {
-          ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: k }] });
-        }
-      });
+      const targetToken = usedTokens.find(({ address }) => address === tokenAddress);
+      if (targetToken) {
+        ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: targetToken.chainId }] });
+      }
 
       const newHstContract = new ethers.Contract(
         tokenAddress,
@@ -191,7 +200,7 @@ function CreateToken() {
       <Card
         direction="vertical"
         title={`ERC 20 代币(${symbol})`}
-        extra={hstContract.address || <a href={`/?tokenAddress=${cachedToken['0x89'].address}`}>使用已有代币</a>}
+        extra={hstContract.address || <a href={`/?tokenAddress=${usedTokens[0].address}`}>使用已有代币</a>}
       >
         <Space direction="vertical" style={{ width: '100%' }}>
           <Button
@@ -329,10 +338,10 @@ function CreateToken() {
           </Row>
           <Alert
             type="info"
-            message="现有代币"
-            description={Object.values(cachedToken).map(({ chain, address }) => (
+            message="常用代币"
+            description={usedTokens.map((token) => (
               // eslint-disable-next-line react/jsx-one-expression-per-line
-              <p>{chain}: {address}</p>
+              <p><a href={`/?tokenAddress=${token.address}`}>{token.chain}: {token.symbol}</a></p>
             ))}
           />
         </Space>
