@@ -4,10 +4,22 @@ import {
 } from 'react';
 
 import {
+  Alert,
   Button, Card, Col, Input, Row, Space, message,
 } from 'antd';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
+
+const cachedToken = {
+  '0x41': {
+    chain: 'oktc',
+    address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
+  },
+  '0x89': {
+    chain: 'Polygon',
+    address: '0xDf08549478dC76f2208F2D2bE30630068676b554',
+  },
+};
 
 const symbol = 'OKX_FE';
 function CreateToken() {
@@ -25,7 +37,12 @@ function CreateToken() {
     const urlParams = new URLSearchParams(window.location.search);
     const tokenAddress = urlParams.get('tokenAddress');
     if (account && !hstContract.address && tokenAddress) {
-      ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
+      Object.entries(cachedToken).forEach(([k, v]) => {
+        if (v.address === tokenAddress) {
+          ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: k }] });
+        }
+      });
+
       const newHstContract = new ethers.Contract(
         tokenAddress,
         hstAbi,
@@ -134,7 +151,6 @@ function CreateToken() {
     try {
       setIncreaseAllowanceLoading(true);
       await hstContract.increaseAllowance(
-        // '0x9bc5baF874d2DA8D216aE9f137804184EE5AfEF4',
         myAddress,
         `${100 * 10 ** decimals}`,
         {
@@ -149,12 +165,33 @@ function CreateToken() {
       setIncreaseAllowanceLoading(false);
     }
   };
+
+  const [decreaseAllowanceLoading, setDecreaseAllowance] = useState(false);
+  const decreaseAllowance = async () => {
+    try {
+      setDecreaseAllowance(true);
+      await hstContract.decreaseAllowance(
+        myAddress,
+        `${100 * 10 ** decimals}`,
+        {
+          from: account,
+          gasLimit: 60000,
+          gasPrice: '20000000000',
+        },
+      );
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setDecreaseAllowance(false);
+    }
+  };
+
   return (
     <Col span={12} ref={createTokenRef}>
       <Card
         direction="vertical"
         title={`ERC 20 代币(${symbol})`}
-        extra={hstContract.address || <a href="/?tokenAddress=0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d">使用已有代币</a>}
+        extra={hstContract.address || <a href={`/?tokenAddress=${cachedToken['0x89'].address}`}>使用已有代币</a>}
       >
         <Space direction="vertical" style={{ width: '100%' }}>
           <Button
@@ -222,14 +259,6 @@ function CreateToken() {
                   </Button>
                   <Button
                     block
-                    loading={increaseAllowanceLoading}
-                    onClick={handleIncreaseAllowance}
-                    disabled={!hstContract.address || !account}
-                  >
-                    IncreaseAllowance
-                  </Button>
-                  <Button
-                    block
                     loading={approveTokenLoading}
                     onClick={handleApproveToken({
                       gasInfo: {
@@ -241,6 +270,22 @@ function CreateToken() {
                     disabled={!hstContract.address || !account}
                   >
                     取消授权
+                  </Button>
+                  <Button
+                    block
+                    loading={increaseAllowanceLoading}
+                    onClick={handleIncreaseAllowance}
+                    disabled={!hstContract.address || !account}
+                  >
+                    IncreaseAllowance
+                  </Button>
+                  <Button
+                    block
+                    loading={decreaseAllowanceLoading}
+                    onClick={decreaseAllowance}
+                    disabled={!hstContract.address || !account}
+                  >
+                    decreaseAllowance
                   </Button>
                 </Space>
               </Card>
@@ -282,6 +327,14 @@ function CreateToken() {
               </Card>
             </Col>
           </Row>
+          <Alert
+            type="info"
+            message="现有代币"
+            description={Object.values(cachedToken).map(({ chain, address }) => (
+              // eslint-disable-next-line react/jsx-one-expression-per-line
+              <p>{chain}: {address}</p>
+            ))}
+          />
         </Space>
       </Card>
     </Col>
