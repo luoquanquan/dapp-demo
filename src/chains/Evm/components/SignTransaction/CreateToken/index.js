@@ -14,7 +14,7 @@ const usedTokens = [
   {
     chain: 'OKTC',
     symbol: 'OKX_FE',
-    chainId: '0x41',
+    chainId: '0x42',
     address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
   },
   {
