@@ -121,6 +121,9 @@ function GasChecker() {
           block
           onClick={checkFn({
             gas: `0x${(10).toString(16)}`,
+            gasPrice,
+            maxFeePerGas,
+            maxPriorityFeePerGas,
           })}
         >
           Low gas Limit
