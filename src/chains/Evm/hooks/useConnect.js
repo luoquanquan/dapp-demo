@@ -11,24 +11,35 @@ export default () => {
   const [account, setAccount] = useState('');
   const handleConnect = async () => {
     try {
-      const [evmAddress] = await ethereum.request({ method: 'eth_requestAccounts' });
+      const resp = await ethereum.request({ method: 'eth_requestAccounts' });
+      const [evmAddress] = resp;
       setAccount(evmAddress);
     } catch (error) {
       message.error(errorMap[error.code] || error.message);
     }
   };
 
-  useEffect(() => {
-    okxwallet.on('walletChanged', ([connected]) => {
-      if (connected) {
-        handleConnect();
-      } else {
-        setAccount('');
-      }
-    });
+  const handleConnectAllChains = async () => {
+    try {
+      const resp = await okxwallet.requestWallets(true);
+      const evmAddress = resp[0].address.find(({ chainId }) => chainId === '66').address;
+      setAccount(evmAddress);
+    } catch (error) {
+      message.error(errorMap[error.code] || error.message);
+    }
+  };
 
-    handleConnect();
-  }, []);
+  // useEffect(() => {
+  //   okxwallet.on('walletChanged', ([connected]) => {
+  //     if (connected) {
+  //       handleConnect();
+  //     } else {
+  //       setAccount('');
+  //     }
+  //   });
 
-  return { account, handleConnect };
+  //   handleConnect();
+  // }, []);
+
+  return { account, handleConnect, handleConnectAllChains };
 };

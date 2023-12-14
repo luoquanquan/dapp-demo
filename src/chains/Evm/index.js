@@ -1,4 +1,5 @@
 import {
+  Button,
   Space,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
@@ -15,7 +16,7 @@ import Others from './components/Others';
 
 function Evm() {
   const { chainId } = useNetwork();
-  const { account, handleConnect } = useConnect();
+  const { account, handleConnect, handleConnectAllChains } = useConnect();
   const [provider, setProvider] = useState(null);
   useEffect(() => {
     setProvider(new ethers.providers.Web3Provider(window.ethereum, 'any'));
@@ -32,7 +33,9 @@ function Evm() {
       <Space direction="vertical" style={{ width: '100%' }}>
         <Network chainId={chainId} account={account} />
         <Account account={account} />
-        <Connect handleConnect={handleConnect} account={account} />
+        <Connect handleConnect={handleConnect} account={account}>
+          <Button type="primary" disabled={!!account} onClick={handleConnectAllChains}>全链连接钱包</Button>
+        </Connect>
         <SignMessage account={account} chainId={chainId} />
         <SignTransaction />
         <Others />
