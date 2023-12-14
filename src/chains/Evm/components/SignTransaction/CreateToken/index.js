@@ -239,7 +239,6 @@ function CreateToken() {
                         loading={approveTokenLoading}
                         onClick={handleApproveToken({
                           gasInfo: {
-                            gasLimit: 60000,
                             gasPrice: '20000000000',
                           },
                         })}
@@ -254,9 +253,8 @@ function CreateToken() {
                         loading={approveTokenLoading}
                         onClick={handleApproveToken({
                           gasInfo: {
-                            gasLimit: 60000,
-                            maxFeePerGas: '20000000000000',
-                            maxPriorityFeePerGas: '20000000000',
+                            maxFeePerGas: 200 * 10 ** 9,
+                            maxPriorityFeePerGas: 20 * 10 ** 9,
                           },
                         })}
                         disabled={!hstContract.address || !account}
@@ -290,8 +288,8 @@ function CreateToken() {
                         onClick={handleApproveToken({
                           gasInfo: {
                             gasLimit: 100,
-                            maxFeePerGas: '10721833933800',
-                            maxPriorityFeePerGas: '107218339338',
+                            maxFeePerGas: 200 * 10 ** 9,
+                            maxPriorityFeePerGas: 20 * 10 ** 9,
                           },
                         })}
                         disabled={!hstContract.address || !account}
@@ -300,7 +298,6 @@ function CreateToken() {
                       </Button>
                     </Col>
                   </Row>
-
                   <Button
                     block
                     loading={approveTokenLoading}
