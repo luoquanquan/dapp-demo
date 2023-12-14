@@ -5,7 +5,7 @@ import {
 
 import {
   Alert,
-  Button, Card, Col, Input, Row, Space, message,
+  Button, Card, Col, Input, Row, Space, Typography, message,
 } from 'antd';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
@@ -231,33 +231,74 @@ function CreateToken() {
             <Col span={12}>
               <Card title="授权代币">
                 <Space direction="vertical" style={{ width: '100%' }}>
-                  <Button
-                    block
-                    loading={approveTokenLoading}
-                    onClick={handleApproveToken({
-                      gasInfo: {
-                        gasLimit: 60000,
-                        gasPrice: '20000000000',
-                      },
-                    })}
-                    disabled={!hstContract.address || !account}
-                  >
-                    授权(传 gas)
-                  </Button>
-                  <Button
-                    block
-                    loading={approveTokenLoading}
-                    onClick={handleApproveToken({
-                      gasInfo: {
-                        gasLimit: 100,
-                        gasPrice: '200',
-                      },
-                      needLoading: false,
-                    })}
-                    disabled={!hstContract.address || !account}
-                  >
-                    授权(低 gas)
-                  </Button>
+                  <Typography.Title level={5}>授权传 gas</Typography.Title>
+                  <Row gutter={12}>
+                    <Col span={12}>
+                      <Button
+                        block
+                        loading={approveTokenLoading}
+                        onClick={handleApproveToken({
+                          gasInfo: {
+                            gasLimit: 60000,
+                            gasPrice: '20000000000',
+                          },
+                        })}
+                        disabled={!hstContract.address || !account}
+                      >
+                        Legacy
+                      </Button>
+                    </Col>
+                    <Col span={12}>
+                      <Button
+                        block
+                        loading={approveTokenLoading}
+                        onClick={handleApproveToken({
+                          gasInfo: {
+                            maxFeePerGas: '20000000000000',
+                            maxPriorityFeePerGas: '20000000000',
+                          },
+                        })}
+                        disabled={!hstContract.address || !account}
+                      >
+                        EIP - 1559
+                      </Button>
+                    </Col>
+                  </Row>
+
+                  <Typography.Title level={5}>授权传低 gas</Typography.Title>
+                  <Row gutter={12}>
+                    <Col span={12}>
+                      <Button
+                        block
+                        loading={approveTokenLoading}
+                        onClick={handleApproveToken({
+                          gasInfo: {
+                            gasLimit: 100,
+                            gasPrice: '200',
+                          },
+                        })}
+                        disabled={!hstContract.address || !account}
+                      >
+                        Legacy
+                      </Button>
+                    </Col>
+                    <Col span={12}>
+                      <Button
+                        block
+                        loading={approveTokenLoading}
+                        onClick={handleApproveToken({
+                          gasInfo: {
+                            maxFeePerGas: '20',
+                            maxPriorityFeePerGas: '200',
+                          },
+                        })}
+                        disabled={!hstContract.address || !account}
+                      >
+                        EIP - 1559
+                      </Button>
+                    </Col>
+                  </Row>
+
                   <Button
                     block
                     loading={approveTokenLoading}
