@@ -7,6 +7,7 @@ import {
   Alert,
   Button, Card, Col, Input, Row, Space, Typography, message,
 } from 'antd';
+import _ from 'lodash';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
 
@@ -32,6 +33,8 @@ const usedTokens = [
 ];
 
 const symbol = 'OKX_FE';
+const anchorUsedTokens = 'anchorUsedTokens';
+
 function CreateToken() {
   // constant
   const decimals = 4;
@@ -200,7 +203,14 @@ function CreateToken() {
       <Card
         direction="vertical"
         title={`ERC 20 代币(${symbol})`}
-        extra={hstContract.address || <a href={`/?tokenAddress=${usedTokens[0].address}`}>使用已有代币</a>}
+        extra={hstContract.address || (
+        <span>
+          <strong>
+            <a href={`#${anchorUsedTokens}`}>点击使用常用代币</a>
+          </strong>
+          或部署合约
+        </span>
+        )}
       >
         <Space direction="vertical" style={{ width: '100%' }}>
           <Button
@@ -376,13 +386,28 @@ function CreateToken() {
               </Card>
             </Col>
           </Row>
+          <div id={anchorUsedTokens} />
           <Alert
             type="info"
             message="常用代币"
-            description={usedTokens.map((token) => (
-              // eslint-disable-next-line react/jsx-one-expression-per-line
-              <p><a href={`/?tokenAddress=${token.address}`}>{token.chain}: {token.symbol}</a></p>
-            ))}
+            description={
+              Object.entries(_.groupBy(usedTokens, 'chain')).map(([chain, data]) => (
+                <Row gutter={12}>
+                  <Col>
+                    {chain}
+                  </Col>
+                  {
+                    data.map((token) => (
+                      <Col>
+                        <a href={`/?tokenAddress=${token.address}`}>
+                          {token.symbol}
+                        </a>
+                      </Col>
+                    ))
+                  }
+                </Row>
+              ))
+            }
           />
         </Space>
       </Card>
