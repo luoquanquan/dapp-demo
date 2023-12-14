@@ -249,7 +249,7 @@ function CreateToken() {
                         loading={approveTokenLoading}
                         onClick={handleApproveToken({
                           gasInfo: {
-                            gasPrice: '20000000000',
+                            gasPrice: 200 * 10 ** 9,
                           },
                         })}
                         disabled={!hstContract.address || !account}

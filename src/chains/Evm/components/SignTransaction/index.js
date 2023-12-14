@@ -6,6 +6,7 @@ import GrayAddress from './GrayAddress';
 import NFT from './NFT';
 import BatchTransfer from './BatchTransfer';
 import Temp from './Temp';
+import GasChecker from './GasChecker';
 
 export default function SignTransaction() {
   return (
@@ -30,6 +31,9 @@ export default function SignTransaction() {
         <Row gutter={16}>
           <Col span={12}>
             <GrayAddress />
+          </Col>
+          <Col span={12}>
+            <GasChecker />
           </Col>
         </Row>
       </Space>
