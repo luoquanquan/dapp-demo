@@ -29,17 +29,17 @@ export default () => {
     }
   };
 
-  // useEffect(() => {
-  //   okxwallet.on('walletChanged', ([connected]) => {
-  //     if (connected) {
-  //       handleConnect();
-  //     } else {
-  //       setAccount('');
-  //     }
-  //   });
+  useEffect(() => {
+    okxwallet.on('walletChanged', ([connected]) => {
+      if (connected) {
+        handleConnect();
+      } else {
+        setAccount('');
+      }
+    });
 
-  //   handleConnect();
-  // }, []);
+    handleConnect();
+  }, []);
 
   return { account, handleConnect, handleConnectAllChains };
 };
