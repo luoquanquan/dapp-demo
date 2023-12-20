@@ -151,7 +151,6 @@ function ERC1155() {
       ref={createNftRef}
       direction="vertical"
       title="ERC1155"
-      extra={nftsContract.address}
     >
       <Space direction="vertical" style={{ width: '100%' }}>
         <Alert
