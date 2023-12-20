@@ -36,7 +36,7 @@ function BatchTransfer() {
       await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
       const txParams = {
         from: account,
-        to: '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+        to: '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
         value: `0x${(10 ** 9).toString(16)}`,
       };
 
