@@ -5,12 +5,20 @@ import { ethers } from 'ethers';
 import {
   Alert,
   Button,
-  Card, Input, Space, Typography, message,
+  Card, Col, Input, Row, Space, Typography, message,
 } from 'antd';
 import {
   erc1155Abi, erc1155Bytecode,
 } from './const';
 import EvmContext from '../../../context';
+
+const usedNfts = [
+  {
+    chain: 'Polygon',
+    chainId: '0x89',
+    address: '0x21038A4bd75F2a0F3cf8E5C6752c9F84cCcB3f3E',
+  },
+];
 
 function ERC1155() {
   // chain context
@@ -25,7 +33,10 @@ function ERC1155() {
       const urlParams = new URLSearchParams(window.location.search);
       const erc1155Address = urlParams.get('erc1155Address');
       if (account && !nftsContract.address && erc1155Address) {
-        await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+        const targetNft = usedNfts.find(({ address }) => address === erc1155Address);
+        if (targetNft) {
+          await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: targetNft.chainId }] });
+        }
         const newNftsContract = new ethers.Contract(
           erc1155Address,
           erc1155Abi,
@@ -140,7 +151,7 @@ function ERC1155() {
       ref={createNftRef}
       direction="vertical"
       title="ERC1155"
-      extra={nftsContract.address || <a href="/?erc1155Address=0x21038A4bd75F2a0F3cf8E5C6752c9F84cCcB3f3E">使用已有合集</a>}
+      extra={nftsContract.address}
     >
       <Space direction="vertical" style={{ width: '100%' }}>
         <Alert
@@ -206,6 +217,21 @@ function ERC1155() {
         >
           revoke
         </Button>
+        <Alert
+          type="info"
+          message="测试 NFT"
+          description={(
+            <Row gutter={12}>
+              {usedNfts.map((nft) => (
+                <Col>
+                  <a href={`/?nftAddress=${nft.address}`}>
+                    {nft.chain}
+                  </a>
+                </Col>
+              ))}
+            </Row>
+          )}
+        />
       </Space>
     </Card>
   );

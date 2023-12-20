@@ -5,10 +5,25 @@ import { ethers } from 'ethers';
 import {
   Alert,
   Button,
-  Card, Space, message,
+  Card, Col, Input, Row, Space, message,
 } from 'antd';
+import _ from 'lodash';
 import { nftsAbi, nftsBytecode } from './const';
 import EvmContext from '../../../context';
+
+const usedNfts = [
+  {
+
+    chain: 'OKTC',
+    chainId: '0x42',
+    address: '0xA5D57594b75ebD63c7e66f256c93769498180584',
+  },
+  {
+    chain: 'Polygon',
+    chainId: '0x89',
+    address: '0x533a413247B8Afd857f15C58a5Fd65c3cBe32cd6',
+  },
+];
 
 function ERC721() {
   // chain context
@@ -23,7 +38,10 @@ function ERC721() {
       const urlParams = new URLSearchParams(window.location.search);
       const nftAddress = urlParams.get('nftAddress');
       if (account && !nftsContract.address && nftAddress) {
-        await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
+        const targetNft = usedNfts.find(({ address }) => address === nftAddress);
+        if (targetNft) {
+          await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: targetNft.chainId }] });
+        }
         const newNftsContract = new ethers.Contract(
           nftAddress,
           nftsAbi,
@@ -55,8 +73,7 @@ function ERC721() {
   };
 
   const [mintLoading, setMintLoading] = useState(false);
-  const [canApprove, setCanApprove] = useState(false);
-  const [canTransferFrom, setCanTransferFrom] = useState(false);
+  const [mintCount, setMintCount] = useState(3);
   const mint = async () => {
     try {
       setMintLoading(true);
@@ -64,8 +81,6 @@ function ERC721() {
         from: account,
       });
       await result.wait();
-      setCanApprove(true);
-      setCanTransferFrom(true);
       message.success('mint 成功');
     } catch (error) {
       message.error('mint 失败');
@@ -75,8 +90,7 @@ function ERC721() {
   };
 
   const [approveLoading, setApproveLoading] = useState(false);
-  const [canRevoke, setCanRevoke] = useState(false);
-  const myAddress = '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446';
+  const myAddress = '0x1E0049783F008A0085193E00003D00cd54003c71';
   const approve = async () => {
     try {
       setApproveLoading(true);
@@ -88,8 +102,6 @@ function ERC721() {
         },
       );
       await result.wait();
-      setCanRevoke(true);
-      setCanApprove(false);
       message.success('授权成功');
     } catch (error) {
       message.error('授权失败');
@@ -109,8 +121,6 @@ function ERC721() {
           from: account,
         },
       );
-      setCanRevoke(false);
-      setCanApprove(true);
       message.success('取消授权成功');
     } catch (error) {
       message.error('取消授权失败');
@@ -140,8 +150,10 @@ function ERC721() {
     }
   };
 
+  const ready = nftsContract.address && account;
+
   return (
-    <Card ref={createNftRef} direction="vertical" title="ERC721" extra={nftsContract.address || <a href="/?nftAddress=0x4c630970f03A7F5A286Af3821BE0b45F1E343bf7">使用已有合集</a>}>
+    <Card ref={createNftRef} direction="vertical" title="ERC721">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Alert
           type="info"
@@ -154,13 +166,20 @@ function ERC721() {
           onClick={createNft}
           disabled={nftsContract.address || !account}
         >
-          创建合集
+          Deploy
         </Button>
+        <Input
+          value={mintCount}
+          disabled={!ready}
+          onChange={({ target: { value } }) => {
+            setMintCount(value);
+          }}
+        />
         <Button
           block
           loading={mintLoading}
           onClick={mint}
-          disabled={!nftsContract.address || !account}
+          disabled={!ready}
         >
           Mint
         </Button>
@@ -168,7 +187,7 @@ function ERC721() {
           block
           loading={approveLoading}
           onClick={approve}
-          disabled={!canApprove || !account}
+          disabled={!ready}
         >
           授权合集
         </Button>
@@ -176,7 +195,7 @@ function ERC721() {
           block
           onClick={revoke}
           loading={revokeLoading}
-          disabled={!canRevoke || !account}
+          disabled={!ready}
         >
           取消授权
         </Button>
@@ -184,10 +203,25 @@ function ERC721() {
           block
           onClick={transferFrom}
           loading={transferFromLoading}
-          disabled={!canTransferFrom || !account}
+          disabled={!ready}
         >
           转移 NFT
         </Button>
+        <Alert
+          type="info"
+          message="测试 NFT"
+          description={(
+            <Row gutter={12}>
+              {usedNfts.map((nft) => (
+                <Col>
+                  <a href={`/?nftAddress=${nft.address}`}>
+                    {nft.chain}
+                  </a>
+                </Col>
+              ))}
+            </Row>
+          )}
+        />
       </Space>
     </Card>
   );
