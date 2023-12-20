@@ -38,8 +38,7 @@ export default () => {
       }
     });
 
-    // 不主动链接
-    // handleConnect();
+    handleConnect();
   }, []);
 
   return { account, handleConnect, handleConnectAllChains };
