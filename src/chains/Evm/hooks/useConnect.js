@@ -38,7 +38,11 @@ export default () => {
       }
     });
 
-    handleConnect();
+    const urlParams = new URLSearchParams(window.location.search);
+    const dontAutoConnect = urlParams.get('dontAutoConnect');
+    if (!dontAutoConnect) {
+      handleConnect();
+    }
   }, []);
 
   return { account, handleConnect, handleConnectAllChains };
