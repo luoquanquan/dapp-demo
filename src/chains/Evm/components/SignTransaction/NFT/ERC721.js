@@ -7,7 +7,6 @@ import {
   Button,
   Card, Col, Input, Row, Space, message,
 } from 'antd';
-import _ from 'lodash';
 import { nftsAbi, nftsBytecode, openSeaAddress } from './const';
 import EvmContext from '../../../context';
 
