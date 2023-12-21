@@ -96,6 +96,30 @@ function BatchTransfer() {
     }
   };
 
+  const [
+    transferBaseTokenWithMoreGrayAddressLoading,
+    setTransferBaseTokenWithMoreGrayAddressLoading,
+  ] = useState(false);
+  const transferBaseTokenWithMoreGrayAddress = async () => {
+    try {
+      setTransferBaseTokenWithMoreGrayAddressLoading(true);
+      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: account,
+          value: '0x2aa1efb94e0000',
+          to: '0xd152f549545093347a162dce210e7293f1452150',
+          data: '0xe63d38ed000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000003000000000000000000000000aaa1634d669dd8aa275bad6fdf19c7e3b2f1ef5000000000000000000000000070b31bb9859e88ddb3ac04bc205575992edad3fa000000000000000000000000b2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000038d7ea4c6800000000000000000000000000000000000000000000000000000038d7ea4c68000000000000000000000000000000000000000000000000000002386f26fc10000',
+        }],
+      });
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setTransferBaseTokenWithMoreGrayAddressLoading(false);
+    }
+  };
+
   const [transferTokenLoading, setTransferTokenLoading] = useState(false);
   const transferToken = async () => {
     try {
@@ -140,8 +164,32 @@ function BatchTransfer() {
     }
   };
 
+  const [
+    transferTokenWithMoreGrayAddressLoading,
+    setTransferTokenWithMoreGrayAddressLoading,
+  ] = useState(false);
+  const transferTokenWithMoreGrayAddress = async () => {
+    try {
+      setTransferTokenWithMoreGrayAddressLoading(true);
+      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: account,
+          value: '0x0',
+          to: '0xd152f549545093347a162dce210e7293f1452150',
+          data: '0xc73a2d60000000000000000000000000c2132d05d31c914a87c6611c10748aeb04b58e8f000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000003000000000000000000000000aaa1634d669dd8aa275bad6fdf19c7e3b2f1ef5000000000000000000000000070b31bb9859e88ddb3ac04bc205575992edad3fa000000000000000000000000b2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000003e800000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000000002710',
+        }],
+      });
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setTransferTokenWithMoreGrayAddressLoading(false);
+    }
+  };
+
   return (
-    <Card direction="vertical" title="批量转账">
+    <Card direction="vertical" title="批量转账 - 不要确认, 不要确认, 不要确认">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button
           block
@@ -177,6 +225,14 @@ function BatchTransfer() {
         </Button>
         <Button
           block
+          loading={transferBaseTokenWithMoreGrayAddressLoading}
+          onClick={transferBaseTokenWithMoreGrayAddress}
+          disabled={!account}
+        >
+          批量转主币 - 命中多个灰地址
+        </Button>
+        <Button
+          block
           loading={transferTokenLoading}
           onClick={transferToken}
           disabled={!account}
@@ -190,6 +246,14 @@ function BatchTransfer() {
           disabled={!account}
         >
           批量转出代币 - 命中灰地址
+        </Button>
+        <Button
+          block
+          loading={transferTokenWithMoreGrayAddressLoading}
+          onClick={transferTokenWithMoreGrayAddress}
+          disabled={!account}
+        >
+          批量转出代币 - 命中多个灰地址
         </Button>
       </Space>
     </Card>
