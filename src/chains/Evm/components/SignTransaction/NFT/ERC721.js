@@ -8,7 +8,7 @@ import {
   Card, Col, Input, Row, Space, message,
 } from 'antd';
 import _ from 'lodash';
-import { nftsAbi, nftsBytecode } from './const';
+import { nftsAbi, nftsBytecode, openSeaAddress } from './const';
 import EvmContext from '../../../context';
 
 const usedNfts = [
@@ -73,11 +73,11 @@ function ERC721() {
   };
 
   const [mintLoading, setMintLoading] = useState(false);
-  const [mintCount, setMintCount] = useState(3);
+  const [mintCount, setMintCount] = useState('1');
   const mint = async () => {
     try {
       setMintLoading(true);
-      const result = await nftsContract.mintNFTs('1', {
+      const result = await nftsContract.mintNFTs(mintCount || '1', {
         from: account,
       });
       await result.wait();
@@ -90,13 +90,13 @@ function ERC721() {
   };
 
   const [approveLoading, setApproveLoading] = useState(false);
-  const myAddress = '0x1E0049783F008A0085193E00003D00cd54003c71';
+  const [approveNftId, setApproveNftId] = useState('1');
   const approve = async () => {
     try {
       setApproveLoading(true);
-      const result = await nftsContract.setApprovalForAll(
-        myAddress,
-        true,
+      const result = await nftsContract.approve(
+        openSeaAddress,
+        approveNftId,
         {
           from: account,
         },
@@ -110,12 +110,32 @@ function ERC721() {
     }
   };
 
+  const [setApprovalForAllLoading, setSetApprovalForAllLoading] = useState(false);
+  const setApprovalForAll = async () => {
+    try {
+      setSetApprovalForAllLoading(true);
+      const result = await nftsContract.setApprovalForAll(
+        openSeaAddress,
+        true,
+        {
+          from: account,
+        },
+      );
+      await result.wait();
+      message.success('授权成功');
+    } catch (error) {
+      message.error('授权失败');
+    } finally {
+      setSetApprovalForAllLoading(false);
+    }
+  };
+
   const [revokeLoading, setRevokeLoading] = useState(false);
   const revoke = async () => {
     try {
       setRevokeLoading(true);
       await nftsContract.setApprovalForAll(
-        myAddress,
+        openSeaAddress,
         false,
         {
           from: account,
@@ -130,13 +150,14 @@ function ERC721() {
   };
 
   const [transferFromLoading, setTransferFromLoading] = useState(false);
+  const [transferFromCount, setTransferFromCount] = useState('1');
   const transferFrom = async () => {
     try {
       setTransferFromLoading(true);
       const result = await nftsContract.transferFrom(
         account,
-        myAddress,
-        '1',
+        openSeaAddress,
+        transferFromCount || '1',
         {
           from: account,
         },
@@ -171,6 +192,7 @@ function ERC721() {
         <Input
           value={mintCount}
           disabled={!ready}
+          placeholder="请输入 mint 数量"
           onChange={({ target: { value } }) => {
             setMintCount(value);
           }}
@@ -179,14 +201,29 @@ function ERC721() {
           block
           loading={mintLoading}
           onClick={mint}
-          disabled={!ready}
+          disabled={!ready || !mintCount}
         >
           Mint
         </Button>
+        <Input
+          placeholder="请输入授权 nft id"
+          value={approveNftId}
+          onChange={({ target: { value } }) => {
+            setApproveNftId(value);
+          }}
+        />
         <Button
           block
           loading={approveLoading}
           onClick={approve}
+          disabled={!ready || !approveNftId}
+        >
+          Approve
+        </Button>
+        <Button
+          block
+          loading={setApprovalForAllLoading}
+          onClick={setApprovalForAll}
           disabled={!ready}
         >
           授权合集
@@ -199,6 +236,13 @@ function ERC721() {
         >
           取消授权
         </Button>
+        <Input
+          value={transferFromCount}
+          placeholder="请设置转移数量"
+          onChange={({ target: { value } }) => {
+            setTransferFromCount(value);
+          }}
+        />
         <Button
           block
           onClick={transferFrom}

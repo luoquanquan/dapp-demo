@@ -8,7 +8,7 @@ import {
   Card, Col, Input, Row, Space, Typography, message,
 } from 'antd';
 import {
-  erc1155Abi, erc1155Bytecode,
+  erc1155Abi, erc1155Bytecode, openSeaAddress,
 } from './const';
 import EvmContext from '../../../context';
 
@@ -112,7 +112,7 @@ function ERC1155() {
       setApproveLoading(true);
 
       const result = await nftsContract.setApprovalForAll(
-        '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+        openSeaAddress,
         true,
         {
           from: account,
@@ -132,7 +132,7 @@ function ERC1155() {
       setRevokeLoading(true);
 
       const result = await nftsContract.setApprovalForAll(
-        '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+        openSeaAddress,
         false,
         {
           from: account,
