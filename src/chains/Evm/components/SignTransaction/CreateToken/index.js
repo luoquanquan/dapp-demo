@@ -10,6 +10,7 @@ import {
 import _ from 'lodash';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
+import { openSeaAddress } from '../NFT/const';
 
 const usedTokens = [
   {
@@ -112,9 +113,8 @@ function CreateToken() {
     }
   };
 
-  const myAddress = '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446';
   const [transferTokensLoading, setTransferTokensLoading] = useState(false);
-  const [transferTokenTo, setTransferTokenTo] = useState(myAddress);
+  const [transferTokenTo, setTransferTokenTo] = useState('0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446');
   const checkToAddress = () => {
     if (!(transferTokenTo.startsWith('0x') && transferTokenTo.length === 42)) {
       throw new Error('请输入合法的收款地址');
@@ -125,7 +125,7 @@ function CreateToken() {
       checkToAddress();
       needLoading && setTransferTokensLoading(true);
       await hstContract.transfer(
-        myAddress,
+        transferTokenTo,
         10 ** decimals,
         {
           from: account,
@@ -144,7 +144,7 @@ function CreateToken() {
     try {
       needLoading && setApproveTokenLoading(true);
       await hstContract.approve(
-        myAddress,
+        openSeaAddress,
         amount,
         {
           from: account,
@@ -163,7 +163,7 @@ function CreateToken() {
     try {
       setIncreaseAllowanceLoading(true);
       await hstContract.increaseAllowance(
-        myAddress,
+        openSeaAddress,
         `${100 * 10 ** decimals}`,
         {
           from: account,
@@ -183,7 +183,7 @@ function CreateToken() {
     try {
       setDecreaseAllowance(true);
       await hstContract.decreaseAllowance(
-        myAddress,
+        openSeaAddress,
         `${100 * 10 ** decimals}`,
         {
           from: account,
