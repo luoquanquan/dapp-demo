@@ -167,8 +167,6 @@ function CreateToken() {
         `${100 * 10 ** decimals}`,
         {
           from: account,
-          gasLimit: 60000,
-          gasPrice: '20000000000',
         },
       );
     } catch (error) {
@@ -187,8 +185,6 @@ function CreateToken() {
         `${100 * 10 ** decimals}`,
         {
           from: account,
-          gasLimit: 60000,
-          gasPrice: '20000000000',
         },
       );
     } catch (error) {
@@ -203,7 +199,7 @@ function CreateToken() {
       <Card
         direction="vertical"
         title={`ERC 20 代币(${symbol})`}
-        extra={hstContract.address || (
+        extra={!hstContract.address && (
         <span>
           <strong>
             <a href={`#${anchorUsedTokens}`}>点击使用常用代币</a>
@@ -213,6 +209,11 @@ function CreateToken() {
         )}
       >
         <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert
+            type="info"
+            message="合集地址"
+            description={hstContract.address || ''}
+          />
           <Button
             block
             loading={createBtnLoading}

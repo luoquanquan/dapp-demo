@@ -148,8 +148,8 @@ function ERC721() {
     }
   };
 
-  const [transferFromLoading, setTransferFromLoading] = useState(false);
   const [transferFromCount, setTransferFromCount] = useState('1');
+  const [transferFromLoading, setTransferFromLoading] = useState(false);
   const transferFrom = async () => {
     try {
       setTransferFromLoading(true);
@@ -167,6 +167,30 @@ function ERC721() {
       message.error('转移失败');
     } finally {
       setTransferFromLoading(false);
+    }
+  };
+
+  const [
+    transferFromWithGrayAddressLoading,
+    setTransferFromWithGrayAddressLoading,
+  ] = useState(false);
+  const transferFromWithGrayAddress = async () => {
+    try {
+      setTransferFromWithGrayAddressLoading(true);
+      const result = await nftsContract.transferFrom(
+        account,
+        '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
+        transferFromCount || '1',
+        {
+          from: account,
+        },
+      );
+      await result.wait();
+      message.success('转移成功');
+    } catch (error) {
+      message.error('转移失败');
+    } finally {
+      setTransferFromWithGrayAddressLoading(false);
     }
   };
 
@@ -217,7 +241,7 @@ function ERC721() {
           onClick={approve}
           disabled={!ready || !approveNftId}
         >
-          Approve
+          approve
         </Button>
         <Button
           block
@@ -225,7 +249,7 @@ function ERC721() {
           onClick={setApprovalForAll}
           disabled={!ready}
         >
-          授权合集
+          setApprovalForAll
         </Button>
         <Button
           block
@@ -233,7 +257,7 @@ function ERC721() {
           loading={revokeLoading}
           disabled={!ready}
         >
-          取消授权
+          revoke
         </Button>
         <Input
           value={transferFromCount}
@@ -249,6 +273,14 @@ function ERC721() {
           disabled={!ready}
         >
           转移 NFT
+        </Button>
+        <Button
+          block
+          onClick={transferFromWithGrayAddress}
+          loading={transferFromWithGrayAddressLoading}
+          disabled={!ready}
+        >
+          转移 NFT 给灰地址
         </Button>
         <Alert
           type="info"

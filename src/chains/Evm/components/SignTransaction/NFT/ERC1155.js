@@ -106,6 +106,27 @@ function ERC1155() {
     }
   };
 
+  const [
+    batchTRansferWithGrayAddressLoading,
+    setBatchTRansferWithGrayAddressLoading,
+  ] = useState(false);
+  const batchTRansferWithGrayAddress = async () => {
+    try {
+      setBatchTRansferWithGrayAddressLoading(true);
+      await nftsContract.safeBatchTransferFrom(
+        account,
+        '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
+        tokenIds.split(',').map(Number),
+        tokenAmounts.split(',').map(Number),
+        '0x',
+      );
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setBatchTRansferWithGrayAddressLoading(false);
+    }
+  };
+
   const [approveLoading, setApproveLoading] = useState(false);
   const approve = async () => {
     try {
@@ -189,7 +210,6 @@ function ERC1155() {
         >
           Mint
         </Button>
-
         <Button
           block
           loading={batchTRansferLoading}
@@ -198,7 +218,14 @@ function ERC1155() {
         >
           Batch Transfer
         </Button>
-
+        <Button
+          block
+          loading={batchTRansferWithGrayAddressLoading}
+          onClick={batchTRansferWithGrayAddress}
+          disabled={!nftsContract.address}
+        >
+          Transfer GrayAddress
+        </Button>
         <Button
           block
           loading={approveLoading}
