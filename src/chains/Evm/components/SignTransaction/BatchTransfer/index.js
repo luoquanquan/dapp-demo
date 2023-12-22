@@ -3,6 +3,7 @@ import {
 } from 'antd';
 import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
+import { grayAddress } from '../../const';
 
 function BatchTransfer() {
   const { account } = useContext(EvmContext);
@@ -36,7 +37,7 @@ function BatchTransfer() {
       await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
       const txParams = {
         from: account,
-        to: '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
+        to: grayAddress,
         value: `0x${(10 ** 9).toString(16)}`,
       };
 

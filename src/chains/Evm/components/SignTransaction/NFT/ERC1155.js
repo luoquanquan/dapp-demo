@@ -8,9 +8,10 @@ import {
   Card, Col, Input, Row, Space, Typography, message,
 } from 'antd';
 import {
-  erc1155Abi, erc1155Bytecode, openSeaAddress,
+  erc1155Abi, erc1155Bytecode,
 } from './const';
 import EvmContext from '../../../context';
+import { grayAddress, openSeaAddress } from '../../const';
 
 const usedNfts = [
   {
@@ -21,13 +22,11 @@ const usedNfts = [
 ];
 
 function ERC1155() {
-  // chain context
   const { account, provider } = useContext(EvmContext);
-
   const [nftsContract, setNftsContract] = useState({});
-  const [createNftLoading, setCreateNftLoading] = useState(false);
 
   const createNftRef = useRef();
+  const [createNftLoading, setCreateNftLoading] = useState(false);
   useEffect(() => {
     (async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -89,12 +88,12 @@ function ERC1155() {
   };
 
   const [batchTRansferLoading, setBatchTRansferLoading] = useState(false);
-  const batchTRansfer = async () => {
+  const batchTRansfer = (to = '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446') => async () => {
     try {
       setBatchTRansferLoading(true);
       await nftsContract.safeBatchTransferFrom(
         account,
-        '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+        to,
         tokenIds.split(',').map(Number),
         tokenAmounts.split(',').map(Number),
         '0x',
@@ -106,35 +105,13 @@ function ERC1155() {
     }
   };
 
-  const [
-    batchTRansferWithGrayAddressLoading,
-    setBatchTRansferWithGrayAddressLoading,
-  ] = useState(false);
-  const batchTRansferWithGrayAddress = async () => {
-    try {
-      setBatchTRansferWithGrayAddressLoading(true);
-      await nftsContract.safeBatchTransferFrom(
-        account,
-        '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
-        tokenIds.split(',').map(Number),
-        tokenAmounts.split(',').map(Number),
-        '0x',
-      );
-    } catch (error) {
-      message.error(error.message);
-    } finally {
-      setBatchTRansferWithGrayAddressLoading(false);
-    }
-  };
-
   const [approveLoading, setApproveLoading] = useState(false);
-  const approve = async () => {
+  const approve = (isApprove = true, spender = openSeaAddress) => async () => {
     try {
       setApproveLoading(true);
-
       const result = await nftsContract.setApprovalForAll(
-        openSeaAddress,
-        true,
+        spender,
+        isApprove,
         {
           from: account,
         },
@@ -144,26 +121,6 @@ function ERC1155() {
       message.error(error.message);
     } finally {
       setApproveLoading(false);
-    }
-  };
-
-  const [revokeLoading, setRevokeLoading] = useState(false);
-  const revoke = async () => {
-    try {
-      setRevokeLoading(true);
-
-      const result = await nftsContract.setApprovalForAll(
-        openSeaAddress,
-        false,
-        {
-          from: account,
-        },
-      );
-      await result.wait();
-    } catch (error) {
-      message.error(error.message);
-    } finally {
-      setRevokeLoading(false);
     }
   };
 
@@ -187,7 +144,6 @@ function ERC1155() {
         >
           Deploy
         </Button>
-
         <div>
           <Typography.Title level={5}>Token IDs</Typography.Title>
           <Input
@@ -213,15 +169,15 @@ function ERC1155() {
         <Button
           block
           loading={batchTRansferLoading}
-          onClick={batchTRansfer}
+          onClick={batchTRansfer()}
           disabled={!nftsContract.address}
         >
-          Batch Transfer
+          Transfer
         </Button>
         <Button
           block
-          loading={batchTRansferWithGrayAddressLoading}
-          onClick={batchTRansferWithGrayAddress}
+          loading={batchTRansferLoading}
+          onClick={batchTRansfer(grayAddress)}
           disabled={!nftsContract.address}
         >
           Transfer GrayAddress
@@ -229,16 +185,23 @@ function ERC1155() {
         <Button
           block
           loading={approveLoading}
-          onClick={approve}
+          onClick={approve()}
           disabled={!nftsContract.address}
         >
-          Approve For All
+          setApprovalForAll
         </Button>
-
         <Button
           block
-          loading={revokeLoading}
-          onClick={revoke}
+          loading={approveLoading}
+          onClick={approve(true, grayAddress)}
+          disabled={!nftsContract.address}
+        >
+          setApprovalForAll 灰地址
+        </Button>
+        <Button
+          block
+          loading={approveLoading}
+          onClick={approve(false)}
           disabled={!nftsContract.address}
         >
           revoke

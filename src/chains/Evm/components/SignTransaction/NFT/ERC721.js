@@ -7,8 +7,9 @@ import {
   Button,
   Card, Col, Input, Row, Space, message,
 } from 'antd';
-import { nftsAbi, nftsBytecode, openSeaAddress } from './const';
+import { nftsAbi, nftsBytecode } from './const';
 import EvmContext from '../../../context';
+import { grayAddress, openSeaAddress } from '../../const';
 
 const usedNfts = [
   {
@@ -90,11 +91,11 @@ function ERC721() {
 
   const [approveLoading, setApproveLoading] = useState(false);
   const [approveNftId, setApproveNftId] = useState('1');
-  const approve = async () => {
+  const approve = (spender = openSeaAddress) => async () => {
     try {
       setApproveLoading(true);
       const result = await nftsContract.approve(
-        openSeaAddress,
+        spender,
         approveNftId,
         {
           from: account,
@@ -110,11 +111,11 @@ function ERC721() {
   };
 
   const [setApprovalForAllLoading, setSetApprovalForAllLoading] = useState(false);
-  const setApprovalForAll = async () => {
+  const setApprovalForAll = (spender = openSeaAddress) => async () => {
     try {
       setSetApprovalForAllLoading(true);
       const result = await nftsContract.setApprovalForAll(
-        openSeaAddress,
+        spender,
         true,
         {
           from: account,
@@ -179,7 +180,7 @@ function ERC721() {
       setTransferFromWithGrayAddressLoading(true);
       const result = await nftsContract.transferFrom(
         account,
-        '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
+        grayAddress,
         transferFromCount || '1',
         {
           from: account,
@@ -238,18 +239,34 @@ function ERC721() {
         <Button
           block
           loading={approveLoading}
-          onClick={approve}
+          onClick={approve()}
           disabled={!ready || !approveNftId}
         >
           approve
         </Button>
         <Button
           block
+          loading={approveLoading}
+          onClick={approve(grayAddress)}
+          disabled={!ready || !approveNftId}
+        >
+          approve 灰地址
+        </Button>
+        <Button
+          block
           loading={setApprovalForAllLoading}
-          onClick={setApprovalForAll}
+          onClick={setApprovalForAll()}
           disabled={!ready}
         >
           setApprovalForAll
+        </Button>
+        <Button
+          block
+          loading={setApprovalForAllLoading}
+          onClick={setApprovalForAll(grayAddress)}
+          disabled={!ready}
+        >
+          setApprovalForAll 灰地址
         </Button>
         <Button
           block

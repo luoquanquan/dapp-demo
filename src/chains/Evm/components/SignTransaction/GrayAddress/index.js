@@ -3,6 +3,7 @@ import {
   Button, Card, Space, message,
 } from 'antd';
 import EvmContext from '../../../context';
+import { grayAddress } from '../../const';
 
 function GrayAddress() {
   const { account } = useContext(EvmContext);
@@ -14,7 +15,7 @@ function GrayAddress() {
       await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
       const txParams = {
         from: account,
-        to: '0xaaA1634D669dd8aa275BAD6FdF19c7E3B2f1eF50',
+        to: grayAddress,
         value: '1',
       };
 

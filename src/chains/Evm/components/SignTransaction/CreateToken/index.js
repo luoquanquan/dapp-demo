@@ -2,7 +2,6 @@ import { ethers } from 'ethers';
 import {
   useContext, useEffect, useRef, useState,
 } from 'react';
-
 import {
   Alert,
   Button, Card, Col, Input, Row, Space, Typography, message,
@@ -10,7 +9,7 @@ import {
 import _ from 'lodash';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
-import { openSeaAddress } from '../NFT/const';
+import { grayAddress, openSeaAddress } from '../../const';
 
 const usedTokens = [
   {
@@ -33,37 +32,41 @@ const usedTokens = [
   },
 ];
 
-const symbol = 'OKX_FE';
 const anchorUsedTokens = 'anchorUsedTokens';
 
 function CreateToken() {
-  // constant
-  const decimals = 4;
-  const image = `${window.location.href.split('?')[0]}favicon.png`;
-
   const createTokenRef = useRef();
-
+  const image = `${window.location.href.split('?')[0]}favicon.png`;
   // chain context
   const { account, provider } = useContext(EvmContext);
+  const [decimals, setDecimals] = useState(4);
+  const [symbol, setSymbol] = useState('OKX_FE');
 
   const [hstContract, setHstContract] = useState({});
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenAddress = urlParams.get('tokenAddress');
-    if (account && !hstContract.address && tokenAddress) {
-      const targetToken = usedTokens.find(({ address }) => address === tokenAddress);
-      if (targetToken) {
-        ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: targetToken.chainId }] });
-      }
+    (async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tokenAddress = urlParams.get('tokenAddress');
+      if (account && !hstContract.address && tokenAddress) {
+        const targetToken = usedTokens.find(({ address }) => address === tokenAddress);
+        if (targetToken) {
+          await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: targetToken.chainId }] });
+        }
 
-      const newHstContract = new ethers.Contract(
-        tokenAddress,
-        hstAbi,
-        provider.getSigner(),
-      );
-      setHstContract(newHstContract);
-      createTokenRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
+        const newHstContract = new ethers.Contract(
+          tokenAddress,
+          hstAbi,
+          provider.getSigner(),
+        );
+
+        const tokenSymbol = await newHstContract.symbol();
+        setSymbol(tokenSymbol);
+        const tokenDecimals = await newHstContract.decimals();
+        setDecimals(tokenDecimals);
+        setHstContract(newHstContract);
+        createTokenRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    })();
   }, [account]);
   const [createBtnLoading, setCreateBtnLoading] = useState(false);
 
@@ -140,11 +143,16 @@ function CreateToken() {
   };
 
   const [approveTokenLoading, setApproveTokenLoading] = useState(false);
-  const handleApproveToken = ({ gasInfo, needLoading = true, amount = `${100 * 10 ** decimals}` }) => async () => {
+  const handleApproveToken = ({
+    gasInfo,
+    needLoading = true,
+    amount = `${100 * 10 ** decimals}`,
+    spender = openSeaAddress,
+  }) => async () => {
     try {
       needLoading && setApproveTokenLoading(true);
       await hstContract.approve(
-        openSeaAddress,
+        spender,
         amount,
         {
           from: account,
@@ -316,6 +324,14 @@ function CreateToken() {
                     disabled={!hstContract.address || !account}
                   >
                     授权(不传 Gas)
+                  </Button>
+                  <Button
+                    block
+                    loading={approveTokenLoading}
+                    onClick={handleApproveToken({ spender: grayAddress })}
+                    disabled={!hstContract.address || !account}
+                  >
+                    授权给灰地址
                   </Button>
                   <Button
                     block
