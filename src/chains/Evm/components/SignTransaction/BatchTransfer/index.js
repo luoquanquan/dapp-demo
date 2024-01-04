@@ -1,9 +1,11 @@
 import {
+  Alert,
   Button, Card, Space, message,
 } from 'antd';
 import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
 import { grayAddress } from '../../const';
+import toastError from '../../../../../utils/toastError';
 
 function BatchTransfer() {
   const { account } = useContext(EvmContext);
@@ -189,9 +191,41 @@ function BatchTransfer() {
     }
   };
 
+  const [testMulLoading, setTestMulLoading] = useState(false);
+  const testMul = async () => {
+    try {
+      setTestMulLoading(true);
+      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: account,
+          value: '0x844378c6a101336',
+          gas: '0x7ea3a',
+          to: '0xc36442b4a4522e871399cd717abdd847ab11fe88',
+          data: '0xac9650d800000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e00000000000000000000000000000000000000000000000000000000000000164883164560000000000000000000000000d500b1d8e8ef31e21c99d1db9a6444d3adf1270000000000000000000000000c2132d05d31c914a87c6611c10748aeb04b58e8f00000000000000000000000000000000000000000000000000000000000001f4fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbca62fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbca760000000000000000000000000000000000000000000000000844378c6a10133600000000000000000000000000000000000000000000000000000000000c3500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009d8ccdaf68a4705f33accce0b0ca5804c97eae5700000000000000000000000000000000000000000000000000000000658d3d9500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000412210e8a00000000000000000000000000000000000000000000000000000000',
+        }],
+      });
+    } catch (error) {
+      toastError(error);
+    } finally {
+      setTestMulLoading(false);
+    }
+  };
+
   return (
     <Card direction="vertical" title="批量转账 - 不要确认, 不要确认, 不要确认">
       <Space direction="vertical" style={{ width: '100%' }}>
+        <Alert message={(
+          <div>
+            请导入 evm 系私钥钱包:
+            <br />
+            0xef524361383a3527066f19fcecfcaf0ec98507431b5094bd1cdd9df21e46877d
+            <br />
+            进行测试
+          </div>
+        )}
+        />
         <Button
           block
           loading={transferLoading}
@@ -255,6 +289,14 @@ function BatchTransfer() {
           disabled={!account}
         >
           批量转出代币 - 命中多个灰地址
+        </Button>
+        <Button
+          block
+          loading={testMulLoading}
+          onClick={testMul}
+          disabled={!account}
+        >
+          复杂交互
         </Button>
       </Space>
     </Card>

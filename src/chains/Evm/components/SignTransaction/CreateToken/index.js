@@ -4,12 +4,13 @@ import {
 } from 'react';
 import {
   Alert,
-  Button, Card, Col, Input, Row, Space, Typography, message,
+  Button, Card, Col, Input, Row, Space, Typography,
 } from 'antd';
 import _ from 'lodash';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
 import { grayAddress, openSeaAddress } from '../../const';
+import toastError from '../../../../../utils/toastError';
 
 const usedTokens = [
   {
@@ -87,7 +88,7 @@ function CreateToken() {
       await newHstContract.deployTransaction.wait();
       setHstContract(newHstContract);
     } catch (error) {
-      message.error('用户拒绝');
+      toastError(error);
     } finally {
       setCreateBtnLoading(false);
     }
@@ -110,7 +111,7 @@ function CreateToken() {
         },
       });
     } catch (error) {
-      message.error(error.message);
+      toastError(error);
     } finally {
       setWatchAssetLoading(false);
     }
@@ -132,11 +133,13 @@ function CreateToken() {
         10 ** decimals,
         {
           from: account,
+          gasLimit: undefined,
+          gas: undefined,
           ...gasInfo,
         },
       );
     } catch (error) {
-      message.error(error?.error?.message || error.message);
+      toastError(error);
     } finally {
       setTransferTokensLoading(false);
     }
@@ -160,7 +163,7 @@ function CreateToken() {
         },
       );
     } catch (error) {
-      message.error(error.message);
+      toastError(error);
     } finally {
       setApproveTokenLoading(false);
     }
@@ -178,7 +181,7 @@ function CreateToken() {
         },
       );
     } catch (error) {
-      message.error(error.message);
+      toastError(error);
     } finally {
       setIncreaseAllowanceLoading(false);
     }
@@ -196,7 +199,7 @@ function CreateToken() {
         },
       );
     } catch (error) {
-      message.error(error.message);
+      toastError(error);
     } finally {
       setDecreaseAllowance(false);
     }
