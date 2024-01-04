@@ -4,7 +4,6 @@ import {
 import CreateToken from './CreateToken';
 import GrayAddress from './GrayAddress';
 import NFT from './NFT';
-import BatchTransfer from './BatchTransfer';
 import GasChecker from './GasChecker';
 
 export default function SignTransaction() {
@@ -21,13 +20,8 @@ export default function SignTransaction() {
         </Row>
         <Row gutter={16}>
           <Col span={12}>
-            <BatchTransfer />
-          </Col>
-          <Col span={12}>
             <GasChecker />
           </Col>
-        </Row>
-        <Row gutter={16}>
           <Col span={12}>
             <GrayAddress />
           </Col>
