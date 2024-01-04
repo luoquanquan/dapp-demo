@@ -3,6 +3,7 @@ import {
 } from 'antd';
 import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
+import { myAddress } from '../../const';
 
 function GasChecker() {
   const { account } = useContext(EvmContext);
@@ -15,7 +16,7 @@ function GasChecker() {
         method: 'eth_sendTransaction',
         params: [{
           from: account,
-          to: '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446',
+          to: myAddress,
           value: `0x${(10 ** 9).toString(16)}`,
           ...gasInfo,
         }],

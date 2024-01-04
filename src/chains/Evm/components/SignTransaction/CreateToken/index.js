@@ -9,7 +9,7 @@ import {
 import _ from 'lodash';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
-import { grayAddress, openSeaAddress } from '../../const';
+import { grayAddress, myAddress, openSeaAddress } from '../../const';
 import toastError from '../../../../../utils/toastError';
 
 const usedTokens = [
@@ -118,7 +118,7 @@ function CreateToken() {
   };
 
   const [transferTokensLoading, setTransferTokensLoading] = useState(false);
-  const [transferTokenTo, setTransferTokenTo] = useState('0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446');
+  const [transferTokenTo, setTransferTokenTo] = useState(myAddress);
   const checkToAddress = () => {
     if (!(transferTokenTo.startsWith('0x') && transferTokenTo.length === 42)) {
       throw new Error('请输入合法的收款地址');

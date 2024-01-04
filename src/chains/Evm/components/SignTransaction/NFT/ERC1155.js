@@ -11,7 +11,7 @@ import {
   erc1155Abi, erc1155Bytecode,
 } from './const';
 import EvmContext from '../../../context';
-import { grayAddress, openSeaAddress } from '../../const';
+import { grayAddress, myAddress, openSeaAddress } from '../../const';
 
 const usedNfts = [
   {
@@ -88,7 +88,7 @@ function ERC1155() {
   };
 
   const [batchTRansferLoading, setBatchTRansferLoading] = useState(false);
-  const batchTRansfer = (to = '0xb2d9def7ed8ba2d02d1e9d1d0d1920986e3a1446') => async () => {
+  const batchTRansfer = (to = myAddress) => async () => {
     try {
       setBatchTRansferLoading(true);
       await nftsContract.safeBatchTransferFrom(
