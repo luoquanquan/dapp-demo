@@ -17,7 +17,7 @@ const usedNfts = [
   {
     chain: 'Polygon',
     chainId: '0x89',
-    address: '0x21038A4bd75F2a0F3cf8E5C6752c9F84cCcB3f3E',
+    address: '0x2bf22a1143f406C2DEb7ECEBfEd26755d1124683',
   },
 ];
 

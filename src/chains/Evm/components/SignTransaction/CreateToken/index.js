@@ -13,17 +13,17 @@ import { grayAddress, openSeaAddress } from '../../const';
 import toastError from '../../../../../utils/toastError';
 
 const usedTokens = [
-  {
-    chain: 'OKTC',
-    symbol: 'OKX_FE',
-    chainId: '0x42',
-    address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
-  },
+  // {
+  //   chain: 'OKTC',
+  //   symbol: 'OKX_FE',
+  //   chainId: '0x42',
+  //   address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
+  // },
   {
     chain: 'Polygon',
     symbol: 'OKX_FE',
     chainId: '0x89',
-    address: '0xDf08549478dC76f2208F2D2bE30630068676b554',
+    address: '0x831f4bc8002ec130617e5bf0b401db8a9e4e5204',
   },
   {
     chain: 'Polygon',

@@ -12,16 +12,15 @@ import EvmContext from '../../../context';
 import { grayAddress, openSeaAddress } from '../../const';
 
 const usedNfts = [
-  {
-
-    chain: 'OKTC',
-    chainId: '0x42',
-    address: '0xA5D57594b75ebD63c7e66f256c93769498180584',
-  },
+  // {
+  //   chain: 'OKTC',
+  //   chainId: '0x42',
+  //   address: '0xA5D57594b75ebD63c7e66f256c93769498180584',
+  // },
   {
     chain: 'Polygon',
     chainId: '0x89',
-    address: '0x533a413247B8Afd857f15C58a5Fd65c3cBe32cd6',
+    address: '0xbfc5224DF96f01ad37D874E5a477aAFb92a5E970',
   },
 ];
 
