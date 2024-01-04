@@ -216,16 +216,6 @@ function BatchTransfer() {
   return (
     <Card direction="vertical" title="批量转账 - 不要确认, 不要确认, 不要确认">
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Alert message={(
-          <div>
-            请导入 evm 系私钥钱包:
-            <br />
-            0xef524361383a3527066f19fcecfcaf0ec98507431b5094bd1cdd9df21e46877d
-            <br />
-            进行测试
-          </div>
-        )}
-        />
         <Button
           block
           loading={transferLoading}
