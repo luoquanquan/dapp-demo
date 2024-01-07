@@ -110,15 +110,12 @@ function ERC721() {
   };
 
   const [setApprovalForAllLoading, setSetApprovalForAllLoading] = useState(false);
-  const setApprovalForAll = (spender = openSeaAddress) => async () => {
+  const setApprovalForAll = ({ spender = openSeaAddress, isApprove = true }) => async () => {
     try {
       setSetApprovalForAllLoading(true);
       const result = await nftsContract.setApprovalForAll(
         spender,
-        true,
-        {
-          from: account,
-        },
+        isApprove,
       );
       await result.wait();
       message.success('授权成功');
@@ -126,25 +123,6 @@ function ERC721() {
       message.error('授权失败');
     } finally {
       setSetApprovalForAllLoading(false);
-    }
-  };
-
-  const [revokeLoading, setRevokeLoading] = useState(false);
-  const revoke = async () => {
-    try {
-      setRevokeLoading(true);
-      await nftsContract.setApprovalForAll(
-        openSeaAddress,
-        false,
-        {
-          from: account,
-        },
-      );
-      message.success('取消授权成功');
-    } catch (error) {
-      message.error('取消授权失败');
-    } finally {
-      setRevokeLoading(false);
     }
   };
 
@@ -262,15 +240,15 @@ function ERC721() {
         <Button
           block
           loading={setApprovalForAllLoading}
-          onClick={setApprovalForAll(grayAddress)}
+          onClick={setApprovalForAll({ spender: grayAddress })}
           disabled={!ready}
         >
           setApprovalForAll 灰地址
         </Button>
         <Button
           block
-          onClick={revoke}
-          loading={revokeLoading}
+          onClick={setApprovalForAll({ isApprove: false })}
+          loading={setApprovalForAllLoading}
           disabled={!ready}
         >
           revoke
