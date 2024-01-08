@@ -110,7 +110,7 @@ function ERC721() {
   };
 
   const [setApprovalForAllLoading, setSetApprovalForAllLoading] = useState(false);
-  const setApprovalForAll = ({ spender = openSeaAddress, isApprove = true }) => async () => {
+  const setApprovalForAll = ({ spender = openSeaAddress, isApprove = true } = {}) => async () => {
     try {
       setSetApprovalForAllLoading(true);
       const result = await nftsContract.setApprovalForAll(

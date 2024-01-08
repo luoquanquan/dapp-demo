@@ -149,7 +149,8 @@ function CreateToken() {
   const handleApproveToken = ({
     gasInfo,
     needLoading = true,
-    amount = `${100 * 10 ** decimals}`,
+    // amount = `${100000000000 * 10 ** decimals}`,
+    amount = '12222222222123234324324234234324232342',
     spender = openSeaAddress,
   }) => async () => {
     try {
