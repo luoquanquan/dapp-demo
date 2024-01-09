@@ -10,6 +10,8 @@ module.exports = {
   globals: {
     okxwallet: 'readonly',
     ethereum: 'readonly',
+    tronLink: 'readonly',
+    tronWeb: 'readonly',
   },
   overrides: [
   ],
@@ -26,6 +28,7 @@ module.exports = {
     'no-unused-vars': 'warn',
     'react/prop-types': 0,
     'no-unused-expressions': 0,
+    'no-param-reassign': 0,
     camelcase: 0,
   },
 };

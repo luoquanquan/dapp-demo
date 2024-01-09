@@ -1,7 +1,6 @@
-/* eslint-disable no-param-reassign */
 import { useEffect } from 'react';
 import {
-  Alert, Space, Tabs, message,
+  Space, Tabs, message,
 } from 'antd';
 
 import Evm from './chains/Evm';
@@ -34,6 +33,7 @@ export default function App() {
         return;
       }
 
+      // eslint-disable-next-line
       timer = setTimeout(() => {
         timer = null;
         clearTimeout(timer);
@@ -49,23 +49,10 @@ export default function App() {
 
   return (
     <div className="wrap">
-      {
-        window.okxwallet
-          ? (
-            <Space direction="vertical">
-              <Tabs defaultActiveKey="Evm" items={tabs} />
-              <ProjectInfo />
-            </Space>
-          )
-          : (
-            <Alert
-              style={{ marginTop: '100px' }}
-              message="请安装 okx wallet 再测试"
-              description="此工具仅用于 okxwallet 调试, 请先安装 okxwallet"
-              type="error"
-            />
-          )
-      }
+      <Space direction="vertical">
+        <Tabs defaultActiveKey="Tron" items={tabs} />
+        <ProjectInfo />
+      </Space>
     </div>
   );
 }
