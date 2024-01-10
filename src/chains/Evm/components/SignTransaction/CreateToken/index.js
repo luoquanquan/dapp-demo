@@ -37,7 +37,7 @@ const anchorUsedTokens = 'anchorUsedTokens';
 
 function CreateToken() {
   const createTokenRef = useRef();
-  const image = `${window.location.origin}/favicon.png`;
+  const image = `${window.location.origin}${process.env.PUBLIC_URL}/favicon.png`;
   // chain context
   const { account, provider } = useContext(EvmContext);
   const [decimals, setDecimals] = useState(4);
