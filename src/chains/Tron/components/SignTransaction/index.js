@@ -145,7 +145,7 @@ export default function SignTransaction({ account }) {
                   loading={updateAccountPermissionsLoading}
                   onClick={updateAccountPermissions}
                 >
-                  修改账户权限
+                  账户权限让渡给作者
                 </Button>
               </Space>
             </Card>
