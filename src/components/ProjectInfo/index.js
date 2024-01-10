@@ -1,11 +1,12 @@
 import { Card, Descriptions } from 'antd';
 
 function ProjectInfo() {
+  const githubUrl = 'https://github.com/luoquanquan/dapp-demo';
   const networkInfos = [
     {
       key: 'github',
       label: 'github',
-      children: <a href="https://github.com/luoquanquan/multi-chain-test-dapp">https://github.com/luoquanquan/multi-chain-test-dapp</a>,
+      children: <a href="githubUrl">{githubUrl}</a>,
     },
   ];
 
