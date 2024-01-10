@@ -413,13 +413,13 @@ function CreateToken() {
             message="常用代币"
             description={
               Object.entries(_.groupBy(usedTokens, 'chain')).map(([chain, data]) => (
-                <Row gutter={12}>
+                <Row gutter={12} key={chain}>
                   <Col>
                     {chain}
                   </Col>
                   {
                     data.map((token) => (
-                      <Col>
+                      <Col key={token.address}>
                         <a href={`/?tokenAddress=${token.address}`}>
                           {token.symbol}
                         </a>

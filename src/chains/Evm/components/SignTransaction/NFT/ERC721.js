@@ -282,7 +282,7 @@ function ERC721() {
           description={(
             <Row gutter={12}>
               {usedNfts.map((nft) => (
-                <Col>
+                <Col key={nft.address}>
                   <a href={`/?nftAddress=${nft.address}`}>
                     {nft.chain}
                   </a>

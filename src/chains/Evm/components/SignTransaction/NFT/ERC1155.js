@@ -212,7 +212,7 @@ function ERC1155() {
           description={(
             <Row gutter={12}>
               {usedNfts.map((nft) => (
-                <Col>
+                <Col key={nft.address}>
                   <a href={`/?erc1155Address=${nft.address}`}>
                     {nft.chain}
                   </a>

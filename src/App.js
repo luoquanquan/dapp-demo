@@ -14,6 +14,8 @@ import Cosmos from './chains/Cosmos';
 import Bitcoin from './chains/Bitcoin';
 import ProjectInfo from './components/ProjectInfo';
 
+const localTabKey = 'localTabKey';
+
 const tabs = [
   Evm,
   Tron,
@@ -50,7 +52,13 @@ export default function App() {
   return (
     <div className="wrap">
       <Space direction="vertical">
-        <Tabs defaultActiveKey="Tron" items={tabs} />
+        <Tabs
+          defaultActiveKey={localStorage.getItem(localTabKey) || Evm.key}
+          items={tabs}
+          onChange={(target) => {
+            localStorage.setItem(localTabKey, target);
+          }}
+        />
         <ProjectInfo />
       </Space>
     </div>
