@@ -41,7 +41,7 @@ function Others() {
             address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
             symbol: 'OKX_FE',
             decimals: 4,
-            image: `${window.location.href.split('?')[0]}favicon.png`,
+            image: `${window.location.origin}/favicon.png`,
           },
         },
       });

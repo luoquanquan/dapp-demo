@@ -6,7 +6,7 @@ function ProjectInfo() {
     {
       key: 'github',
       label: 'github',
-      children: <a href="githubUrl">{githubUrl}</a>,
+      children: <a href={githubUrl}>{githubUrl}</a>,
     },
   ];
 

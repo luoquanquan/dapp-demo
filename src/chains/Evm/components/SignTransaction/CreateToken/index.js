@@ -37,7 +37,7 @@ const anchorUsedTokens = 'anchorUsedTokens';
 
 function CreateToken() {
   const createTokenRef = useRef();
-  const image = `${window.location.href.split('?')[0]}favicon.png`;
+  const image = `${window.location.origin}/favicon.png`;
   // chain context
   const { account, provider } = useContext(EvmContext);
   const [decimals, setDecimals] = useState(4);
@@ -420,7 +420,7 @@ function CreateToken() {
                   {
                     data.map((token) => (
                       <Col key={token.address}>
-                        <a href={`/?tokenAddress=${token.address}`}>
+                        <a href={`${process.env.PUBLIC_URL}/?tokenAddress=${token.address}`}>
                           {token.symbol}
                         </a>
                       </Col>
