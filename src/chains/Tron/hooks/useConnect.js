@@ -15,7 +15,9 @@ export default () => {
         setAccount(tronWeb.defaultAddress?.base58 || '');
       }
     });
-  }, [tronWeb.defaultAddress?.base58]);
+
+    handleConnect();
+  }, []);
 
   return { account, handleConnect };
 };
