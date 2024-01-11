@@ -1,34 +1,33 @@
 import {
-  Alert,
   Button, Card, Space, message,
 } from 'antd';
-import { useState } from 'react';
+
+const testMsg = 'Hello Sui';
 
 function SignMessage({ account }) {
-  const [signMsgRet, setSignMsgRet] = useState('');
-
-  const handleSignMsg = async () => {
+  const handleSignMsg = (msg = testMsg) => async () => {
     try {
-      const msg = 'hello world';
       const encodedMsg = new TextEncoder().encode(msg);
       const { signature } = await okxwallet.sui.signMessage({ message: encodedMsg });
-      setSignMsgRet(signature);
+      console.log('签名结果: ', signature);
     } catch (error) {
       message.error(error.message);
     }
   };
 
   return (
-    <Card title="签名 (signMessage)">
+    <Card title="签名 (signMessage) 请打开控制台查看签名结果">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Card direction="vertical">
           <Space direction="vertical" style={{ width: '100%' }}>
-            <Button disabled={!account} block onClick={handleSignMsg}>签名</Button>
-            <Alert
-              type="warning"
-              message="Result"
-              description={signMsgRet}
-            />
+            <Button disabled={!account} block onClick={handleSignMsg()}>签名</Button>
+            <Button
+              disabled={!account}
+              block
+              onClick={handleSignMsg({ hello: testMsg })}
+            >
+              签名传错参数
+            </Button>
           </Space>
         </Card>
       </Space>

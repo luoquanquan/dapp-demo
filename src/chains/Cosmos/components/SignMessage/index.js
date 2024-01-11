@@ -13,7 +13,7 @@ function SignMessage({ account }) {
       const { signature } = await okxwallet.keplr.signArbitrary(
         'osmosis-1',
         osmosis,
-        'test cosmos',
+        'Hello Cosmos',
       );
 
       setSignMsg(signature);

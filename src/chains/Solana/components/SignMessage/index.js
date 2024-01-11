@@ -6,7 +6,7 @@ import {
 function SignMessage({ account }) {
   const handleSignMsg = async () => {
     try {
-      const msg = 'To avoid digital dognappers, sign below to authenticate with CryptoCorgis';
+      const msg = 'Hello Solana';
       const encodedMsg = new TextEncoder().encode(msg);
       const signMsgRet = await okxwallet.solana.signMessage(encodedMsg, 'utf8');
       // eslint-disable-next-line no-console
