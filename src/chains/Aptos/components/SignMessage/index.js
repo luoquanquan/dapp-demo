@@ -7,12 +7,12 @@ const testMsg = 'Hello Aptos';
 function SignMessage({ account }) {
   const handleSignMsg = (msg = testMsg) => async () => {
     try {
-      const response = await okxwallet.aptos.signMessage({
+      const response = await aptos.signMessage({
         message: msg,
         nonce: '1',
       });
 
-      const { publicKey } = await window.okxwallet.aptos.account();
+      const { publicKey } = await aptos.account();
       const key = publicKey?.slice(2, 66);
       const verified = nacl.sign.detached.verify(
         Buffer.from(response.fullMessage),

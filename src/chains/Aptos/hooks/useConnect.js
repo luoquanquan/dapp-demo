@@ -7,7 +7,7 @@ export default () => {
 
   const handleConnect = async () => {
     try {
-      const { address } = await okxwallet.aptos.connect();
+      const { address } = await aptos.connect();
       setAccount(address);
     } catch (error) {
       message.error(error.message);
@@ -15,11 +15,16 @@ export default () => {
   };
 
   useEffect(() => {
-    okxwallet.on('walletChanged', ([connected]) => {
-      if (connected) {
+    // okxwallet.on('walletChanged', ([connected]) => {
+    //   if (connected) {
+    //     handleConnect();
+    //   } else {
+    //     setAccount('');
+    //   }
+    // });
+    window.addEventListener('message', ({ data }) => {
+      if (data.message?.action === 'accountsChanged') {
         handleConnect();
-      } else {
-        setAccount('');
       }
     });
   }, []);

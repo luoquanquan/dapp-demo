@@ -12,6 +12,7 @@ module.exports = {
     ethereum: 'readonly',
     tronLink: 'readonly',
     tronWeb: 'readonly',
+    aptos: 'readonly',
   },
   overrides: [
   ],
