@@ -13,12 +13,12 @@ import { grayAddress, myAddress, openSeaAddress } from '../../const';
 import toastError from '../../../../../utils/toastError';
 
 const usedTokens = [
-  // {
-  //   chain: 'OKTC',
-  //   symbol: 'OKX_FE',
-  //   chainId: '0x42',
-  //   address: '0xbecf26d656cd1ab1bfac7edd7e0b6b4d3477092d',
-  // },
+  {
+    chain: 'OKTC',
+    symbol: 'OKX_FE',
+    chainId: '0x42',
+    address: '0x2bf22a1143f406C2DEb7ECEBfEd26755d1124683',
+  },
   {
     chain: 'Polygon',
     symbol: 'OKX_FE',
@@ -223,7 +223,7 @@ function CreateToken() {
         <Space direction="vertical" style={{ width: '100%' }}>
           <Alert
             type="info"
-            message="合集地址"
+            message="合约地址"
             description={hstContract.address || ''}
           />
           <Button
