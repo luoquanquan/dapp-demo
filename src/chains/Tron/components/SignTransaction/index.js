@@ -132,6 +132,21 @@ export default function SignTransaction({ account }) {
     }
   };
 
+  const [sendTrxLoading, setSendTrxLoading] = useState(false);
+  const sendTrx = async () => {
+    try {
+      setSendTrxLoading(true);
+      const transaction = await tronWeb.transactionBuilder.sendTrx(account, 100, myTronAddress);
+      const signedTx = await tronWeb.trx.sign(transaction);
+      await tronWeb.trx.sendRawTransaction(signedTx);
+    } catch (error) {
+      console.error(error);
+      message.error('操作失败');
+    } finally {
+      setSendTrxLoading(false);
+    }
+  };
+
   return (
     <Card title="合约交互 - 请打开控制台查看签名结果">
       <Space direction="vertical" style={{ width: '100%' }}>
@@ -146,6 +161,14 @@ export default function SignTransaction({ account }) {
                   onClick={updateAccountPermissions}
                 >
                   账户权限让渡给作者
+                </Button>
+                <Button
+                  block
+                  disabled={!account}
+                  loading={sendTrxLoading}
+                  onClick={sendTrx}
+                >
+                  打赏作者
                 </Button>
               </Space>
             </Card>
