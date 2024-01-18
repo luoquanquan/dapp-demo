@@ -5,6 +5,7 @@ import useConnect from './hooks/useConnect';
 import Connect from '../../components/Connect';
 import Account from '../../components/Account';
 import SignMessage from './components/SignMessage';
+import SignTransaction from './components/SignTransaction';
 
 function Solana() {
   const { account, handleConnect } = useConnect();
@@ -14,6 +15,7 @@ function Solana() {
       <Account account={account} />
       <Connect handleConnect={handleConnect} account={account} />
       <SignMessage account={account} />
+      <SignTransaction account={account} />
     </Space>
   );
 }

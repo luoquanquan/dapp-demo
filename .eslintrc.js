@@ -13,6 +13,7 @@ module.exports = {
     tronLink: 'readonly',
     tronWeb: 'readonly',
     aptos: 'readonly',
+    solana: 'readonly',
   },
   overrides: [
   ],

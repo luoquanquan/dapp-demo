@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button, Card, Space, message,
 } from 'antd';
 
@@ -17,16 +16,11 @@ function SignMessage({ account }) {
   };
 
   return (
-    <Card title="签名 (signMessage)">
+    <Card title="签名 - 请打开控制台查看签名结果">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Card direction="vertical">
           <Space direction="vertical" style={{ width: '100%' }}>
             <Button disabled={!account} block onClick={handleSignMsg}>签名</Button>
-            <Alert
-              type="warning"
-              message="Result"
-              description="请打开控制台查看"
-            />
           </Space>
         </Card>
       </Space>
