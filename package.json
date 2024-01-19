@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@solana/spl-token": "^0.3.11",
     "@solana/web3.js": "^1.89.1",
     "antd": "^5.11.1",
     "eth-sig-util": "^3.0.1",

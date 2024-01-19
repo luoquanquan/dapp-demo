@@ -32,5 +32,6 @@ module.exports = {
     'no-unused-expressions': 0,
     'no-param-reassign': 0,
     camelcase: 0,
+    'no-console': 0,
   },
 };
