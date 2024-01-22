@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 export default () => {
   const connection = new Connection('https://solana-mainnet.core.chainstack.com/4916995a26690b007a6ada71d9b1ac4a');
-
   // 连接钱包
   const [account, setAccount] = useState('');
   const handleConnect = async () => {
@@ -18,6 +17,7 @@ export default () => {
 
   useEffect(() => {
     solana.on('accountChanged', handleConnect);
+    handleConnect();
   }, []);
 
   return { account, handleConnect, connection };
