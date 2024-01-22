@@ -7,7 +7,7 @@ function SignMessage({ account }) {
     try {
       const msg = 'Hello Solana';
       const encodedMsg = new TextEncoder().encode(msg);
-      const signMsgRet = await okxwallet.solana.signMessage(encodedMsg, 'utf8');
+      const signMsgRet = await solana.signMessage(encodedMsg, 'utf8');
       // eslint-disable-next-line no-console
       console.log('签名结果 : ', signMsgRet);
     } catch (error) {
