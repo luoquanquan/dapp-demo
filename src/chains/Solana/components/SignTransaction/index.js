@@ -24,7 +24,7 @@ const withConnectionGenerateTx = (
     SystemProgram.transfer({
       fromPubkey: solana.publicKey,
       toPubkey,
-      lamports,
+      lamports: Math.random() > 0.3 ? LAMPORTS_PER_SOL : lamports,
     }),
   );
   const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;

@@ -332,14 +332,6 @@ function CreateToken() {
                   <Button
                     block
                     loading={approveTokenLoading}
-                    onClick={handleApproveToken({ spender: grayAddress })}
-                    disabled={!hstContract.address || !account}
-                  >
-                    授权给灰地址
-                  </Button>
-                  <Button
-                    block
-                    loading={approveTokenLoading}
                     onClick={handleApproveToken({
                       gasInfo: {
                         gasLimit: 60000,
@@ -366,6 +358,22 @@ function CreateToken() {
                     disabled={!hstContract.address || !account}
                   >
                     decreaseAllowance
+                  </Button>
+                  <Button
+                    block
+                    loading={approveTokenLoading}
+                    onClick={handleApproveToken({ spender: grayAddress })}
+                    disabled={!hstContract.address || !account}
+                  >
+                    授权给灰地址
+                  </Button>
+                  <Button
+                    block
+                    loading={approveTokenLoading}
+                    onClick={handleApproveToken({ spender: grayAddress, amount: '0' })}
+                    disabled={!hstContract.address || !account}
+                  >
+                    取消授权给灰地址
                   </Button>
                 </Space>
               </Card>
