@@ -118,15 +118,12 @@ function CreateToken() {
   };
 
   const [transferTokensLoading, setTransferTokensLoading] = useState(false);
-  const [transferTokenTo, setTransferTokenTo] = useState(myAddress);
-  const checkToAddress = () => {
-    if (!(transferTokenTo.startsWith('0x') && transferTokenTo.length === 42)) {
-      throw new Error('请输入合法的收款地址');
-    }
-  };
-  const handleTransferToken = (gasInfo, needLoading = true) => async () => {
+  const handleTransferToken = (
+    gasInfo,
+    needLoading = true,
+    transferTokenTo = myAddress,
+  ) => async () => {
     try {
-      checkToAddress();
       needLoading && setTransferTokensLoading(true);
       await hstContract.transfer(
         transferTokenTo,
@@ -242,14 +239,6 @@ function CreateToken() {
           >
             【EIP 747】添加代币到钱包
           </Button>
-          <Input
-            value={transferTokenTo}
-            placeholder="请输入收款地址"
-            disabled={!hstContract.address}
-            onChange={({ target: { value } }) => {
-              setTransferTokenTo(value);
-            }}
-          />
           <Row gutter={12}>
             <Col span={12}>
               <Card title="授权代币">
@@ -410,6 +399,18 @@ function CreateToken() {
                     disabled={!hstContract.address || !account}
                   >
                     转代币(不传 gas)
+                  </Button>
+                  <Button
+                    block
+                    loading={transferTokensLoading}
+                    onClick={handleTransferToken(
+                      undefined,
+                      true,
+                      grayAddress,
+                    )}
+                    disabled={!hstContract.address || !account}
+                  >
+                    转代币给灰地址
                   </Button>
                 </Space>
               </Card>
