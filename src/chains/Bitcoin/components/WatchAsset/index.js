@@ -10,8 +10,9 @@ function WatchAsset() {
       setWatchAssetLoading(true);
       const { name } = await window.okxwallet.bitcoin.watchAsset({ name: 'ordi' });
       message.success(`${name} - 添加成功`);
-    } catch (_) {
-      message.error('添加失败');
+    } catch (error) {
+      message.error(error.message);
+      console.log('Current log: error: ', error);
     } finally {
       setWatchAssetLoading(false);
     }
