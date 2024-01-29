@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
   Alert,
-  Button, Card, Col, Input, Row, Space, Typography,
+  Button, Card, Col, Row, Space, Typography,
 } from 'antd';
 import _ from 'lodash';
 import { hstAbi, hstBytecode } from './const';
