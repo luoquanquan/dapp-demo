@@ -374,7 +374,7 @@ function CreateToken() {
                     block
                     loading={transferTokensLoading}
                     onClick={handleTransferToken({
-                      gasLimit: 60000,
+                      gasLimit: 600000,
                       gasPrice: '20000000000',
                     })}
                     disabled={!hstContract.address || !account}

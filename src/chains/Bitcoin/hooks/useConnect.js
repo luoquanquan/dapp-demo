@@ -15,7 +15,7 @@ export default () => {
   };
 
   useEffect(() => {
-    okxwallet.on('walletChanged', ([connected]) => {
+    okxwallet.bitcoin.on('walletChanged', ([connected]) => {
       if (connected) {
         handleConnect();
       } else {
