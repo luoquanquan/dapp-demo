@@ -1,16 +1,11 @@
 import { Button, Card, Space } from 'antd';
-import onekey from '@onekeyfe/onekey-near-provider';
+import { OneKeyNearProvider } from '@onekeyfe/onekey-near-provider';
 
-console.log('Current log: onekey: ', onekey);
-
-// const provider = new OneKeyNearProvider();
-
+const provider = new OneKeyNearProvider();
 function OneKey() {
   const near_accounts = async () => {
-    // const res = await provider.request({
-    //   method: 'near_accounts',
-    // });
-    // console.log('Current log: res: ', res);
+    const res = await provider.requestSignIn();
+    console.log('Current log: res: ', res);
   };
 
   return (
