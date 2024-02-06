@@ -12,6 +12,7 @@ import Stacks from './chains/Stacks';
 import Starknet from './chains/Starknet';
 import Cosmos from './chains/Cosmos';
 import Bitcoin from './chains/Bitcoin';
+import NEAR from './chains/NEAR';
 import ProjectInfo from './components/ProjectInfo';
 
 const localTabKey = 'localTabKey';
@@ -26,6 +27,7 @@ const tabs = [
   Bitcoin,
   Stacks,
   Starknet,
+  NEAR,
 ];
 
 export default function App() {
