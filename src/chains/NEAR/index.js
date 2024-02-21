@@ -5,7 +5,7 @@ import Account from '../../components/Account';
 import Connect from '../../components/Connect';
 import useConnect from './hooks/useConnect';
 import Sender from './components/Sender';
-import OneKey from './components/Onekey';
+// import OneKey from './components/Onekey';
 
 // const {
 //   utils: {
@@ -24,7 +24,7 @@ function NEAR() {
     <Space direction="vertical" style={{ width: '100%' }}>
       <Account account={account} />
       <Connect handleConnect={handleConnect} account={account} />
-      <OneKey />
+      {/* <OneKey /> */}
       <Sender />
     </Space>
   );
