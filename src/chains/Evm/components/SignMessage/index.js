@@ -29,10 +29,9 @@ function SignMessage({ account, chainId }) {
 
   const [personal_signLoading, setPersonal_signLoading] = useState(false);
   const [personalSignRet, setPersonalSignRet] = useState('');
-  const handlePersonalSign = async () => {
+  const handlePersonalSign = (msg = 'Example `personal_sign` message') => async () => {
     try {
       setPersonal_signLoading(true);
-      const msg = 'Example `personal_sign` message';
       const ret = await ethereum.request({
         method: 'personal_sign',
         params: [msg, account, 'Example password'],
@@ -286,10 +285,26 @@ function SignMessage({ account, chainId }) {
                 <Button
                   block
                   disabled={!account}
-                  onClick={handlePersonalSign}
+                  onClick={handlePersonalSign()}
                   loading={personal_signLoading}
                 >
                   personal_sign
+                </Button>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={handlePersonalSign('0x010000000f1088000000000055f7428300000001fe0065d1d2ad2105ff003cff5c3c80db8b05601f46c35b79f5c6ff3ef6f703fc')}
+                  loading={personal_signLoading}
+                >
+                  personal_sign_with_Garbled
+                </Button>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={handlePersonalSign('我叫罗圈圈')}
+                  loading={personal_signLoading}
+                >
+                  personal_sign_with_Chinese_char
                 </Button>
                 <Alert
                   type="info"
