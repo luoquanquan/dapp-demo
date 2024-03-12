@@ -1,9 +1,12 @@
-import { Card } from 'antd';
+import { Card, Space } from 'antd';
 
-export default function Account({ account }) {
+export default function Account({ account, children }) {
   return (
     <Card title="当前连接账户">
-      {account || '未连接'}
+      <Space direction="vertical">
+        {account || '未连接'}
+        {children}
+      </Space>
     </Card>
   );
 }

@@ -98,6 +98,20 @@ function CreateToken() {
   const wallet_watchAsset = async () => {
     try {
       setWatchAssetLoading(true);
+      const data = {
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: hstContract.address,
+            symbol,
+            decimals,
+            image,
+          },
+        },
+      };
+
+      console.log('Current log: data: ', data);
       await ethereum.request({
         method: 'wallet_watchAsset',
         params: {

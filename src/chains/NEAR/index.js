@@ -1,31 +1,47 @@
-import { Space } from 'antd';
-// import * as nearApi from 'near-api-js';
-// import { Contract, utils } from 'near-api-js';
+import {
+  Button,
+  Card, Col, Row, Space,
+} from 'antd';
 import Account from '../../components/Account';
-import Connect from '../../components/Connect';
 import useConnect from './hooks/useConnect';
-import Sender from './components/Sender';
-// import OneKey from './components/Onekey';
-
-// const {
-//   utils: {
-//     format: { parseNearAmount },
-//   },
-// } = nearApi;
-
-// account creation costs 0.00125 NEAR for storage, 0.00000000003 NEAR for gas
-// https://docs.near.org/docs/api/naj-cookbook#wrap-and-unwrap-near
-// const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
+import Common from './components/Common';
+import DappSelf from './components/DappSelf';
 
 function NEAR() {
-  const { account, handleConnect } = useConnect();
+  const {
+    loading, account, access, handleConnect, handleDisConnect, handleConnectWithContractId,
+  } = useConnect();
 
+  console.log('Current log: access: ', access);
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <Account account={account} />
-      <Connect handleConnect={handleConnect} account={account} />
-      {/* <OneKey /> */}
-      <Sender />
+      <Account account={account}>
+        {access && <div>{access.publicKey}</div>}
+      </Account>
+
+      <Card title="连接状态">
+        <Space>
+          <Button loading={loading} type="primary" disabled={account} onClick={handleConnect}>连接钱包</Button>
+          <Button loading={loading} type="primary" disabled={account} onClick={handleConnectWithContractId}>连接钱包绑定合约地址</Button>
+          <Button
+            loading={loading}
+            danger
+            disabled={!account}
+            onClick={handleDisConnect}
+          >
+            断开连接
+          </Button>
+        </Space>
+      </Card>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <Common account={account} />
+        </Col>
+        <Col span={12}>
+          <DappSelf account={account} access={access} />
+        </Col>
+      </Row>
     </Space>
   );
 }

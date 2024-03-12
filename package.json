@@ -36,6 +36,7 @@
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.4.5",
+    "near-api-js": "^3.0.3",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^6.2.1",
