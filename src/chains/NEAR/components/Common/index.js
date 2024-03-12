@@ -4,19 +4,22 @@ import {
 import { useState } from 'react';
 import { wNearContractId } from '../../const';
 
-const myNearWallet = 'efad2cea4242f19eba36ea0038161fc803e2af6682b575fa1c4e9d48f8019dae';
+const myNearWallet = ['efad2cea4242f19eba36ea0038161fc803e2af6682b575fa1c4e9d48f8019dae', 'c1f0f7bc0deed7d2151e7987ad2aca74b8e856c1f87efa93fec1ff4075b4d6e4'];
 function Common({ account }) {
+  const getMyNearWallet = () => (myNearWallet[0] === account ? myNearWallet[1] : myNearWallet[0]);
+
   const [sendMoneyLoading, setSendMoneyLoading] = useState(false);
   const sendMoney = async () => {
     try {
       setSendMoneyLoading(true);
       const resp = await window.near.sendMoney({
-        receiverId: myNearWallet,
+        receiverId: getMyNearWallet(),
         amount: '10000000000000000',
       });
 
       console.log('Current log: resp: ', resp);
     } catch (error) {
+      console.log('Current log: error: ', error);
       message.error(error.message);
     } finally {
       setSendMoneyLoading(false);
@@ -38,6 +41,7 @@ function Common({ account }) {
           },
         ],
       };
+      console.log('Current log: dataForSign: ', dataForSign);
       const resp = await window.near.signAndSendTransaction(dataForSign);
       console.log('Current log: resp: ', resp);
     } catch (error) {
@@ -57,7 +61,7 @@ function Common({ account }) {
           {
             methodName: 'ft_transfer',
             args: {
-              receiver_id: myNearWallet,
+              receiver_id: getMyNearWallet(),
               amount: '10000',
             },
             deposit: '1',
@@ -67,6 +71,7 @@ function Common({ account }) {
       const resp = await window.near.signAndSendTransaction(dataForSign);
       console.log('Current log: resp: ', resp);
     } catch (error) {
+      console.log('Current log: error: ', error);
       message.error(error.message);
     } finally {
       setSendWNearLoading(false);
@@ -91,7 +96,7 @@ function Common({ account }) {
           {
             methodName: 'ft_transfer',
             args: {
-              receiver_id: myNearWallet,
+              receiver_id: getMyNearWallet(),
               amount: '1000',
             },
             deposit: '1',
@@ -99,9 +104,11 @@ function Common({ account }) {
         ],
       };
 
+      console.log('Current log: transaction: ', transaction);
       const resp = await window.near.signAndSendTransaction(transaction);
       console.log('Current log: resp: ', resp);
     } catch (error) {
+      console.log('Current log: error: ', error);
       message.error(error.message);
     } finally {
       setSwapAndSendWNearWithActionsLoading(false);
@@ -133,7 +140,7 @@ function Common({ account }) {
               {
                 methodName: 'ft_transfer',
                 args: {
-                  receiver_id: myNearWallet,
+                  receiver_id: getMyNearWallet(),
                   amount: '10000000000',
                 },
                 deposit: '1',
@@ -142,9 +149,11 @@ function Common({ account }) {
           },
         ],
       };
+      console.log('Current log: dataForCheck: ', dataForCheck);
       const resp = await window.near.requestSignTransactions(dataForCheck);
       console.log('Current log: resp: ', resp);
     } catch (error) {
+      console.log('Current log: error: ', error);
       message.error(error.message);
     } finally {
       setSwapAndSendWNearWithTransactionsLoadingLoading(false);

@@ -30,13 +30,17 @@ export default () => {
   };
 
   useEffect(() => {
-    okxwallet.on('walletChanged', ([connected]) => {
-      if (connected) {
-        handleConnect();
-      } else {
-        setAccount('');
-      }
-    });
+    try {
+      okxwallet.on('walletChanged', ([connected]) => {
+        if (connected) {
+          handleConnect();
+        } else {
+          setAccount('');
+        }
+      });
+    } catch (error) {
+      console.log('Current log: error: ', error);
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const dontAutoConnect = urlParams.get('dontAutoConnect');

@@ -26,7 +26,7 @@ export default () => {
   const [loading, setLoading] = useState(false);
   // 连接钱包
   const [account, setAccount] = useState('');
-  const [access, setAccess] = useState(accessFull_dae);
+  const [access, setAccess] = useState(null);
 
   const handleConnect = async () => {
     try {
@@ -63,6 +63,8 @@ export default () => {
 
   const handleDisConnect = () => {
     window.near.signOut();
+    setAccount('');
+    setAccess(null);
   };
 
   useEffect(() => {

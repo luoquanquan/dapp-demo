@@ -16,13 +16,17 @@ export default () => {
   };
 
   useEffect(() => {
-    okxwallet.on('walletChanged', ([connected]) => {
-      if (connected) {
-        handleConnect();
-      } else {
-        setAccount('');
-      }
-    });
+    try {
+      okxwallet.on('walletChanged', ([connected]) => {
+        if (connected) {
+          handleConnect();
+        } else {
+          setAccount('');
+        }
+      });
+    } catch (error) {
+      console.log('Current log: error: ', error);
+    }
   }, []);
 
   return { account, handleConnect };
