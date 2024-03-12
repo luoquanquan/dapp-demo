@@ -116,14 +116,15 @@ function DappSelf({ access }) {
         >
           ftBalanceOf
         </Button>
-
+        {/*
+        需要全量权限
         <Button
           block
           loading={ftTransferLoading}
           onClick={ftTransfer}
         >
           ftTransfer
-        </Button>
+        </Button> */}
       </Space>
     </Card>
   );
