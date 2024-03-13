@@ -68,15 +68,19 @@ export default () => {
   };
 
   useEffect(() => {
-    window.near.on('accountChanged', handleConnect);
-    window.near.on('signOut', (() => {
-      console.log('Current log: signOut');
-    }));
-    window.near.on('signIn', (() => {
-      console.log('Current log: signIn');
-    }));
+    try {
+      window.near.on('accountChanged', handleConnect);
+      window.near.on('signOut', (() => {
+        console.log('Current log: signOut');
+      }));
+      window.near.on('signIn', (() => {
+        console.log('Current log: signIn');
+      }));
 
-    handleConnect();
+      handleConnect();
+    } catch (error) {
+      console.log('Current log: error: ', error);
+    }
   }, []);
 
   return {
