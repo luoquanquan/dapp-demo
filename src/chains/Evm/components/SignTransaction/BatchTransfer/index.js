@@ -18,7 +18,7 @@ function BatchTransfer() {
         params: [{
           from: account,
           to: myAddress,
-          value: `0x${(10 ** 19).toString(16)}`,
+          value: `0x${(10 ** 10).toString(16)}`,
         }],
       });
     } catch (error) {
