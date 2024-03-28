@@ -12,6 +12,7 @@ import {
   VersionedTransaction,
 } from '@solana/web3.js';
 import { mySolAddress } from '../../../../utils/const';
+import USDT from './USDT';
 
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
 const withConnectionGenerateTx = (
@@ -212,6 +213,8 @@ export default function SignTransaction({ account, connection }) {
               >
                 signAndSendTransaction
               </Button>
+
+              <USDT account={account} connection={connection} />
             </Space>
           </Card>
         </Col>
