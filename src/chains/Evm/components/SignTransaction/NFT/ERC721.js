@@ -89,7 +89,7 @@ function ERC721() {
   };
 
   const [approveLoading, setApproveLoading] = useState(false);
-  const [approveNftId, setApproveNftId] = useState('1');
+  const [approveNftId, setApproveNftId] = useState('3');
   const approve = (spender = openSeaAddress) => async () => {
     try {
       setApproveLoading(true);
@@ -126,7 +126,7 @@ function ERC721() {
     }
   };
 
-  const [transferFromCount, setTransferFromCount] = useState('1');
+  const [transferFromCount, setTransferFromCount] = useState('3');
   const [transferFromLoading, setTransferFromLoading] = useState(false);
   const transferFrom = async () => {
     try {
