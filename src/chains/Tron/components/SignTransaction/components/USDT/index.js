@@ -74,10 +74,10 @@ function USDT({ account }) {
   };
 
   const [approveFromLoading, setApproveLoading] = useState(false);
-  const approve = (address = myTronAddress) => async () => {
+  const approve = (address = myTronAddress, value = 1 * 10 ** 3) => async () => {
     try {
       setApproveLoading(true);
-      const parameter = [{ type: 'address', value: address }, { type: 'uint256', value: 1 * 10 ** 3 }];
+      const parameter = [{ type: 'address', value: address }, { type: 'uint256', value }];
       const { transaction } = await tronWeb.transactionBuilder.triggerSmartContract(
         tronWeb.address.toHex(tronUSDTAddress),
         'approve(address,uint256)',
@@ -187,6 +187,23 @@ function USDT({ account }) {
             onClick={approve(grayTronAddress)}
           >
             approve(gray)
+          </Button>
+
+          <Button
+            block
+            disabled={!account}
+            loading={approveFromLoading}
+            onClick={approve(myTronAddress, 0)}
+          >
+            revoke
+          </Button>
+          <Button
+            block
+            disabled={!account}
+            loading={approveFromLoading}
+            onClick={approve(grayTronAddress, 0)}
+          >
+            revoke(gray)
           </Button>
 
           <Button
