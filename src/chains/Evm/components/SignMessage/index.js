@@ -68,7 +68,7 @@ function SignMessage({ account, chainId }) {
       setTypedDataSignLoading(true);
       const ret = await ethereum.request({
         method: 'eth_signTypedData',
-        params: [[1, 2, 3], account],
+        params: [typedDataMsg, account],
       });
       setTypedDataSignRet(ret);
     } catch (error) {
