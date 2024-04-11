@@ -7,7 +7,7 @@ export default () => {
     Promise.all([
       ethereum.request({ method: 'eth_chainId' }),
     ]).then((resp) => {
-      setChainId(resp[0]);
+      setChainId(+resp[0]);
     });
   };
   useEffect(() => {
