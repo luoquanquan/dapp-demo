@@ -76,8 +76,6 @@ export default () => {
       window.near.on('signIn', (() => {
         console.log('Current log: signIn');
       }));
-
-      handleConnect();
     } catch (error) {
       console.log('Current log: error: ', error);
     }
