@@ -4,6 +4,7 @@ import {
 } from 'antd';
 import { useState } from 'react';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
+import Permit from './components/Permit';
 
 function SignMessage({ account, chainId }) {
   const [eth_signLoading, setEth_signLoading] = useState(false);
@@ -370,12 +371,6 @@ function SignMessage({ account, chainId }) {
                   message="Result"
                   description={eth_signTypedData_v4Ret}
                 />
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card direction="vertical" title="Sign Typed Data V4 with Error">
-              <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
                   block
                   disabled={!account}
@@ -392,6 +387,7 @@ function SignMessage({ account, chainId }) {
               </Space>
             </Card>
           </Col>
+          <Permit chainId={chainId} />
         </Row>
         <Row gutter={16}>
           <GetEncryptPublicKey />
