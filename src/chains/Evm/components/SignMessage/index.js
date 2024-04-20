@@ -1,6 +1,6 @@
 import {
   Alert,
-  Button, Card, Col, Row, Space, message,
+  Button, Card, Col, Row, Space, message, Popover,
 } from 'antd';
 import { useState } from 'react';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
@@ -331,6 +331,17 @@ function SignMessage({ account, chainId }) {
                 >
                   longSignText
                 </Button>
+                <Popover content="eip712NotStandard & longSignText">
+                  <Button
+                    block
+                    disabled={!account}
+                    onClick={eth_signTypedData_v4({ verifyingContract: '34567890ihdauhfljadfja', fakeMsg: true })}
+                    loading={eth_signTypedData_v4Loading}
+                  >
+                    both
+                  </Button>
+                </Popover>
+
                 <Alert
                   type="info"
                   message="Result"

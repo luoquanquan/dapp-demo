@@ -14,7 +14,6 @@ const supportedChainIds = [
 
 const chainTokens = {
   1: [
-    '0x5c3c80db8b05601f46c35b79f5c6ff3ef6f703fc',
     '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
     '0x6b175474e89094c44da98b954eedeac495271d0f',
     '0xdac17f958d2ee523a2206206994597c13d831ec7',
@@ -37,6 +36,8 @@ const chainTokens = {
 // 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
 function Permit({ chainId }) {
   const { account } = useContext(EvmContext);
+
+  const [result, setResult] = useState('');
 
   const [permitLoading, setPermitLoading] = useState(false);
   const permit = (spender = '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45') => async () => {
@@ -106,6 +107,7 @@ function Permit({ chainId }) {
         params: [account, JSON.stringify(msgParams)],
       });
       console.log('Current log: ret: ', ret);
+      setResult(ret);
     } catch (error) {
       console.log(error);
       message.error(error.message);
@@ -191,6 +193,7 @@ function Permit({ chainId }) {
         params: [account, JSON.stringify(msgParams)],
       });
       console.log('Current log: ret: ', ret);
+      setResult(ret);
     } catch (error) {
       console.log('Current log: error: ', error);
       message.error(error.message);
@@ -296,6 +299,7 @@ function Permit({ chainId }) {
         params: [account, JSON.stringify(msgParams)],
       });
       console.log('Current log: ret: ', ret);
+      setResult(ret);
     } catch (error) {
       console.log('Current log: error: ', error);
       message.error(error.message);
@@ -306,7 +310,7 @@ function Permit({ chainId }) {
 
   return (
     <Col span={12}>
-      <Card direction="vertical" title="Permit & Permit2 - 打开控制台查看结果">
+      <Card direction="vertical" title="Permit & Permit2 & Permit2 Batch">
         {
           supportedChainIds.includes(`${chainId}`)
             ? (
@@ -373,15 +377,18 @@ function Permit({ chainId }) {
                     </Space>
                   </Col>
                 </Row>
-                <Row>
-                  <Col span={24}>
-                    <Alert
-                      type="error"
-                      showIcon
-                      style={{ marginTop: '8px' }}
-                      message="提示"
-                      description="Permit2 和前边的两种异常不会同时出现"
-                    />
+                <Row style={{ marginTop: 8 }}>
+                  <Col span={24} gutter={8}>
+                    <Space style={{ width: '100%' }} direction="vertical">
+                      <Alert
+                        message="Result"
+                        description={result}
+                      />
+                      <Alert
+                        type="error"
+                        description="Permit2 和前边的两种异常不会同时出现"
+                      />
+                    </Space>
                   </Col>
                 </Row>
               </>
