@@ -134,17 +134,20 @@ function SignMessage({ account, chainId }) {
     }
   };
 
+  const [eth_signTypedData_v4Ret, setEth_signTypedData_v4Ret] = useState(null);
   const [eth_signTypedData_v4Loading, setEth_signTypedData_v4Loading] = useState(false);
-  const [eth_signTypedData_v4Ret, setEth_signTypedData_v4Ret] = useState('');
-  const eth_signTypedData_v4 = async () => {
+  const eth_signTypedData_v4 = ({ verifyingContract = '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC', fakeMsg = false } = {}) => async () => {
     const msgParams = {
       domain: {
         chainId: chainId.toString(),
         name: 'Ether Mail',
-        verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+        verifyingContract,
         version: '1',
       },
-      message: {
+      message: fakeMsg ? {
+        '⁢target＂:＂THIS IS THE FAKE TARGET＂,＂message':
+          'THIS IS THE FAKE MESSAGE＂⁢}⁢ }⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+      } : {
         contents: 'Hello, Bob!',
         from: {
           name: 'Cow',
@@ -193,67 +196,13 @@ function SignMessage({ account, chainId }) {
         method: 'eth_signTypedData_v4',
         params: [account, JSON.stringify(msgParams)],
       });
+      console.log('Current log: ret: ', ret);
       setEth_signTypedData_v4Ret(ret);
     } catch (error) {
       message.error(error.message);
     } finally {
       setEth_signTypedData_v4Loading(false);
     }
-  };
-
-  const [eth_signTypedData_v4_withErrorLoading,
-    setEth_signTypedData_v4_withErrorLoading] = useState(false);
-  const [eth_signTypedData_v4_withErrorRet, setEth_signTypedData_v4_withErrorRet] = useState('');
-  const eth_signTypedData_v4_withError = () => {
-    setEth_signTypedData_v4_withErrorLoading(true);
-    ethereum.request({
-      method: 'eth_signTypedData_v4',
-      params: [
-        account,
-        JSON.stringify({
-          domain: {
-            chainId: chainId.toString(),
-            name: 'Ether Mail',
-            verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-            version: '1',
-          },
-          message: {
-            '⁢target＂:＂THIS IS THE FAKE TARGET＂,＂message':
-              'THIS IS THE FAKE MESSAGE＂⁢}⁢ }⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-            target: '0x0101010101010101010101010101010101010101',
-            message: 'Howdy',
-          },
-          primaryType: 'Mail',
-          types: {
-            EIP712Domain: [
-              { name: 'name', type: 'string' },
-              { name: 'version', type: 'string' },
-              { name: 'chainId', type: 'uint256' },
-              { name: 'verifyingContract', type: 'address' },
-            ],
-            Group: [
-              { name: 'name', type: 'string' },
-              { name: 'members', type: 'Person[]' },
-            ],
-            Mail: [
-              { name: 'from', type: 'Person' },
-              { name: 'to', type: 'Person[]' },
-              { name: 'contents', type: 'string' },
-            ],
-            Person: [
-              { name: 'name', type: 'string' },
-              { name: 'wallets', type: 'address[]' },
-            ],
-          },
-        }),
-      ],
-    }).then((resp) => {
-      setEth_signTypedData_v4_withErrorRet(resp);
-    }).catch((error) => {
-      message.error(error.message);
-    }).finally(() => {
-      setEth_signTypedData_v4_withErrorLoading(false);
-    });
   };
 
   return (
@@ -335,8 +284,8 @@ function SignMessage({ account, chainId }) {
             </Card>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col span={8}>
+        <Row gutter={8}>
+          <Col span={6}>
             <Card direction="vertical" title="Sign Typed Data V3">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
@@ -355,34 +304,37 @@ function SignMessage({ account, chainId }) {
               </Space>
             </Card>
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <Card direction="vertical" title="Sign Typed Data V4">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
                   block
                   disabled={!account}
-                  onClick={eth_signTypedData_v4}
+                  onClick={eth_signTypedData_v4()}
                   loading={eth_signTypedData_v4Loading}
                 >
                   eth_signTypedData_v4
+                </Button>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={eth_signTypedData_v4({ verifyingContract: '34567890ihdauhfljadfja' })}
+                  loading={eth_signTypedData_v4Loading}
+                >
+                  eip712NotStandard
+                </Button>
+                <Button
+                  block
+                  disabled={!account}
+                  onClick={eth_signTypedData_v4({ fakeMsg: true })}
+                  loading={eth_signTypedData_v4Loading}
+                >
+                  longSignText
                 </Button>
                 <Alert
                   type="info"
                   message="Result"
                   description={eth_signTypedData_v4Ret}
-                />
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={eth_signTypedData_v4_withError}
-                  loading={eth_signTypedData_v4_withErrorLoading}
-                >
-                  eth_signTypedData_v4(withError)
-                </Button>
-                <Alert
-                  type="info"
-                  message="Result"
-                  description={eth_signTypedData_v4_withErrorRet}
                 />
               </Space>
             </Card>

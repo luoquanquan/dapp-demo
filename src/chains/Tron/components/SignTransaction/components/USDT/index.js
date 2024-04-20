@@ -86,6 +86,7 @@ function USDT({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
+      console.log('Current log: signedTx: ', signedTx);
       await tronWeb.trx.sendRawTransaction(signedTx);
     } catch (error) {
       console.error(error);

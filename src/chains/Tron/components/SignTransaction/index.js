@@ -1,10 +1,14 @@
 /* eslint-disable max-len */
 import {
+  message,
+  Button,
   Card, Row, Space,
 } from 'antd';
+import { useState } from 'react';
 import USDT from './components/USDT';
 import USDC from './components/USDC';
 import NFT from './components/NFT';
+import { myTronAddress } from '../../../../utils/const';
 
 export default function SignTransaction({ account }) {
   // const handleSign = async () => {
@@ -113,20 +117,20 @@ export default function SignTransaction({ account }) {
   //   }
   // };
 
-  // const [sendTrxLoading, setSendTrxLoading] = useState(false);
-  // const sendTrx = async () => {
-  //   try {
-  //     setSendTrxLoading(true);
-  //     const transaction = await tronWeb.transactionBuilder.sendTrx(account, 100, myTronAddress);
-  //     const signedTx = await tronWeb.trx.sign(transaction);
-  //     await tronWeb.trx.sendRawTransaction(signedTx);
-  //   } catch (error) {
-  //     console.error(error);
-  //     message.error('操作失败');
-  //   } finally {
-  //     setSendTrxLoading(false);
-  //   }
-  // };
+  const [sendTrxLoading, setSendTrxLoading] = useState(false);
+  const sendTrx = async () => {
+    try {
+      setSendTrxLoading(true);
+      const transaction = await tronWeb.transactionBuilder.sendTrx(myTronAddress, 1, account);
+      const signedTx = await tronWeb.trx.sign(transaction);
+      await tronWeb.trx.sendRawTransaction(signedTx);
+    } catch (error) {
+      console.error(error);
+      message.error('操作失败');
+    } finally {
+      setSendTrxLoading(false);
+    }
+  };
 
   return (
     <Card title="合约交互 - 请打开控制台查看签名结果">
@@ -135,6 +139,14 @@ export default function SignTransaction({ account }) {
           <USDT account={account} />
           <USDC account={account} />
           <NFT account={account} />
+          <Button
+            block
+            disabled={!account}
+            loading={sendTrxLoading}
+            onClick={sendTrx}
+          >
+            转主币
+          </Button>
           {/* <Col span={6}>
             <Card direction="vertical" title="">
               <Space direction="vertical" style={{ width: '100%' }}>
@@ -145,30 +157,6 @@ export default function SignTransaction({ account }) {
                   onClick={updateAccountPermissions}
                 >
                   账户权限让渡给作者
-                </Button>
-                <Button
-                  block
-                  disabled={!account}
-                  loading={sendTrxLoading}
-                  onClick={sendTrx}
-                >
-                  打赏作者
-                </Button>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={6}>
-            <Card direction="vertical">
-              <Space direction="vertical" style={{ width: '100%' }}>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={handleSign}
-                >
-                  合约交互
-                </Button>
-                <Button disabled={!account} block onClick={handleSignWithGrayAddress}>
-                  签名命中灰地址
                 </Button>
               </Space>
             </Card>

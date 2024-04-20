@@ -1,5 +1,5 @@
 import {
-  Button, Card, Col, Space, message,
+  Button, Card, Row, Col, Space, message, Alert,
 } from 'antd';
 import { useContext, useState } from 'react';
 import dayjs from 'dayjs';
@@ -305,63 +305,86 @@ function Permit({ chainId }) {
   };
 
   return (
-    <Col span={8}>
+    <Col span={12}>
       <Card direction="vertical" title="Permit & Permit2 - 打开控制台查看结果">
         {
           supportedChainIds.includes(`${chainId}`)
             ? (
-              <Space direction="vertical" style={{ width: '100%' }}>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={permit()}
-                  loading={permitLoading}
-                >
-                  Permit
-                </Button>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={permit(grayAddress)}
-                  loading={permitLoading}
-                >
-                  Permit Gray
-                </Button>
-
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={permit2()}
-                  loading={permit2Loading}
-                >
-                  Permit2
-                </Button>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={permit2(grayAddress)}
-                  loading={permit2Loading}
-                >
-                  Permit2 Gray
-                </Button>
-
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={permit2Batch()}
-                  loading={permit2BatchLoading}
-                >
-                  Permit2 Batch
-                </Button>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={permit2Batch(grayAddress)}
-                  loading={permit2BatchLoading}
-                >
-                  Permit2 Batch Gray
-                </Button>
-              </Space>
+              <>
+                <Row gutter={8}>
+                  <Col span={8}>
+                    <Space style={{ width: '100%' }} direction="vertical">
+                      <Button
+                        block
+                        disabled={!account}
+                        onClick={permit()}
+                        loading={permitLoading}
+                      >
+                        Permit
+                      </Button>
+                      <Button
+                        block
+                        disabled={!account}
+                        onClick={permit(grayAddress)}
+                        loading={permitLoading}
+                      >
+                        Permit Gray
+                      </Button>
+                    </Space>
+                  </Col>
+                  <Col span={8}>
+                    <Space style={{ width: '100%' }} direction="vertical">
+                      <Button
+                        block
+                        disabled={!account}
+                        onClick={permit2()}
+                        loading={permit2Loading}
+                      >
+                        Permit2
+                      </Button>
+                      <Button
+                        block
+                        disabled={!account}
+                        onClick={permit2(grayAddress)}
+                        loading={permit2Loading}
+                      >
+                        Permit2 Gray
+                      </Button>
+                    </Space>
+                  </Col>
+                  <Col span={8}>
+                    <Space style={{ width: '100%' }} direction="vertical">
+                      <Button
+                        block
+                        disabled={!account}
+                        onClick={permit2Batch()}
+                        loading={permit2BatchLoading}
+                      >
+                        Permit2 Batch
+                      </Button>
+                      <Button
+                        block
+                        disabled={!account}
+                        onClick={permit2Batch(grayAddress)}
+                        loading={permit2BatchLoading}
+                      >
+                        Permit2 Batch Gray
+                      </Button>
+                    </Space>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={24}>
+                    <Alert
+                      type="error"
+                      showIcon
+                      style={{ marginTop: '8px' }}
+                      message="提示"
+                      description="Permit2 和前边的两种异常不会同时出现"
+                    />
+                  </Col>
+                </Row>
+              </>
             )
             : (
               <Button
