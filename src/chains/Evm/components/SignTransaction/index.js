@@ -1,6 +1,7 @@
 import {
   Card, Col, Row, Space,
 } from 'antd';
+import GasinfoConfig from './GasinfoConfig';
 import CreateToken from './CreateToken';
 import GrayAddress from './GrayAddress';
 import NFT from './NFT';
@@ -30,6 +31,11 @@ export default function SignTransaction() {
         <Row gutter={16}>
           <Col span={12}>
             <GrayAddress />
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={12}>
+            <GasinfoConfig />
           </Col>
         </Row>
       </Space>
