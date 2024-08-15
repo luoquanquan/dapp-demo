@@ -22,6 +22,10 @@ export default () => {
         setAccount('');
       }
     });
+
+    okxwallet.bitcoin.on('accountChanged', (...args) => {
+      console.log('Current log: args: ', args);
+    });
   }, []);
 
   return { account, handleConnect };

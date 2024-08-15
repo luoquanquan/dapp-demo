@@ -6,6 +6,7 @@ import Connect from '../../components/Connect';
 import Account from '../../components/Account';
 import SignMessage from './components/SignMessage';
 import SignTransaction from './components/SignTransaction';
+import DontHaveWallet from '../../components/DontHaveWallet';
 
 function Bitcoin() {
   const { account, handleConnect } = useConnect();
@@ -20,8 +21,8 @@ function Bitcoin() {
   );
 }
 
+const key = 'Bitcoin';
 export default {
-  key: 'Bitcoin',
-  label: 'Bitcoin',
-  children: <Bitcoin />,
+  key,
+  children: window.solana ? <Bitcoin /> : <DontHaveWallet chain={key} />,
 };

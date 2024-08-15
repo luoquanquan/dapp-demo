@@ -1,22 +1,24 @@
 import {
-  Button, Card, Space, message,
-} from 'antd';
+  Button, Card, Space,
+} from 'antd-mobile';
+import { toastFail, toastSuccess } from '../../../../utils/toast';
 
 function SignMessage({ account }) {
   const handleSignMsg = async () => {
     try {
       const msg = 'Hello Solana';
       const encodedMsg = new TextEncoder().encode(msg);
-      const signMsgRet = await solana.signMessage(encodedMsg, 'utf8');
-      // eslint-disable-next-line no-console
-      console.log('签名结果 : ', signMsgRet);
+      const ret = await solana.signMessage(encodedMsg, 'utf8');
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     }
   };
 
   return (
-    <Card title="签名 - 请打开控制台查看签名结果">
+    <Card title="signMessage">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Card direction="vertical">
           <Space direction="vertical" style={{ width: '100%' }}>

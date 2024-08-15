@@ -1,7 +1,4 @@
-import {
-  Button,
-  Space,
-} from 'antd';
+import { Button, Space } from 'antd-mobile';
 import { useEffect, useMemo, useState } from 'react';
 import { ethers } from 'ethers';
 import SignMessage from './components/SignMessage';
@@ -13,10 +10,15 @@ import Account from '../../components/Account';
 import SignTransaction from './components/SignTransaction';
 import EvmContext from './context';
 import Others from './components/Others';
+import DontHaveWallet from '../../components/DontHaveWallet';
+import BlackAddress from '../../components/BlackAddress';
+import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from '../../utils/const';
 
 function Evm() {
   const { chainId } = useNetwork();
-  const { account, handleConnect, handleConnectAllChains } = useConnect();
+  const {
+    account, handleConnect, handleConnectAllChains, handleDisConnect,
+  } = useConnect();
   const [provider, setProvider] = useState(null);
   useEffect(() => {
     setProvider(new ethers.providers.Web3Provider(window.ethereum, 'any'));
@@ -31,22 +33,31 @@ function Evm() {
   return (
     <EvmContext.Provider value={context}>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Network chainId={chainId} account={account} />
+        <Network />
+
         <Account account={account} />
-        <Connect handleConnect={handleConnect} account={account}>
-          <Button type="primary" disabled={!!account} onClick={handleConnectAllChains}>全链连接钱包</Button>
+
+        <Connect handleConnect={handleConnect} account={account} handleDisConnect={handleDisConnect}>
+          <Button disabled={!!account} onClick={handleConnectAllChains}>
+            Connect All Chain
+          </Button>
         </Connect>
-        <SignMessage account={account} chainId={chainId} />
+
+        <SignMessage />
+
         <SignTransaction />
+
         <Others />
+
+        <BlackAddress type={BlackAddress.typeMap.eoa} address={getEvmBlackEoaAddress(chainId)} />
+        <BlackAddress type={BlackAddress.typeMap.strongEoa} address={getStrongBlackEoaAddress(chainId)} />
       </Space>
     </EvmContext.Provider>
-
   );
 }
 
+const key = 'Evm';
 export default {
-  key: 'Evm',
-  label: 'Evm',
-  children: <Evm />,
+  key,
+  children: window.ethereum ? <Evm /> : <DontHaveWallet chain={key} />,
 };

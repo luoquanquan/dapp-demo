@@ -20,6 +20,6 @@ function Cosmos() {
 
 export default {
   key: 'Cosmos',
-  label: 'Cosmos',
+  title: 'Cosmos',
   children: <Cosmos />,
 };

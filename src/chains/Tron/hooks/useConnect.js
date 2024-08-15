@@ -2,10 +2,14 @@ import { message } from 'antd';
 import { useEffect, useState } from 'react';
 
 export default () => {
+  let tronWeb;
+
   const [account, setAccount] = useState('');
   const handleConnect = async () => {
-    const { code } = await tronWeb.request({ method: 'tron_requestAccounts' });
+    const resp = await tronLink.request({ method: 'tron_requestAccounts' });
+    const { code } = resp;
     code && code !== 200 && message.error(code);
+    tronWeb = tronLink.tronWeb;
     setAccount(tronWeb.defaultAddress?.base58 || '');
   };
 

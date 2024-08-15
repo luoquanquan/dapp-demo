@@ -20,6 +20,6 @@ function Starknet() {
 
 export default {
   key: 'Starknet',
-  label: 'Starknet',
+  title: 'Starknet',
   children: <Starknet />,
 };

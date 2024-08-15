@@ -4,14 +4,19 @@ import {
 import { ethers } from 'ethers';
 import {
   Alert,
-  Button,
-  Card, Col, Input, Row, Space, Typography, message,
+  Col, Input, Row, Typography, message,
 } from 'antd';
+import {
+  Button,
+  Card, Space,
+} from 'antd-mobile';
 import {
   erc1155Abi, erc1155Bytecode,
 } from './const';
 import EvmContext from '../../../context';
-import { grayAddress, myAddress, openSeaAddress } from '../../const';
+import {
+  getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress, openSeaAddress,
+} from '../../../../../utils/const';
 
 const usedNfts = [
   {
@@ -22,7 +27,10 @@ const usedNfts = [
 ];
 
 function ERC1155() {
-  const { account, provider } = useContext(EvmContext);
+  const { account, provider, chainId } = useContext(EvmContext);
+  const grayAddress = getEvmBlackContractAddress(chainId);
+  const strongBlackAddress = getStrongBlackEoaAddress(chainId);
+
   const [nftsContract, setNftsContract] = useState({});
 
   const createNftRef = useRef();
@@ -106,7 +114,7 @@ function ERC1155() {
   };
 
   const [approveLoading, setApproveLoading] = useState(false);
-  const approve = (isApprove = true, spender = openSeaAddress) => async () => {
+  const setApprovalForAll = (isApprove = true, spender = openSeaAddress) => async () => {
     try {
       setApproveLoading(true);
       const result = await nftsContract.setApprovalForAll(
@@ -125,104 +133,149 @@ function ERC1155() {
   };
 
   return (
-    <Card
-      ref={createNftRef}
-      direction="vertical"
-      title="ERC1155"
-    >
-      <Space direction="vertical" style={{ width: '100%' }}>
-        <Alert
-          type="info"
-          message="合集地址"
-          description={nftsContract.address}
-        />
-        <Button
-          block
-          loading={createNftLoading}
-          onClick={createNft}
-          disabled={nftsContract.address || !account}
-        >
-          Deploy
-        </Button>
-        <div>
-          <Typography.Title level={5}>Token IDs</Typography.Title>
-          <Input
-            value={tokenIds}
-            onChange={(e) => setTokenIds(e.target.value)}
+    <div ref={createNftRef}>
+      <Card
+        direction="vertical"
+        title="ERC1155"
+      >
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert
+            type="info"
+            message="合集地址"
+            description={nftsContract.address}
           />
-        </div>
-        <div>
-          <Typography.Title level={5}>Token Amounts</Typography.Title>
-          <Input
-            value={tokenAmounts}
-            onChange={(e) => setTokenAmounts(e.target.value)}
+          <Button
+            block
+            loading={createNftLoading}
+            onClick={createNft}
+            disabled={nftsContract.address || !account}
+          >
+            Deploy
+          </Button>
+          <div>
+            <Typography.Title level={5}>Token IDs</Typography.Title>
+            <Input
+              value={tokenIds}
+              onChange={(e) => setTokenIds(e.target.value)}
+            />
+          </div>
+          <div>
+            <Typography.Title level={5}>Token Amounts</Typography.Title>
+            <Input
+              value={tokenAmounts}
+              onChange={(e) => setTokenAmounts(e.target.value)}
+            />
+          </div>
+          <Button
+            block
+            loading={mintLoading}
+            onClick={mint}
+            disabled={!nftsContract.address || !account}
+          >
+            Mint
+          </Button>
+          <Button
+            block
+            loading={batchTRansferLoading}
+            onClick={batchTRansfer()}
+            disabled={!nftsContract.address}
+          >
+            Transfer
+          </Button>
+          {
+            !!grayAddress && (
+              <Button
+                block
+                color="danger"
+                loading={batchTRansferLoading}
+                onClick={batchTRansfer(grayAddress)}
+                disabled={!nftsContract.address}
+              >
+                Transfer Black Address
+              </Button>
+            )
+          }
+          {
+            !!strongBlackAddress && (
+              <Button
+                block
+                color="danger"
+                loading={batchTRansferLoading}
+                onClick={batchTRansfer(strongBlackAddress)}
+                disabled={!nftsContract.address}
+              >
+                Transfer Strong Black Address
+              </Button>
+            )
+          }
+          <Button
+            block
+            loading={approveLoading}
+            onClick={setApprovalForAll()}
+            disabled={!nftsContract.address}
+          >
+            setApprovalForAll
+          </Button>
+          {
+            !!grayAddress && (
+              <Button
+                block
+                color="danger"
+                loading={approveLoading}
+                onClick={setApprovalForAll(true, grayAddress)}
+                disabled={!nftsContract.address}
+              >
+                setApprovalForAll Black Address
+              </Button>
+            )
+          }
+          {
+            !!strongBlackAddress && (
+              <Button
+                block
+                color="danger"
+                loading={approveLoading}
+                onClick={setApprovalForAll(true, strongBlackAddress)}
+                disabled={!nftsContract.address}
+              >
+                setApprovalForAll Strong Black Address
+              </Button>
+            )
+          }
+          <Button
+            block
+            loading={approveLoading}
+            onClick={setApprovalForAll(true, myAddress)}
+            disabled={!nftsContract.address}
+          >
+            setApprovalForAll to EOA
+          </Button>
+          <Button
+            block
+            loading={approveLoading}
+            onClick={setApprovalForAll(false)}
+            disabled={!nftsContract.address}
+          >
+            revoke
+          </Button>
+          <Alert
+            type="info"
+            message="测试 NFT"
+            description={(
+              <Row gutter={12}>
+                {usedNfts.map((nft) => (
+                  <Col key={nft.address}>
+                    <a href={`${process.env.PUBLIC_URL}/?erc1155Address=${nft.address}`}>
+                      {nft.chain}
+                    </a>
+                  </Col>
+                ))}
+              </Row>
+            )}
           />
-        </div>
-        <Button
-          block
-          loading={mintLoading}
-          onClick={mint}
-          disabled={!nftsContract.address || !account}
-        >
-          Mint
-        </Button>
-        <Button
-          block
-          loading={batchTRansferLoading}
-          onClick={batchTRansfer()}
-          disabled={!nftsContract.address}
-        >
-          Transfer
-        </Button>
-        <Button
-          block
-          loading={batchTRansferLoading}
-          onClick={batchTRansfer(grayAddress)}
-          disabled={!nftsContract.address}
-        >
-          Transfer GrayAddress
-        </Button>
-        <Button
-          block
-          loading={approveLoading}
-          onClick={approve()}
-          disabled={!nftsContract.address}
-        >
-          setApprovalForAll
-        </Button>
-        <Button
-          block
-          loading={approveLoading}
-          onClick={approve(true, grayAddress)}
-          disabled={!nftsContract.address}
-        >
-          setApprovalForAll 灰地址
-        </Button>
-        <Button
-          block
-          loading={approveLoading}
-          onClick={approve(false)}
-          disabled={!nftsContract.address}
-        >
-          revoke
-        </Button>
-        <Alert
-          type="info"
-          message="测试 NFT"
-          description={(
-            <Row gutter={12}>
-              {usedNfts.map((nft) => (
-                <Col key={nft.address}>
-                  <a href={`${process.env.PUBLIC_URL}/?erc1155Address=${nft.address}`}>
-                    {nft.chain}
-                  </a>
-                </Col>
-              ))}
-            </Row>
-          )}
-        />
-      </Space>
-    </Card>
+        </Space>
+      </Card>
+    </div>
   );
 }
 

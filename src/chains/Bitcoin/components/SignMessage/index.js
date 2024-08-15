@@ -1,7 +1,8 @@
 import {
-  Button, Card, Space, message,
-} from 'antd';
+  Button, Card, Space,
+} from 'antd-mobile';
 import { useState } from 'react';
+import { toastFail, toastSuccess } from '../../../../utils/toast';
 
 function SignMessage({ account }) {
   const handleSignMsg = (msg = 'Hello BTC') => async () => {
@@ -12,10 +13,11 @@ function SignMessage({ account }) {
           from: account,
         },
       );
-
-      console.log('签名结果 : ', ret);
+      toastSuccess();
+      console.log(ret);
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     }
   };
 
@@ -23,11 +25,11 @@ function SignMessage({ account }) {
   const handleWatchAsset = async () => {
     try {
       setWatchAssetLoading(true);
-      const { name } = await okxwallet.bitcoin.watchAsset({ name: 'ordi' });
-      message.success(`${name} - 添加成功`);
+      await okxwallet.bitcoin.watchAsset({ name: 'ordi' });
+      toastSuccess();
     } catch (error) {
-      message.error(error.message);
-      console.log('Current log: error: ', error);
+      console.log(error);
+      toastFail();
     } finally {
       setWatchAssetLoading(false);
     }

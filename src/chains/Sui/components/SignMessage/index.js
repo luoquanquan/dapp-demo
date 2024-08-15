@@ -16,7 +16,7 @@ function SignMessage({ account }) {
   };
 
   return (
-    <Card title="签名 (signMessage) 请打开控制台查看签名结果">
+    <Card title="signMessage">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Card direction="vertical">
           <Space direction="vertical" style={{ width: '100%' }}>

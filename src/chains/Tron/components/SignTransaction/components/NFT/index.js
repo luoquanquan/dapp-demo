@@ -1,10 +1,12 @@
 import {
-  Button, Card, Col, Space, message,
+  Col, Space, message,
 } from 'antd';
+import { Button, Card } from 'antd-mobile';
 import { useState } from 'react';
 import {
   grayTronAddress, myTronAddress, tronNFTAddress,
 } from '../../../../../../utils/const';
+import LinkButton from '../../../../../../components/LinkButton';
 
 function NFT({ account }) {
   const [approveFromLoading, setApproveLoading] = useState(false);
@@ -20,7 +22,8 @@ function NFT({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -42,7 +45,8 @@ function NFT({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -52,7 +56,7 @@ function NFT({ account }) {
   };
 
   return (
-    <Col span={6}>
+    <Col xs={24} lg={12}>
       <Card direction="vertical" title="NFT 合集">
         <Space direction="vertical" style={{ width: '100%' }}>
           <Button
@@ -65,6 +69,7 @@ function NFT({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={setApprovalForAllLoading}
             onClick={setApprovalForAll(grayTronAddress)}
@@ -88,12 +93,10 @@ function NFT({ account }) {
           >
             approve(gray)(未解析)
           </Button>
-
-          <Button block type="link" href="https://tronscan.org/#/token721/TDxkVPEaSNQkGb5HKmucMuLYbkZD3oWgUp/code">浏览器</Button>
+          <LinkButton href="https://tronscan.org/#/token721/TDxkVPEaSNQkGb5HKmucMuLYbkZD3oWgUp/code">浏览器</LinkButton>
         </Space>
       </Card>
     </Col>
-
   );
 }
 

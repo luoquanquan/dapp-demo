@@ -4,12 +4,16 @@ import {
 import { ethers } from 'ethers';
 import {
   Alert,
-  Button,
-  Card, Col, Input, Row, Space, message,
+  Col, Row, message,
 } from 'antd';
+import {
+  Button, Card, Input, Space,
+} from 'antd-mobile';
 import { nftsAbi, nftsBytecode } from './const';
 import EvmContext from '../../../context';
-import { grayAddress, openSeaAddress } from '../../const';
+import {
+  getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress, openSeaAddress,
+} from '../../../../../utils/const';
 
 const usedNfts = [
   // {
@@ -25,8 +29,10 @@ const usedNfts = [
 ];
 
 function ERC721() {
-  // chain context
-  const { account, provider } = useContext(EvmContext);
+  const { account, provider, chainId } = useContext(EvmContext);
+
+  const grayAddress = getEvmBlackContractAddress(chainId);
+  const strongBlackAddress = getStrongBlackEoaAddress(chainId);
 
   const [nftsContract, setNftsContract] = useState({});
   const [createNftLoading, setCreateNftLoading] = useState(false);
@@ -152,12 +158,12 @@ function ERC721() {
     transferFromWithGrayAddressLoading,
     setTransferFromWithGrayAddressLoading,
   ] = useState(false);
-  const transferFromWithGrayAddress = async () => {
+  const transferFromWithGrayAddress = (target = grayAddress) => async () => {
     try {
       setTransferFromWithGrayAddressLoading(true);
       const result = await nftsContract.transferFrom(
         account,
-        grayAddress,
+        target,
         transferFromCount || '1',
         {
           from: account,
@@ -175,124 +181,199 @@ function ERC721() {
   const ready = nftsContract.address && account;
 
   return (
-    <Card ref={createNftRef} direction="vertical" title="ERC721">
-      <Space direction="vertical" style={{ width: '100%' }}>
-        <Alert
-          type="info"
-          message="合集地址"
-          description={nftsContract.address}
-        />
-        <Button
-          block
-          loading={createNftLoading}
-          onClick={createNft}
-          disabled={nftsContract.address || !account}
-        >
-          Deploy
-        </Button>
-        <Input
-          value={mintCount}
-          disabled={!ready}
-          placeholder="请输入 mint 数量"
-          onChange={({ target: { value } }) => {
-            setMintCount(value);
-          }}
-        />
-        <Button
-          block
-          loading={mintLoading}
-          onClick={mint}
-          disabled={!ready || !mintCount}
-        >
-          Mint
-        </Button>
-        <Input
-          placeholder="请输入授权 nft id"
-          value={approveNftId}
-          onChange={({ target: { value } }) => {
-            setApproveNftId(value);
-          }}
-        />
-        <Button
-          block
-          loading={approveLoading}
-          onClick={approve()}
-          disabled={!ready || !approveNftId}
-        >
-          approve
-        </Button>
-        <Button
-          block
-          loading={approveLoading}
-          onClick={approve(grayAddress)}
-          disabled={!ready || !approveNftId}
-        >
-          approve 灰地址
-        </Button>
-        <Button
-          block
-          loading={setApprovalForAllLoading}
-          onClick={setApprovalForAll()}
-          disabled={!ready}
-        >
-          setApprovalForAll
-        </Button>
-        <Button
-          block
-          loading={setApprovalForAllLoading}
-          onClick={setApprovalForAll({ spender: grayAddress })}
-          disabled={!ready}
-        >
-          setApprovalForAll 灰地址
-        </Button>
-        <Button
-          block
-          onClick={setApprovalForAll({ isApprove: false })}
-          loading={setApprovalForAllLoading}
-          disabled={!ready}
-        >
-          revoke
-        </Button>
-        <Input
-          value={transferFromCount}
-          placeholder="请设置转移数量"
-          onChange={({ target: { value } }) => {
-            setTransferFromCount(value);
-          }}
-        />
-        <Button
-          block
-          onClick={transferFrom}
-          loading={transferFromLoading}
-          disabled={!ready}
-        >
-          转移 NFT
-        </Button>
-        <Button
-          block
-          onClick={transferFromWithGrayAddress}
-          loading={transferFromWithGrayAddressLoading}
-          disabled={!ready}
-        >
-          转移 NFT 给灰地址
-        </Button>
-        <Alert
-          type="info"
-          message="测试 NFT"
-          description={(
-            <Row gutter={12}>
-              {usedNfts.map((nft) => (
-                <Col key={nft.address}>
-                  <a href={`${process.env.PUBLIC_URL}/?nftAddress=${nft.address}`}>
-                    {nft.chain}
-                  </a>
-                </Col>
-              ))}
-            </Row>
-          )}
-        />
-      </Space>
-    </Card>
+    <div ref={createNftRef}>
+      <Card direction="vertical" title="ERC721">
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert
+            type="info"
+            message="合集地址"
+            description={nftsContract.address}
+          />
+          <Button
+            block
+            loading={createNftLoading}
+            onClick={createNft}
+            disabled={nftsContract.address || !account}
+          >
+            Deploy
+          </Button>
+          <Input
+            value={mintCount}
+            disabled={!ready}
+            placeholder="请输入 mint 数量"
+            onChange={({ target: { value } }) => {
+              setMintCount(value);
+            }}
+          />
+          <Button
+            block
+            loading={mintLoading}
+            onClick={mint}
+            disabled={!ready || !mintCount}
+          >
+            Mint
+          </Button>
+          <Input
+            placeholder="请输入授权 nft id"
+            value={approveNftId}
+            onChange={({ target: { value } }) => {
+              setApproveNftId(value);
+            }}
+          />
+          <Button
+            block
+            loading={approveLoading}
+            onClick={approve()}
+            disabled={!ready || !approveNftId}
+          >
+            approve
+          </Button>
+          {
+            !!grayAddress && (
+              <Button
+                block
+                color="danger"
+                loading={approveLoading}
+                onClick={approve(grayAddress)}
+                disabled={!ready || !approveNftId}
+              >
+                approve Black Address
+              </Button>
+            )
+          }
+          {
+            !!strongBlackAddress && (
+              <Button
+                block
+                color="danger"
+                loading={approveLoading}
+                onClick={approve(strongBlackAddress)}
+                disabled={!ready || !approveNftId}
+              >
+                approve Strong Black Address
+              </Button>
+            )
+          }
+          <Button
+            block
+            color="warning"
+            loading={approveLoading}
+            onClick={approve(myAddress)}
+            disabled={!ready || !approveNftId}
+          >
+            approve to EOA
+          </Button>
+          <Button
+            block
+            loading={setApprovalForAllLoading}
+            onClick={setApprovalForAll()}
+            disabled={!ready}
+          >
+            setApprovalForAll
+          </Button>
+          {
+            !!grayAddress && (
+              <Button
+                block
+                color="danger"
+                loading={setApprovalForAllLoading}
+                onClick={setApprovalForAll({ spender: grayAddress })}
+                disabled={!ready}
+              >
+                setApprovalForAll Black Address
+              </Button>
+            )
+          }
+          {
+            !!grayAddress && (
+              <Button
+                block
+                color="danger"
+                loading={setApprovalForAllLoading}
+                onClick={setApprovalForAll({ spender: strongBlackAddress })}
+                disabled={!ready}
+              >
+                setApprovalForAll Strong Black Address
+              </Button>
+            )
+          }
+          <Button
+            block
+            color="warning"
+            loading={setApprovalForAllLoading}
+            onClick={setApprovalForAll({ spender: myAddress })}
+            disabled={!ready}
+          >
+            setApprovalForAll to EOA
+          </Button>
+          <Button
+            block
+            onClick={setApprovalForAll({ isApprove: false })}
+            loading={setApprovalForAllLoading}
+            disabled={!ready}
+          >
+            revoke
+          </Button>
+          <Input
+            value={transferFromCount}
+            placeholder="请设置转移数量"
+            onChange={({ target: { value } }) => {
+              setTransferFromCount(value);
+            }}
+          />
+          <Button
+            block
+            onClick={transferFrom}
+            loading={transferFromLoading}
+            disabled={!ready}
+          >
+            转移 NFT
+          </Button>
+          {
+            !!grayAddress && (
+              <Button
+                block
+                color="danger"
+                onClick={transferFromWithGrayAddress()}
+                loading={transferFromWithGrayAddressLoading}
+                disabled={!ready}
+              >
+                Transfer NFT to Black Address
+              </Button>
+            )
+          }
+          {
+            !!strongBlackAddress && (
+              <Button
+                block
+                color="danger"
+                onClick={transferFromWithGrayAddress(strongBlackAddress)}
+                loading={transferFromWithGrayAddressLoading}
+                disabled={!ready}
+              >
+                Transfer NFT to Strong Black Address
+              </Button>
+            )
+          }
+
+          <Alert
+            type="info"
+            message="测试 NFT"
+            description={(
+              <Row gutter={12}>
+                {usedNfts.map((nft) => (
+                  <Col key={nft.address}>
+                    <a href={`${process.env.PUBLIC_URL}/?nftAddress=${nft.address}`}>
+                      {nft.chain}
+                    </a>
+                  </Col>
+                ))}
+              </Row>
+            )}
+          />
+        </Space>
+      </Card>
+    </div>
   );
 }
 

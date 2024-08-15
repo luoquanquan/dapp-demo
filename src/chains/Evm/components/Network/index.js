@@ -1,22 +1,14 @@
-import { Card, Descriptions } from 'antd';
+import { Card } from 'antd-mobile';
+import { useContext } from 'react';
+import EvmContext from '../../context';
 
-export default function Network({ chainId }) {
-  const networkInfos = [
-    // {
-    //   key: 'Network',
-    //   label: 'Network',
-    //   children: network,
-    // },
-    {
-      key: 'ChainId',
-      label: 'ChainId',
-      children: chainId,
-    },
-  ];
+export default function Network() {
+  const { chainId } = useContext(EvmContext);
 
   return (
-    <Card title="网络信息">
-      <Descriptions items={networkInfos} />
+    <Card title="Network">
+      ChainId:
+      {chainId}
     </Card>
   );
 }

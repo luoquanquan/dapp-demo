@@ -1,36 +1,27 @@
 import {
-  Card, Col, Row, Space,
+  Row, Space,
 } from 'antd';
-import CreateToken from './CreateToken';
-import GrayAddress from './GrayAddress';
+import { Card } from 'antd-mobile';
 import NFT from './NFT';
 import GasChecker from './GasChecker';
 import BatchTransfer from './BatchTransfer';
+import ERC20 from './ERC20';
+import Form from './Form';
 
 export default function SignTransaction() {
   return (
-    <Card title="合约交互">
+    <Card title="signTransaction">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Row gutter={16}>
-          <CreateToken />
-          <Col span={12}>
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <NFT />
-            </Space>
-          </Col>
+          <ERC20 />
+          <NFT />
         </Row>
         <Row gutter={16}>
-          <Col span={12}>
-            <GasChecker />
-          </Col>
-          <Col span={12}>
-            <BatchTransfer />
-          </Col>
+          <GasChecker />
+          <BatchTransfer />
         </Row>
         <Row gutter={16}>
-          <Col span={12}>
-            <GrayAddress />
-          </Col>
+          <Form />
         </Row>
       </Space>
     </Card>

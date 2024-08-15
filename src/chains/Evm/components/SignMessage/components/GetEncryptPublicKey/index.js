@@ -1,11 +1,12 @@
+import { Alert, Col } from 'antd';
 import {
-  Alert,
-  Button, Card, Col, Input, Space, message,
-} from 'antd';
+  Button, Card, Input, Space,
+} from 'antd-mobile';
 import { encrypt } from 'eth-sig-util';
 import { useContext, useState } from 'react';
 import { ethers } from 'ethers';
 import EvmContext from '../../../../context';
+import { toastFail } from '../../../../../../utils/toast';
 
 function GetEncryptPublicKey() {
   const { account } = useContext(EvmContext);
@@ -21,7 +22,8 @@ function GetEncryptPublicKey() {
       });
       setEncryptPublicKey(resp);
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     } finally {
       setGetEncryptPublicKeyLoading(false);
     }
@@ -39,7 +41,8 @@ function GetEncryptPublicKey() {
       const ret = ethers.utils.hexlify(Buffer.from(JSON.stringify(encryptedStr)));
       setCiphertext(ret);
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     }
   };
 
@@ -54,7 +57,8 @@ function GetEncryptPublicKey() {
       });
       setDecryptedStr(resp);
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     } finally {
       setDecryptLoading(false);
     }
@@ -77,7 +81,7 @@ function GetEncryptPublicKey() {
             message="公钥"
             description={encryptPublicKey}
           />
-          <Input disabled={!encryptPublicKey} value={oriText} placeholder="请输入明文" onChange={({ target: { value } }) => setOriText(value)} />
+          <Input disabled={!encryptPublicKey} value={oriText} placeholder="请输入明文" onChange={setOriText} />
           <Button
             block
             disabled={!oriText}

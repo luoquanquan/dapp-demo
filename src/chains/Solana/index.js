@@ -1,4 +1,4 @@
-import { Space } from 'antd';
+import { Space } from 'antd-mobile';
 
 import useConnect from './hooks/useConnect';
 
@@ -6,6 +6,7 @@ import Connect from '../../components/Connect';
 import Account from '../../components/Account';
 import SignMessage from './components/SignMessage';
 import SignTransaction from './components/SignTransaction';
+import DontHaveWallet from '../../components/DontHaveWallet';
 
 function Solana() {
   const { account, handleConnect, connection } = useConnect();
@@ -20,8 +21,8 @@ function Solana() {
   );
 }
 
+const key = 'Solana';
 export default {
-  key: 'Solana',
-  label: 'Solana',
-  children: <Solana />,
+  key,
+  children: window.solana ? <Solana /> : <DontHaveWallet chain={key} />,
 };

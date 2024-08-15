@@ -1,14 +1,16 @@
 import {
-  Button, Card, Col, Space, message,
+  Col, Space, message,
 } from 'antd';
+import { Button, Card } from 'antd-mobile';
 import { useState } from 'react';
 import {
-  grayTronAddress, myTronAddress, tronUSDTAddress,
+  grayTronAddress, myTronAddress, okWeb3Address, tronStrongBlackEoaAddress, tronUSDTAddress,
 } from '../../../../../../utils/const';
+import LinkButton from '../../../../../../components/LinkButton';
 
 function USDT({ account }) {
   const [increaseApprovalLoading, setIncreaseApprovalLoading] = useState(false);
-  const increaseApproval = (address = myTronAddress) => async () => {
+  const increaseApproval = (address = okWeb3Address) => async () => {
     try {
       setIncreaseApprovalLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
@@ -20,7 +22,8 @@ function USDT({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -30,7 +33,7 @@ function USDT({ account }) {
   };
 
   const [decreaseApprovalLoading, setDecreaseApprovalLoading] = useState(false);
-  const decreaseApproval = (address = myTronAddress) => async () => {
+  const decreaseApproval = (address = okWeb3Address) => async () => {
     try {
       setDecreaseApprovalLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
@@ -42,7 +45,8 @@ function USDT({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -64,7 +68,8 @@ function USDT({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -74,7 +79,7 @@ function USDT({ account }) {
   };
 
   const [approveFromLoading, setApproveLoading] = useState(false);
-  const approve = (address = myTronAddress, value = 1 * 10 ** 3) => async () => {
+  const approve = (address = okWeb3Address, value = 1 * 10 ** 3) => async () => {
     try {
       setApproveLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value }];
@@ -87,7 +92,8 @@ function USDT({ account }) {
       );
       const signedTx = await tronWeb.trx.sign(transaction);
       console.log('Current log: signedTx: ', signedTx);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -109,7 +115,8 @@ function USDT({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -119,7 +126,7 @@ function USDT({ account }) {
   };
 
   return (
-    <Col span={6}>
+    <Col xs={24} lg={12}>
       <Card direction="vertical" title="USDT">
         <Space direction="vertical" style={{ width: '100%' }}>
           <Button
@@ -132,13 +139,22 @@ function USDT({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={increaseApprovalLoading}
             onClick={increaseApproval(grayTronAddress)}
           >
             increaseApproval(gray)
           </Button>
-
+          <Button
+            block
+            color="warning"
+            disabled={!account}
+            loading={increaseApprovalLoading}
+            onClick={increaseApproval(myTronAddress)}
+          >
+            increaseApproval to EOA
+          </Button>
           <Button
             block
             disabled={!account}
@@ -166,13 +182,22 @@ function USDT({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={transferLoading}
             onClick={transfer(grayTronAddress)}
           >
-            transfer(gray)
+            transfer Black Address
           </Button>
-
+          <Button
+            block
+            color="danger"
+            disabled={!account}
+            loading={transferLoading}
+            onClick={transfer(tronStrongBlackEoaAddress)}
+          >
+            transfer Strong Black Address
+          </Button>
           <Button
             block
             disabled={!account}
@@ -183,18 +208,36 @@ function USDT({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={approveFromLoading}
             onClick={approve(grayTronAddress)}
           >
-            approve(gray)
+            approve Black Address
           </Button>
-
+          <Button
+            block
+            color="danger"
+            disabled={!account}
+            loading={approveFromLoading}
+            onClick={approve(tronStrongBlackEoaAddress)}
+          >
+            approve Strong Black Address
+          </Button>
+          <Button
+            block
+            color="warning"
+            disabled={!account}
+            loading={approveFromLoading}
+            onClick={approve(myTronAddress)}
+          >
+            approve to EOA
+          </Button>
           <Button
             block
             disabled={!account}
             loading={approveFromLoading}
-            onClick={approve(myTronAddress, 0)}
+            onClick={approve(okWeb3Address, 0)}
           >
             revoke
           </Button>
@@ -206,7 +249,6 @@ function USDT({ account }) {
           >
             revoke(gray)
           </Button>
-
           <Button
             block
             disabled={!account}
@@ -217,6 +259,7 @@ function USDT({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={transferFromLoading}
             onClick={transferFrom(grayTronAddress)}
@@ -224,7 +267,9 @@ function USDT({ account }) {
             transferFrom(gray)
           </Button>
 
-          <Button block type="link" href="https://tronscan.org/#/token20/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/code">USDT 浏览器</Button>
+          <LinkButton href="https://tronscan.org/#/token20/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/code">
+            USDT Tron Scan
+          </LinkButton>
         </Space>
       </Card>
     </Col>

@@ -33,5 +33,7 @@ module.exports = {
     'no-param-reassign': 0,
     camelcase: 0,
     'no-console': 0,
+    'max-len': 0,
+    'import/no-unresolved': 0,
   },
 };

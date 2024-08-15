@@ -1,10 +1,10 @@
-import { Card, Space } from 'antd';
+import { Card, Space } from 'antd-mobile';
 
 export default function Account({ account, children }) {
   return (
-    <Card title="当前连接账户">
+    <Card title="Current connected account">
       <Space direction="vertical">
-        {account || '未连接'}
+        {account || '--'}
         {children}
       </Space>
     </Card>

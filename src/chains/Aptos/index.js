@@ -20,6 +20,6 @@ function Aptos() {
 
 export default {
   key: 'Aptos',
-  label: 'Aptos',
+  title: 'Aptos',
   children: <Aptos />,
 };

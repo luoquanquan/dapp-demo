@@ -1,23 +1,28 @@
 import {
-  Button, Card, Col, Row, Space, message,
+  Col, Row,
 } from 'antd';
+import {
+  Button, Card, Space,
+} from 'antd-mobile';
 import { useState } from 'react';
+import { toastFail, toastSuccess } from '../../../../utils/toast';
 
 function SignTransaction({ account }) {
   const [splitUtxoLoading, setSplitUtxoLoading] = useState(false);
   const splitUtxo = async () => {
     try {
       setSplitUtxoLoading(true);
-      const ret = await okxwallet.bitcoin.splitUtxo(
+      await okxwallet.bitcoin.splitUtxo(
         {
           from: account,
           amount: 2,
         },
       );
 
-      console.log('签名结果 : ', ret);
+      toastSuccess();
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     } finally {
       setSplitUtxoLoading(false);
     }
@@ -27,7 +32,7 @@ function SignTransaction({ account }) {
     <Card title="其他">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Row gutter={16}>
-          <Col span={8}>
+          <Col xs={24} lg={12}>
             <Button
               block
               disabled={!account}

@@ -1,5 +1,5 @@
 {
-  "name": "multi-chain-test-dapp",
+  "name": "dapp-demo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,12 +8,18 @@
     "@solana/spl-token": "^0.3.11",
     "@solana/web3.js": "^1.91.2",
     "@svgr/webpack": "^5.5.0",
+    "@ton/core": "^0.56.3",
+    "@ton/crypto": "^3.3.0",
+    "@ton/ton": "^14.0.0",
+    "@tonconnect/ui-react": "^2.0.6",
     "antd": "^5.11.1",
+    "antd-mobile": "^5.36.0",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
     "babel-preset-react-app": "^10.0.1",
     "bfj": "^7.0.2",
+    "bn.js": "^5.2.1",
     "browserslist": "^4.18.1",
     "camelcase": "^6.2.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -57,7 +63,10 @@
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.2",
     "terser-webpack-plugin": "^5.2.5",
+    "tonweb": "^0.0.66",
     "tweetnacl": "^1.0.3",
+    "vconsole": "^3.15.1",
+    "viem": "^2.18.7",
     "web-vitals": "^2.1.4",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
@@ -66,8 +75,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "install-dep": "npm i --legacy-peer-deps",
+    "release": "./scripts/release.sh"
   },
   "eslintConfig": {
     "extends": [
@@ -99,7 +108,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "rimraf": "^5.0.7"
   },
   "jest": {
     "roots": [

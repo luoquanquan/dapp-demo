@@ -22,6 +22,6 @@ function Stacks() {
 
 export default {
   key: 'Stacks',
-  label: 'Stacks',
+  title: 'Stacks',
   children: <Stacks />,
 };

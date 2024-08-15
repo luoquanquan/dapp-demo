@@ -1,7 +1,5 @@
-import {
-  Button,
-  Card, Col, Row, Space, message,
-} from 'antd';
+import { Col, Row } from 'antd';
+import { Button, Card, Space } from 'antd-mobile';
 import { useState } from 'react';
 import {
   Transaction,
@@ -13,6 +11,8 @@ import {
 } from '@solana/web3.js';
 import { mySolAddress } from '../../../../utils/const';
 import USDT from './USDT';
+import { toastFail, toastSuccess } from '../../../../utils/toast';
+import Assign from './Assign';
 
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
 const withConnectionGenerateTx = (
@@ -25,7 +25,8 @@ const withConnectionGenerateTx = (
     SystemProgram.transfer({
       fromPubkey: solana.publicKey,
       toPubkey,
-      lamports: Math.random() > 0.3 ? LAMPORTS_PER_SOL : lamports,
+      // lamports: Math.random() > 0.3 ? LAMPORTS_PER_SOL : lamports,
+      lamports,
     }),
   );
   const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
@@ -66,11 +67,12 @@ export default function SignTransaction({ account, connection }) {
       const tx = await generateTx();
       const signedTx = await solana.signTransaction(tx);
       console.log('Current log: signedTx: ', signedTx);
-      const txHash = await connection.sendRawTransaction(signedTx.serialize());
-      console.log('Current log: txHash: ', txHash);
+      const ret = await connection.sendRawTransaction(signedTx.serialize());
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error('操作失败, 请打开控制台查看错误信息');
-      console.log('error: ', error);
+      console.log(error);
+      toastFail();
     } finally {
       setSignTransactionLoading(false);
     }
@@ -85,18 +87,18 @@ export default function SignTransaction({ account, connection }) {
         await generateTx(),
       ];
       const signedTxs = await solana.signAllTransactions(txs);
-      console.log('Current log: signedTxs: ', signedTxs);
 
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < signedTxs.length; i++) {
         const tx = signedTxs[i];
         // eslint-disable-next-line no-await-in-loop
-        const txHash = await connection.sendRawTransaction(tx.serialize());
-        console.log('Current log: txHash: ', txHash);
+        const ret = await connection.sendRawTransaction(tx.serialize());
+        console.log(ret);
       }
+      toastSuccess();
     } catch (error) {
-      message.error('操作失败, 请打开控制台查看错误信息');
-      console.log('error: ', error);
+      console.log(error);
+      toastFail();
     } finally {
       setSignAllTransactionsLoading(false);
     }
@@ -107,11 +109,12 @@ export default function SignTransaction({ account, connection }) {
     try {
       setSignAndSendTransactionLoading(true);
       const tx = await generateTx();
-      const signedTx = await solana.signAndSendTransaction(tx);
-      console.log('Current log: signedTx: ', signedTx);
+      const ret = await solana.signAndSendTransaction(tx);
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error('操作失败, 请打开控制台查看错误信息');
-      console.log('error: ', error);
+      console.log(error);
+      toastFail();
     } finally {
       setSignAndSendTransactionLoading(false);
     }
@@ -123,12 +126,12 @@ export default function SignTransaction({ account, connection }) {
       setSignVersionedTransactionLoading(true);
       const tx = await generateVersionedTx();
       const signedTx = await solana.signTransaction(tx);
-      console.log('Current log: signedTx: ', signedTx);
-      const txHash = await connection.sendRawTransaction(signedTx.serialize());
-      console.log('Current log: txHash: ', txHash);
+      const ret = await connection.sendRawTransaction(signedTx.serialize());
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error('操作失败, 请打开控制台查看错误信息');
-      console.log('error: ', error);
+      console.log(error);
+      toastFail();
     } finally {
       setSignVersionedTransactionLoading(false);
     }
@@ -146,18 +149,18 @@ export default function SignTransaction({ account, connection }) {
         await generateVersionedTx(),
       ];
       const signedTxs = await solana.signAllTransactions(txs);
-      console.log('Current log: signedTxs: ', signedTxs);
 
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < signedTxs.length; i++) {
         const tx = signedTxs[i];
         // eslint-disable-next-line no-await-in-loop
-        const txHash = await connection.sendRawTransaction(tx.serialize());
-        console.log('Current log: txHash: ', txHash);
+        const ret = await connection.sendRawTransaction(tx.serialize());
+        console.log(ret);
       }
+      toastSuccess();
     } catch (error) {
-      message.error('操作失败, 请打开控制台查看错误信息');
-      console.log('error: ', error);
+      console.log(error);
+      toastFail();
     } finally {
       setSignAllVersionedTransactionsLoading(false);
     }
@@ -171,11 +174,12 @@ export default function SignTransaction({ account, connection }) {
     try {
       setSignAndSendVersionedTransactionLoading(true);
       const tx = await generateVersionedTx();
-      const signedTx = await solana.signAndSendTransaction(tx);
-      console.log('Current log: signedTx: ', signedTx);
+      const ret = await solana.signAndSendTransaction(tx);
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error('操作失败, 请打开控制台查看错误信息');
-      console.log('error: ', error);
+      console.log(error);
+      toastFail();
     } finally {
       setSignAndSendVersionedTransactionLoading(false);
     }
@@ -184,7 +188,7 @@ export default function SignTransaction({ account, connection }) {
   return (
     <Card title="合约交互 - 请打开控制台查看签名信息">
       <Row gutter={16}>
-        <Col span={12}>
+        <Col xs={24} lg={12}>
           <Card title="Transaction">
             <Space direction="vertical" style={{ width: '100%' }}>
               <Button
@@ -215,10 +219,11 @@ export default function SignTransaction({ account, connection }) {
               </Button>
 
               <USDT account={account} connection={connection} />
+              <Assign account={account} connection={connection} />
             </Space>
           </Card>
         </Col>
-        <Col span={12}>
+        <Col xs={24} lg={12}>
           <Card title="Versioned Transaction">
             <Space direction="vertical" style={{ width: '100%' }}>
               <Button

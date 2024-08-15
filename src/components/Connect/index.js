@@ -1,18 +1,17 @@
+import { message } from 'antd';
 import {
   Button, Card, Space,
-} from 'antd';
+} from 'antd-mobile';
 
-export default function Connect({ handleConnect, account, children }) {
-  const handleDisConnect = () => {
-    okxwallet.disconnect();
-  };
-
+export default function Connect({
+  loading, handleConnect, account, children, handleDisConnect = () => message.error('not supported ~'),
+}) {
   return (
-    <Card title="连接状态">
-      <Space>
+    <Card title="Connect status">
+      <Space wrap>
+        <Button color="primary" loading={loading} disabled={!!account} onClick={handleConnect}>Connect Wallet</Button>
         {children}
-        <Button type="primary" disabled={!!account} onClick={handleConnect}>连接钱包</Button>
-        <Button danger disabled={!account} onClick={handleDisConnect}>断开连接</Button>
+        <Button color="danger" loading={loading} disabled={!account} onClick={handleDisConnect}>Disconnect</Button>
       </Space>
     </Card>
   );

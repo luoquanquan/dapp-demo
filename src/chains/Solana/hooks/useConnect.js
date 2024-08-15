@@ -20,8 +20,10 @@ export default () => {
   };
 
   useEffect(() => {
-    solana.on('accountChanged', handleConnect);
-    handleConnect();
+    if (window.solana) {
+      solana.on('accountChanged', handleConnect);
+      handleConnect();
+    }
   }, []);
 
   return { account, handleConnect, connection };

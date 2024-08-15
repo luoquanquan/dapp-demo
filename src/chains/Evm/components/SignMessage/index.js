@@ -1,14 +1,20 @@
 import {
-  Alert,
-  Button, Card, Col, Row, Space, message, Popover,
+  Button, Card, Space,
+} from 'antd-mobile';
+import {
+  Col, Row,
 } from 'antd';
-import { useState } from 'react';
+
+import { useContext, useState } from 'react';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
 import Permit from './components/Permit';
+import EvmContext from '../../context';
+import { toastFail, toastSuccess } from '../../../../utils/toast';
+import SignTypedDataV4 from './components/SignTypedDataV4';
 
-function SignMessage({ account, chainId }) {
+function SignMessage() {
+  const { account, chainId } = useContext(EvmContext);
   const [eth_signLoading, setEth_signLoading] = useState(false);
-  const [ethSignRet, setEthSignRet] = useState('');
   const eth_sign = async () => {
     try {
       setEth_signLoading(true);
@@ -20,16 +26,17 @@ function SignMessage({ account, chainId }) {
         method: 'eth_sign',
         params: [account, hashMsg],
       });
-      setEthSignRet(ret);
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     } finally {
       setEth_signLoading(false);
     }
   };
 
   const [personal_signLoading, setPersonal_signLoading] = useState(false);
-  const [personalSignRet, setPersonalSignRet] = useState('');
   const handlePersonalSign = (msg = 'Example `personal_sign` message') => async () => {
     try {
       setPersonal_signLoading(true);
@@ -37,16 +44,17 @@ function SignMessage({ account, chainId }) {
         method: 'personal_sign',
         params: [msg, account, 'Example password'],
       });
-      setPersonalSignRet(ret);
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     } finally {
       setPersonal_signLoading(false);
     }
   };
 
   const [typedDataSignLoading, setTypedDataSignLoading] = useState(false);
-  const [typedDataSignRet, setTypedDataSignRet] = useState('');
   const typedDataMsg = [
     {
       type: 'string',
@@ -71,16 +79,17 @@ function SignMessage({ account, chainId }) {
         method: 'eth_signTypedData',
         params: [typedDataMsg, account],
       });
-      setTypedDataSignRet(ret);
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     } finally {
       setTypedDataSignLoading(false);
     }
   };
 
   const [eth_signTypedData_v3Loading, setEth_signTypedData_v3Loading] = useState(false);
-  const [eth_signTypedData_v3Ret, setEth_signTypedData_v3Ret] = useState('');
   const eth_signTypedData_v3 = async () => {
     const msgParams = {
       types: {
@@ -126,90 +135,21 @@ function SignMessage({ account, chainId }) {
         method: 'eth_signTypedData_v3',
         params: [account, JSON.stringify(msgParams)],
       });
-      setEth_signTypedData_v3Ret(ret);
+      console.log(ret);
+      toastSuccess();
     } catch (error) {
-      message.error(error.message);
+      console.log(error);
+      toastFail();
     } finally {
       setEth_signTypedData_v3Loading(false);
     }
   };
 
-  const [eth_signTypedData_v4Ret, setEth_signTypedData_v4Ret] = useState(null);
-  const [eth_signTypedData_v4Loading, setEth_signTypedData_v4Loading] = useState(false);
-  const eth_signTypedData_v4 = ({ verifyingContract = '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC', fakeMsg = false } = {}) => async () => {
-    const msgParams = {
-      domain: {
-        chainId: chainId.toString(),
-        name: 'Ether Mail',
-        verifyingContract,
-        version: '1',
-      },
-      message: fakeMsg ? {
-        '⁢target＂:＂THIS IS THE FAKE TARGET＂,＂message':
-          'THIS IS THE FAKE MESSAGE＂⁢}⁢ }⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx⁢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      } : {
-        contents: 'Hello, Bob!',
-        from: {
-          name: 'Cow',
-          wallets: [
-            '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
-            '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
-          ],
-        },
-        to: [
-          {
-            name: 'Bob',
-            wallets: [
-              '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
-              '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
-            ],
-          },
-        ],
-      },
-      primaryType: 'Mail',
-      types: {
-        EIP712Domain: [
-          { name: 'name', type: 'string' },
-          { name: 'version', type: 'string' },
-          { name: 'chainId', type: 'uint256' },
-          { name: 'verifyingContract', type: 'address' },
-        ],
-        Group: [
-          { name: 'name', type: 'string' },
-          { name: 'members', type: 'Person[]' },
-        ],
-        Mail: [
-          { name: 'from', type: 'Person' },
-          { name: 'to', type: 'Person[]' },
-          { name: 'contents', type: 'string' },
-        ],
-        Person: [
-          { name: 'name', type: 'string' },
-          { name: 'wallets', type: 'address[]' },
-        ],
-      },
-    };
-
-    try {
-      setEth_signTypedData_v4Loading(true);
-      const ret = await ethereum.request({
-        method: 'eth_signTypedData_v4',
-        params: [account, JSON.stringify(msgParams)],
-      });
-      console.log('Current log: ret: ', ret);
-      setEth_signTypedData_v4Ret(ret);
-    } catch (error) {
-      message.error(error.message);
-    } finally {
-      setEth_signTypedData_v4Loading(false);
-    }
-  };
-
   return (
-    <Card title="签名">
+    <Card title="signMessage">
       <Space direction="vertical" style={{ width: '100%' }}>
         <Row gutter={16}>
-          <Col span={8}>
+          <Col xs={24} lg={8}>
             <Card direction="vertical" title="Eth Sign">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
@@ -219,17 +159,11 @@ function SignMessage({ account, chainId }) {
                   onClick={eth_sign}
                 >
                   eth_sign
-
                 </Button>
-                <Alert
-                  type="info"
-                  message="Result"
-                  description={ethSignRet}
-                />
               </Space>
             </Card>
           </Col>
-          <Col span={8}>
+          <Col xs={24} lg={8}>
             <Card direction="vertical" title="Personal Sign">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
@@ -256,15 +190,10 @@ function SignMessage({ account, chainId }) {
                 >
                   personal_sign_with_Chinese_char
                 </Button>
-                <Alert
-                  type="info"
-                  message="Result"
-                  description={personalSignRet}
-                />
               </Space>
             </Card>
           </Col>
-          <Col span={8}>
+          <Col xs={24} lg={8}>
             <Card direction="vertical" title="Sign Typed Data">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
@@ -273,19 +202,14 @@ function SignMessage({ account, chainId }) {
                   loading={typedDataSignLoading}
                   onClick={handleTypedDataSign}
                 >
-                  eth_signTypedData
+                  eth_signTypedData_v1
                 </Button>
-                <Alert
-                  type="info"
-                  message="Result"
-                  description={typedDataSignRet}
-                />
               </Space>
             </Card>
           </Col>
         </Row>
         <Row gutter={8}>
-          <Col span={6}>
+          <Col xs={24} lg={6}>
             <Card direction="vertical" title="Sign Typed Data V3">
               <Space direction="vertical" style={{ width: '100%' }}>
                 <Button
@@ -296,60 +220,12 @@ function SignMessage({ account, chainId }) {
                 >
                   eth_signTypedData_v3
                 </Button>
-                <Alert
-                  type="info"
-                  message="Result"
-                  description={eth_signTypedData_v3Ret}
-                />
               </Space>
             </Card>
           </Col>
-          <Col span={6}>
-            <Card direction="vertical" title="Sign Typed Data V4">
-              <Space direction="vertical" style={{ width: '100%' }}>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={eth_signTypedData_v4()}
-                  loading={eth_signTypedData_v4Loading}
-                >
-                  eth_signTypedData_v4
-                </Button>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={eth_signTypedData_v4({ verifyingContract: '34567890ihdauhfljadfja' })}
-                  loading={eth_signTypedData_v4Loading}
-                >
-                  eip712NotStandard
-                </Button>
-                <Button
-                  block
-                  disabled={!account}
-                  onClick={eth_signTypedData_v4({ fakeMsg: true })}
-                  loading={eth_signTypedData_v4Loading}
-                >
-                  longSignText
-                </Button>
-                <Popover content="eip712NotStandard & longSignText">
-                  <Button
-                    block
-                    disabled={!account}
-                    onClick={eth_signTypedData_v4({ verifyingContract: '34567890ihdauhfljadfja', fakeMsg: true })}
-                    loading={eth_signTypedData_v4Loading}
-                  >
-                    both
-                  </Button>
-                </Popover>
 
-                <Alert
-                  type="info"
-                  message="Result"
-                  description={eth_signTypedData_v4Ret}
-                />
-              </Space>
-            </Card>
-          </Col>
+          <SignTypedDataV4 account={account} />
+
           <Permit chainId={chainId} />
         </Row>
         <Row gutter={16}>

@@ -20,6 +20,6 @@ function Sui() {
 
 export default {
   key: 'Sui',
-  label: 'Sui',
+  title: 'Sui',
   children: <Sui />,
 };

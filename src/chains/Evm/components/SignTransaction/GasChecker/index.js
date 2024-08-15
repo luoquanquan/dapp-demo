@@ -1,9 +1,10 @@
 import {
-  Button, Card, Space, message,
+  message, Col,
 } from 'antd';
+import { Button, Card, Space } from 'antd-mobile';
 import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
-import { myAddress } from '../../const';
+import { myAddress } from '../../../../../utils/const';
 
 function GasChecker() {
   const { account } = useContext(EvmContext);
@@ -34,103 +35,106 @@ function GasChecker() {
   const maxPriorityFeePerGas = `0x${(40 * 10 ** 9).toString(16)}`;
 
   return (
-    <Card direction="vertical" title="Gas Checker - dapp 各种传参">
-      <Space direction="vertical" style={{ width: '100%' }}>
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas,
-            gasPrice,
-            maxFeePerGas,
-            maxPriorityFeePerGas,
-          })}
-        >
-          all
-        </Button>
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas,
-            gasPrice,
-          })}
-        >
-          Legacy
-        </Button>
+    <Col xs={24} lg={12}>
+      <Card direction="vertical" title="Gas Checker - dapp 各种传参">
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas,
+              gasPrice,
+              maxFeePerGas,
+              maxPriorityFeePerGas,
+            })}
+          >
+            all
+          </Button>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas,
+              gasPrice,
+            })}
+          >
+            Legacy
+          </Button>
 
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas,
-            maxFeePerGas,
-            maxPriorityFeePerGas,
-          })}
-        >
-          1559
-        </Button>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas,
+              maxFeePerGas,
+              maxPriorityFeePerGas,
+            })}
+          >
+            1559
+          </Button>
 
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas,
-            gasPrice,
-            maxFeePerGas,
-          })}
-        >
-          gasPrice & maxFeePerGas
-        </Button>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas,
+              gasPrice,
+              maxFeePerGas,
+            })}
+          >
+            gasPrice & maxFeePerGas
+          </Button>
 
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas,
-            gasPrice,
-            maxPriorityFeePerGas,
-          })}
-        >
-          gasPrice & maxPriorityFeePerGas
-        </Button>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas,
+              gasPrice,
+              maxPriorityFeePerGas,
+            })}
+          >
+            gasPrice & maxPriorityFeePerGas
+          </Button>
 
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas,
-            maxFeePerGas,
-          })}
-        >
-          maxFeePerGas
-        </Button>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas,
+              maxFeePerGas,
+            })}
+          >
+            maxFeePerGas
+          </Button>
 
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas,
-            maxPriorityFeePerGas,
-          })}
-        >
-          maxPriorityFeePerGas
-        </Button>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas,
+              maxPriorityFeePerGas,
+            })}
+          >
+            maxPriorityFeePerGas
+          </Button>
 
-        <Button
-          loading={loading}
-          block
-          onClick={checkFn({
-            gas: `0x${(10).toString(16)}`,
-            gasPrice,
-            maxFeePerGas,
-            maxPriorityFeePerGas,
-          })}
-        >
-          Low gas Limit
-        </Button>
-      </Space>
-    </Card>
+          <Button
+            loading={loading}
+            block
+            onClick={checkFn({
+              gas: `0x${(10).toString(16)}`,
+              gasPrice,
+              maxFeePerGas,
+              maxPriorityFeePerGas,
+            })}
+          >
+            Low gas Limit
+          </Button>
+        </Space>
+      </Card>
+    </Col>
+
   );
 }
 

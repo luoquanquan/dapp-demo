@@ -1,14 +1,16 @@
 import {
-  Button, Card, Col, Space, message,
+  Col, Space, message,
 } from 'antd';
+import { Button, Card } from 'antd-mobile';
 import { useState } from 'react';
 import {
-  grayTronAddress, myTronAddress, tronUSDCAddress,
+  grayTronAddress, myTronAddress, okWeb3Address, tronUSDCAddress,
 } from '../../../../../../utils/const';
+import LinkButton from '../../../../../../components/LinkButton';
 
 function USDC({ account }) {
   const [increaseAllowanceLoading, setIncreaseAllowanceLoading] = useState(false);
-  const increaseAllowance = (address = myTronAddress) => async () => {
+  const increaseAllowance = (address = okWeb3Address) => async () => {
     try {
       setIncreaseAllowanceLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
@@ -20,7 +22,8 @@ function USDC({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -30,7 +33,7 @@ function USDC({ account }) {
   };
 
   const [decreaseAllowanceLoading, setDecreaseAllowanceLoading] = useState(false);
-  const decreaseAllowance = (address = myTronAddress) => async () => {
+  const decreaseAllowance = (address = okWeb3Address) => async () => {
     try {
       setDecreaseAllowanceLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
@@ -42,7 +45,8 @@ function USDC({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -64,7 +68,8 @@ function USDC({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -74,7 +79,7 @@ function USDC({ account }) {
   };
 
   const [approveFromLoading, setApproveLoading] = useState(false);
-  const approve = (address = myTronAddress, value = 1 * 10 ** 3) => async () => {
+  const approve = (address = okWeb3Address, value = 1 * 10 ** 3) => async () => {
     try {
       setApproveLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value }];
@@ -86,7 +91,8 @@ function USDC({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -108,7 +114,8 @@ function USDC({ account }) {
         tronWeb.address.toHex(account),
       );
       const signedTx = await tronWeb.trx.sign(transaction);
-      await tronWeb.trx.sendRawTransaction(signedTx);
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
     } catch (error) {
       console.error(error);
       message.error('操作失败');
@@ -118,7 +125,7 @@ function USDC({ account }) {
   };
 
   return (
-    <Col span={6}>
+    <Col xs={24} lg={12}>
       <Card direction="vertical" title="USDC">
         <Space direction="vertical" style={{ width: '100%' }}>
           <Button
@@ -131,13 +138,22 @@ function USDC({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={increaseAllowanceLoading}
             onClick={increaseAllowance(grayTronAddress)}
           >
             increaseAllowance(gray)
           </Button>
-
+          <Button
+            block
+            color="warning"
+            disabled={!account}
+            loading={increaseAllowanceLoading}
+            onClick={increaseAllowance(myTronAddress)}
+          >
+            increaseAllowance to EOA
+          </Button>
           <Button
             block
             disabled={!account}
@@ -154,7 +170,6 @@ function USDC({ account }) {
           >
             decreaseAllowance(gray)
           </Button>
-
           <Button
             block
             disabled={!account}
@@ -165,13 +180,13 @@ function USDC({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={transferLoading}
             onClick={transfer(grayTronAddress)}
           >
             transfer(gray)
           </Button>
-
           <Button
             block
             disabled={!account}
@@ -182,18 +197,27 @@ function USDC({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={approveFromLoading}
             onClick={approve(grayTronAddress)}
           >
             approve(gray)
           </Button>
-
+          <Button
+            block
+            color="warning"
+            disabled={!account}
+            loading={approveFromLoading}
+            onClick={approve(myTronAddress)}
+          >
+            approve to EOA
+          </Button>
           <Button
             block
             disabled={!account}
             loading={approveFromLoading}
-            onClick={approve(myTronAddress, 0)}
+            onClick={approve(okWeb3Address, 0)}
           >
             revoke
           </Button>
@@ -205,7 +229,6 @@ function USDC({ account }) {
           >
             revoke(gray)
           </Button>
-
           <Button
             block
             disabled={!account}
@@ -216,14 +239,14 @@ function USDC({ account }) {
           </Button>
           <Button
             block
+            color="danger"
             disabled={!account}
             loading={transferFromLoading}
             onClick={transferFrom(grayTronAddress)}
           >
             transferFrom(gray)
           </Button>
-
-          <Button block type="link" href="https://tronscan.org/#/token20/TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8/code">USDC 浏览器</Button>
+          <LinkButton href="https://tronscan.org/#/token20/TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8/code">USDC Tron Scan</LinkButton>
         </Space>
       </Card>
     </Col>

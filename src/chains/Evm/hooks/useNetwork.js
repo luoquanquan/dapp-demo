@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export default () => {
+  const { ethereum } = window;
   const [chainId, setChainId] = useState('');
 
   const getNetwork = () => {
@@ -11,10 +12,12 @@ export default () => {
     });
   };
   useEffect(() => {
-    getNetwork();
-    ethereum.on('chainChanged', () => {
+    if (ethereum) {
       getNetwork();
-    });
+      ethereum.on('chainChanged', () => {
+        getNetwork();
+      });
+    }
   }, []);
 
   return { chainId };

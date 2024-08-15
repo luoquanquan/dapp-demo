@@ -247,6 +247,7 @@ module.exports = function (webpackEnv) {
       level: 'none',
     },
     optimization: {
+      // runtimeChunk: 'single',
       minimize: isEnvProduction,
       minimizer: [
         // This is only used in production mode
@@ -292,6 +293,31 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new CssMinimizerPlugin(),
       ],
+      ...(isEnvProduction ? {
+        splitChunks: {
+          minSize: 30,
+          maxSize: 30000000,
+          minChunks: 1,
+          cacheGroups: {
+            vendors: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all',
+            },
+            utils: {
+              name: 'utils',
+              test: /[\\/]utils[\\/]/,
+              chunks: 'all',
+            },
+            default: {
+                minChunks: 3,
+                name: 'default',
+                priority: -20,
+                reuseExistingChunk: true
+            }
+          }
+        }
+      } : {})
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
@@ -639,24 +665,24 @@ module.exports = function (webpackEnv) {
       //   `index.html`
       // - "entrypoints" key: Array of files which are included in `index.html`,
       //   can be used to reconstruct the HTML if necessary
-      new WebpackManifestPlugin({
-        fileName: 'asset-manifest.json',
-        publicPath: paths.publicUrlOrPath,
-        generate: (seed, files, entrypoints) => {
-          const manifestFiles = files.reduce((manifest, file) => {
-            manifest[file.name] = file.path;
-            return manifest;
-          }, seed);
-          const entrypointFiles = entrypoints.main.filter(
-            fileName => !fileName.endsWith('.map')
-          );
+      // new WebpackManifestPlugin({
+      //   fileName: 'asset-manifest.json',
+      //   publicPath: paths.publicUrlOrPath,
+      //   generate: (seed, files, entrypoints) => {
+      //     const manifestFiles = files.reduce((manifest, file) => {
+      //       manifest[file.name] = file.path;
+      //       return manifest;
+      //     }, seed);
+      //     const entrypointFiles = entrypoints.main.filter(
+      //       fileName => !fileName.endsWith('.map')
+      //     );
 
-          return {
-            files: manifestFiles,
-            entrypoints: entrypointFiles,
-          };
-        },
-      }),
+      //     return {
+      //       files: manifestFiles,
+      //       entrypoints: entrypointFiles,
+      //     };
+      //   },
+      // }),
       // Moment.js is an extremely popular library that bundles large locale files
       // by default due to how webpack interprets its code. This is a practical
       // solution that requires the user to opt into importing specific locales.

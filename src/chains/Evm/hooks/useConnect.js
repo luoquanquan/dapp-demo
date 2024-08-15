@@ -7,13 +7,16 @@ const errorMap = {
 };
 
 export default () => {
+  const { ethereum } = window;
   // 连接钱包
   const [account, setAccount] = useState('');
   const handleConnect = async () => {
     try {
-      const resp = await ethereum.request({ method: 'eth_requestAccounts' });
-      const [evmAddress] = resp;
-      setAccount(evmAddress);
+      if (ethereum) {
+        const resp = await ethereum.request({ method: 'eth_requestAccounts' });
+        const [evmAddress] = resp;
+        setAccount(evmAddress);
+      }
     } catch (error) {
       message.error(errorMap[error.code] || error.message);
     }
@@ -29,9 +32,19 @@ export default () => {
     }
   };
 
+  const handleDisConnect = async () => {
+    try {
+      await ethereum.disconnect();
+    } catch (_) {
+      // do nothing
+    }
+
+    window.location.reload();
+  };
+
   useEffect(() => {
     try {
-      okxwallet.on('walletChanged', ([connected]) => {
+      ethereum.on('accountChanged', ([connected]) => {
         if (connected) {
           handleConnect();
         } else {
@@ -42,12 +55,12 @@ export default () => {
       console.log('Current log: error: ', error);
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const dontAutoConnect = urlParams.get('dontAutoConnect');
-    if (!dontAutoConnect) {
+    setTimeout(() => {
       handleConnect();
-    }
+    }, 2e2);
   }, []);
 
-  return { account, handleConnect, handleConnectAllChains };
+  return {
+    account, handleConnect, handleConnectAllChains, handleDisConnect,
+  };
 };
