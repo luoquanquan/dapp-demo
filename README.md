@@ -4,7 +4,7 @@
 
 ### 依赖安装
 
-- `npm run install-dep`
+- `yarn`
 
 ### 开发
 
