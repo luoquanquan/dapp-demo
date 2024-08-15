@@ -75,7 +75,6 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "install-dep": "npm i --legacy-peer-deps",
     "release": "./scripts/release.sh"
   },
   "eslintConfig": {
