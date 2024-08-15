@@ -13,11 +13,7 @@ node scripts/build.js
 
 echo "End compile $version"
 
-cp ../public/tonconnect-manifest.json ../docs
-
-git stash -u
-
-git checkout release
+# cp ../public/tonconnect-manifest.json ../docs
 
 git add .
 git commit -m "Deploy for $version"
@@ -25,10 +21,4 @@ git commit -m "Deploy for $version"
 echo "Start push $version"
 
 git push
-git checkout main
-
-git push
 echo "Complete $version"
-
-# clean
-rimraf docs
