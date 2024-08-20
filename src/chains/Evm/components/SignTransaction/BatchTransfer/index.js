@@ -74,6 +74,26 @@ function BatchTransfer() {
     }
   };
 
+  const transferBaseTokenWithError = async () => {
+    try {
+      setTransferBaseTokenLoading(true);
+      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: account,
+          to: '0xd152f549545093347a162dce210e7293f1452150',
+          value: '0x6f05b59d3b20000',
+          data: '0xe6d3d38ed000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000003000000000000000000000000fe8dc6394501a35ad1c4833f40f382e55dada4f3000000000000000000000000e5a85089a3da45b5460a59b1d4cf181e01fe7681000000000000000000000000f27b3ba38ea4077423f8edaae0e2c9fedb8fda6d0000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000016345785d8a000000000000000000000000000000000000000000000000000002c68af0bb14000000000000000000000000000000000000000000000000000002c68af0bb1400001121',
+        }],
+      });
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setTransferBaseTokenLoading(false);
+    }
+  };
+
   const [
     transferBaseTokenWithGrayAddressLoading,
     setTransferBaseTokenWithGrayAddressLoading,
@@ -238,6 +258,16 @@ function BatchTransfer() {
           >
             batchTransfer baseCoin
           </Button>
+
+          <Button
+            block
+            onClick={transferBaseTokenWithError}
+            disabled={!account}
+          >
+            transferBaseTokenWithError
+          </Button>
+
+          {/*  */}
           {/* <Button
           block
           loading={transferBaseTokenWithGrayAddressLoading}
