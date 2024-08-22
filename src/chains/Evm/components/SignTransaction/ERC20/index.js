@@ -317,7 +317,19 @@ function ERC20() {
                   <Col xs={24} lg={24}>
                     检测到你的地址没有
                     {symbol}
-                    代币, 请联系 author 给你转钱. 或者点击上方的 Deploy Contract 按钮部署合约发布代币
+                    代币
+                    {/* <>
+                      你可以
+                      <Button
+                        block
+                        style={{ marginBottom: 8 }}
+                        loading={approveTokenLoading}
+                        onClick={handleApproveToken({})}
+                        disabled={!hstContract.address || !account}
+                      >
+                        mint
+                      </Button>
+                    </> */}
                   </Col>
                 </Row>
               )
