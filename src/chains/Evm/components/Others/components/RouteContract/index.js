@@ -82,6 +82,7 @@ function RouteContract() {
             {btns.map((btn) => (
               <Button
                 block
+                key={btn.callData}
                 loading={loading}
                 disabled={!account}
                 onClick={() => fireWithParams(btn)}
