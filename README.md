@@ -21,3 +21,5 @@ PS: 需要关注下响应式, 因为测试 dapp 移动端钱包也会用到
 ### 部署
 
 开发完成并 `git commit` 之后, 执行 `npm run release` 即可, 测试页面会自动部署. 剩下的都不用管了 ~
+
+[LICENSE](./LICENSE)

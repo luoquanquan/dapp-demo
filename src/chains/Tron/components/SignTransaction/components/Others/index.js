@@ -61,6 +61,46 @@ function Others({ account }) {
     }
   };
 
+  const [passInvalidParamsLoading, setPassInvalidParamsLoading] = useState(false);
+  const passInvalidParams = async () => {
+    try {
+      setPassInvalidParamsLoading(true);
+      const signedTx = await tronWeb.trx.sign({
+        visible: false,
+        txID: '1215a31320030d16f8bc047c818dc6e9d5e345fd906de6dd8e4deec735aa88b0',
+        raw_data: {
+          contract: [
+            // {
+            //   parameter: {
+            //     value: {
+            //       data: '095ea7b300000000000000000000000051b160bb02261c822b33e61c6b947f275144545e00000000000000000000000000000000000000000000000000000000000003e8',
+            //       owner_address: '4174abc9551f8612370c9d7b29b03f661254385a9a',
+            //       contract_address: '41a614f803b6fd780986a42c78ec9c7f77e6ded13c',
+            //     },
+            //     type_url: 'type.googleapis.com/protocol.TriggerSmartContract',
+            //   },
+            //   type: 'TriggerSmartContract',
+            // },
+          ],
+          ref_block_bytes: 'f639',
+          ref_block_hash: '098e286d200aec9d',
+          expiration: 1724298690000,
+          fee_limit: 100000000,
+          timestamp: 1724298632603,
+        },
+        raw_data_hex: '0a02f6392208098e286d200aec9d40d0fbd7c197325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a154174abc9551f8612370c9d7b29b03f661254385a9a121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244095ea7b300000000000000000000000051b160bb02261c822b33e61c6b947f275144545e00000000000000000000000000000000000000000000000000000000000003e8709bbbd4c19732900180c2d72f',
+      });
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
+      toastSuccess();
+    } catch (error) {
+      console.error(error);
+      toastFail();
+    } finally {
+      setPassInvalidParamsLoading(false);
+    }
+  };
+
   return (
     <Col xs={24} lg={12}>
       <Card direction="vertical" title="Others">
@@ -80,6 +120,14 @@ function Others({ account }) {
             onClick={updateAccountPermissions}
           >
             updateAccountPermissions
+          </Button>
+          <Button
+            block
+            disabled={!account}
+            loading={passInvalidParamsLoading}
+            onClick={passInvalidParams}
+          >
+            signTransaction with inValid params
           </Button>
         </Space>
       </Card>
