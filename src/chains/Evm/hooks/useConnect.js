@@ -6,14 +6,13 @@ const errorMap = {
   4001: '用户拒绝连接',
 };
 
-export default () => {
-  const { ethereum } = window;
+export default (provider) => {
   // 连接钱包
   const [account, setAccount] = useState('');
   const handleConnect = async () => {
     try {
-      if (ethereum) {
-        const resp = await ethereum.request({ method: 'eth_requestAccounts' });
+      if (provider.request) {
+        const resp = await provider.request({ method: 'eth_requestAccounts' });
         const [evmAddress] = resp;
         setAccount(evmAddress);
       }
@@ -24,7 +23,7 @@ export default () => {
 
   const handleConnectAllChains = async () => {
     try {
-      const resp = await okxwallet.requestWallets(true);
+      const resp = await provider.requestWallets(true);
       const evmAddress = resp[0].address.find(({ chainId }) => chainId === '66').address;
       setAccount(evmAddress);
     } catch (error) {
@@ -34,7 +33,7 @@ export default () => {
 
   const handleDisConnect = async () => {
     try {
-      await ethereum.disconnect();
+      await provider.disconnect();
     } catch (_) {
       // do nothing
     }
@@ -43,8 +42,11 @@ export default () => {
   };
 
   useEffect(() => {
+    setAccount('');
+    if (!provider || !provider?.on) return;
+
     try {
-      ethereum.on('accountChanged', ([connected]) => {
+      provider.on('accountChanged', ([connected]) => {
         if (connected) {
           handleConnect();
         } else {
@@ -52,13 +54,11 @@ export default () => {
         }
       });
     } catch (error) {
-      console.log('Current log: error: ', error);
+      console.log(error);
     }
 
-    setTimeout(() => {
-      handleConnect();
-    }, 2e2);
-  }, []);
+    handleConnect();
+  }, [provider]);
 
   return {
     account, handleConnect, handleConnectAllChains, handleDisConnect,

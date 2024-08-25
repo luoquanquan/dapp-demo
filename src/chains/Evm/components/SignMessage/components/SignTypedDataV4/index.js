@@ -5,7 +5,7 @@ import { toastFail, toastSuccess } from '../../../../../../utils/toast';
 import EvmContext from '../../../../context';
 
 function SignTypedDataV4() {
-  const { account, chainId } = useContext(EvmContext);
+  const { account, chainId, provider } = useContext(EvmContext);
 
   const [eth_signTypedData_v4Loading, setEth_signTypedData_v4Loading] = useState(false);
   const eth_signTypedData_v4 = ({ verifyingContract = '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC', fakeMsg = false } = {}) => async () => {
@@ -64,7 +64,7 @@ function SignTypedDataV4() {
 
     try {
       setEth_signTypedData_v4Loading(true);
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_signTypedData_v4',
         params: [account, JSON.stringify(msgParams)],
       });
@@ -79,7 +79,7 @@ function SignTypedDataV4() {
   };
 
   const eth_signTypedData_v4_0 = async () => {
-    // await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+    // await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
     const msgParams = {
       types: {
         EIP712Domain: [
@@ -260,7 +260,7 @@ function SignTypedDataV4() {
 
     try {
       setEth_signTypedData_v4Loading(true);
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_signTypedData_v4',
         params: [account, JSON.stringify(msgParams)],
       });

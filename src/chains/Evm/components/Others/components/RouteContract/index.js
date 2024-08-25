@@ -12,7 +12,7 @@ import InputField from '../../../../../../components/InputField';
 import btns from './btns';
 
 function RouteContract() {
-  const { account } = useContext(EvmContext);
+  const { account, provider } = useContext(EvmContext);
 
   const [chainId, setChainId] = useState('');
   const [to, setTo] = useState('');
@@ -23,14 +23,14 @@ function RouteContract() {
     try {
       setLoading(true);
 
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: params.chainId }] });
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: params.chainId }] });
       const data = {
         from: account,
         to: params.to,
         value: '0x0',
         data: params.callData,
       };
-      await ethereum.request({ method: 'eth_sendTransaction', params: [data] });
+      await provider.request({ method: 'eth_sendTransaction', params: [data] });
       toastSuccess();
     } catch (error) {
       console.log(error);

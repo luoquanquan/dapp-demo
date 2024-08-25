@@ -12,7 +12,7 @@ import EvmContext from '../../../context';
 import { myAddress } from '../../../../../utils/const';
 
 function Form() {
-  const { account } = useContext(EvmContext);
+  const { account, provider } = useContext(EvmContext);
   const [baseFeePerGas, setBaseFeePerGas] = useState('');
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState('');
   const [gasPrice, setGasPrice] = useState('');
@@ -40,7 +40,7 @@ function Form() {
         data.gasPrice = toHex(gasPrice * 10 ** 9);
       }
 
-      await ethereum.request({
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [data],
       });

@@ -20,18 +20,6 @@ const defaultSymbol = 'CIRCLE_LUO';
 
 const usedTokens = [
   {
-    chain: 'ETH',
-    symbol: 'HQG',
-    chainId: 1,
-    address: '0x57b9d10157f66d8c00a815b5e289a152dedbe7ed',
-  },
-  {
-    chain: 'ETH',
-    symbol: 'USDT',
-    chainId: 1,
-    address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-  },
-  {
     chain: 'OKTC',
     symbol: defaultSymbol,
     chainId: 66,
@@ -55,35 +43,11 @@ const usedTokens = [
     chainId: 137,
     address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
   },
-  // {
-  //   chain: 'BFT',
-  //   symbol: 'CIRCLE_LUO',
-  //   chainId: 0x56b29,
-  //   address: '0x1FB5f5067ea282c5288a818dA37787E4E59D8D55',
-  // },
   {
     chain: 'Polygon',
     symbol: 'QUANQU...QUAN',
     chainId: 137,
     address: '0x6Ed7E67F6ee4833Fd4b461c0ce5F1949c133d4ed',
-  },
-  {
-    chain: 'FIL',
-    symbol: defaultSymbol,
-    chainId: 314,
-    address: '0xbfc5224df96f01ad37d874e5a477aafb92a5e970',
-  },
-  {
-    chain: 'Sepolia Test Net',
-    symbol: 'QUANQU...QUAN',
-    chainId: 11155111,
-    address: '0x831f4bC8002Ec130617e5bf0B401DB8a9E4E5204',
-  },
-  {
-    chain: 'Blast',
-    symbol: 'TEST',
-    chainId: 81457,
-    address: '0xc1b1ae2502d2cdef4772fb4a4a6fcbf4fd9c1b80',
   },
   {
     chain: 'OKT Test',
@@ -109,16 +73,23 @@ function ERC20() {
     (async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const tokenAddress = urlParams.get('tokenAddress');
-      if (account && !hstContract.address && tokenAddress) {
+
+      if (account && tokenAddress) {
+        setNotHaveToken(false);
+        setSymbol(undefined);
+        setHstContract({});
+        setDecimals(4);
+        createTokenRef.current?.scrollIntoView({ behavior: 'smooth' });
+
         const targetToken = usedTokens.find(({ address }) => address === tokenAddress);
         if (targetToken) {
-          await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: `0x${targetToken.chainId.toString(16)}` }] });
+          await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: `0x${targetToken.chainId.toString(16)}` }] });
         }
 
         const newHstContract = new ethers.Contract(
           tokenAddress,
           hstAbi,
-          provider.getSigner(),
+          new ethers.providers.Web3Provider(provider, 'any').getSigner(),
         );
 
         const tokenSymbol = await newHstContract.symbol();
@@ -133,10 +104,9 @@ function ERC20() {
 
         setDecimals(tokenDecimals);
         setHstContract(newHstContract);
-        createTokenRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
     })();
-  }, [account]);
+  }, [account, provider]);
   const [createBtnLoading, setCreateBtnLoading] = useState(false);
 
   const handleCreateToken = async () => {
@@ -145,7 +115,7 @@ function ERC20() {
       const hstFactory = new ethers.ContractFactory(
         hstAbi,
         hstBytecode,
-        provider.getSigner(),
+        new ethers.providers.Web3Provider(provider, 'any').getSigner(),
       );
       const newHstContract = await hstFactory.deploy(
         1000000000000000,
@@ -167,7 +137,7 @@ function ERC20() {
   const wallet_watchAsset = async () => {
     try {
       setWatchAssetLoading(true);
-      await ethereum.request({
+      await provider.request({
         method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',

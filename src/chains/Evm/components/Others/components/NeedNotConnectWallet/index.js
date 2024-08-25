@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Card, Space } from 'antd-mobile';
 import { toastFail, toastSuccess } from '../../../../../../utils/toast';
+import EvmContext from '../../../../context';
 
 function NeedNotConnectWallet() {
   const [addNetLoading, setAddNetLoading] = useState(false);
+  const { provider } = useContext(EvmContext);
   const addNet = async () => {
     try {
       setAddNetLoading(true);
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
@@ -34,8 +36,8 @@ function NeedNotConnectWallet() {
   const wallet_watchAsset = async () => {
     try {
       setWallet_watchAssetLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
-      const ret = await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x42' }] });
+      const ret = await provider.request({
         method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',

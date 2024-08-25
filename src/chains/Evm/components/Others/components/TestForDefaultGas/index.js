@@ -6,14 +6,13 @@ import { myAddress } from '../../../../../../utils/const';
 import { toastFail, toastSuccess } from '../../../../../../utils/toast';
 
 function TestForDefaultGas() {
-  const { account } = useContext(EvmContext);
-  console.log('Current log: account: ', account);
+  const { account, provider } = useContext(EvmContext);
 
   const [addSepoliaTestNetworkLoading, setAddSepoliaTestNetworkLoading] = useState(false);
   const addSepoliaTestNetwork = async () => {
     try {
       setAddSepoliaTestNetworkLoading(true);
-      await ethereum.request({
+      await provider.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
@@ -38,8 +37,8 @@ function TestForDefaultGas() {
   const addToken = (chainId, tokenAddress) => async () => {
     try {
       setAddTokenLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+      await provider.request({
         method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',
@@ -64,8 +63,8 @@ function TestForDefaultGas() {
   const sendBaseToken = (chainId, gasInfo) => async () => {
     try {
       setSendBaseTokenLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,

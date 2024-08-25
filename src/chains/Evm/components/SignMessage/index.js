@@ -13,7 +13,7 @@ import { toastFail, toastSuccess } from '../../../../utils/toast';
 import SignTypedDataV4 from './components/SignTypedDataV4';
 
 function SignMessage() {
-  const { account, chainId } = useContext(EvmContext);
+  const { account, chainId, provider } = useContext(EvmContext);
   const [eth_signLoading, setEth_signLoading] = useState(false);
   const eth_sign = async () => {
     try {
@@ -22,7 +22,7 @@ function SignMessage() {
       // const hashMsg = '0x' +
       // keccak256(`\x19Ethereum Signed Message:\n${msg.length}${msg}`).toString('hex');
       const hashMsg = '0x879a053d4800c6354e76c7985a865d2922c82fb5b3f4577b2fe08b998954f2e0';
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_sign',
         params: [account, hashMsg],
       });
@@ -40,7 +40,7 @@ function SignMessage() {
   const handlePersonalSign = (msg = 'Example `personal_sign` message') => async () => {
     try {
       setPersonal_signLoading(true);
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'personal_sign',
         params: [msg, account, 'Example password'],
       });
@@ -75,7 +75,7 @@ function SignMessage() {
   const handleTypedDataSign = async () => {
     try {
       setTypedDataSignLoading(true);
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_signTypedData',
         params: [typedDataMsg, account],
       });
@@ -131,7 +131,7 @@ function SignMessage() {
 
     try {
       setEth_signTypedData_v3Loading(false);
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_signTypedData_v3',
         params: [account, JSON.stringify(msgParams)],
       });

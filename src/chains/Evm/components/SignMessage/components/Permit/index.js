@@ -61,7 +61,7 @@ const chainTokens = {
 function Permit({ chainId }) {
   const grayAddress = getEvmBlackContractAddress(chainId);
   const strongBlackAddress = getStrongBlackEoaAddress(chainId);
-  const { account } = useContext(EvmContext);
+  const { account, provider } = useContext(EvmContext);
 
   const [permitLoading, setPermitLoading] = useState(false);
   const permit = (spender = '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45') => async () => {
@@ -126,7 +126,7 @@ function Permit({ chainId }) {
         },
       };
 
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_signTypedData_v4',
         params: [account, JSON.stringify(msgParams)],
       });
@@ -212,7 +212,7 @@ function Permit({ chainId }) {
         },
       };
 
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_signTypedData_v4',
         params: [account, JSON.stringify(msgParams)],
       });
@@ -318,7 +318,7 @@ function Permit({ chainId }) {
         },
       };
 
-      const ret = await ethereum.request({
+      const ret = await provider.request({
         method: 'eth_signTypedData_v4',
         params: [account, JSON.stringify(msgParams)],
       });
@@ -491,7 +491,7 @@ function Permit({ chainId }) {
                 block
                 disabled={!account}
                 onClick={() => {
-                  ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x1' }] });
+                  provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x1' }] });
                 }}
               >
                 暂不支持该网络 - 切换到 eth 主网

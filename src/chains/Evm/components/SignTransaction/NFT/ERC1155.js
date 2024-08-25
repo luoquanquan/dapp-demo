@@ -39,28 +39,28 @@ function ERC1155() {
     (async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const erc1155Address = urlParams.get('erc1155Address');
-      if (account && !nftsContract.address && erc1155Address) {
+      if (account && erc1155Address) {
+        createNftRef.current?.scrollIntoView({ behavior: 'smooth' });
         const targetNft = usedNfts.find(({ address }) => address === erc1155Address);
         if (targetNft) {
-          await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: targetNft.chainId }] });
+          await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: targetNft.chainId }] });
         }
         const newNftsContract = new ethers.Contract(
           erc1155Address,
           erc1155Abi,
-          provider.getSigner(),
+          new ethers.providers.Web3Provider(provider, 'any').getSigner(),
         );
         setNftsContract(newNftsContract);
-        createNftRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
     })();
-  }, [account]);
+  }, [account, provider]);
   const createNft = async () => {
     try {
       setCreateNftLoading(true);
       const nftsFactory = new ethers.ContractFactory(
         erc1155Abi,
         erc1155Bytecode,
-        provider.getSigner(),
+        new ethers.providers.Web3Provider(provider, 'any').getSigner(),
       );
 
       const resp = await nftsFactory.deploy();

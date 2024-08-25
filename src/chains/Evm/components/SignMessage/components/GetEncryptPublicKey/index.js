@@ -9,14 +9,14 @@ import EvmContext from '../../../../context';
 import { toastFail } from '../../../../../../utils/toast';
 
 function GetEncryptPublicKey() {
-  const { account } = useContext(EvmContext);
+  const { account, provider } = useContext(EvmContext);
 
   const [getEncryptPublicKeyLoading, setGetEncryptPublicKeyLoading] = useState(false);
   const [encryptPublicKey, setEncryptPublicKey] = useState('');
   const handleGetEncryptPublicKey = async () => {
     try {
       setGetEncryptPublicKeyLoading(true);
-      const resp = await ethereum.request({
+      const resp = await provider.request({
         method: 'eth_getEncryptionPublicKey',
         params: [account],
       });
@@ -51,7 +51,7 @@ function GetEncryptPublicKey() {
   const handleDecrypt = async () => {
     try {
       setDecryptLoading(true);
-      const resp = await ethereum.request({
+      const resp = await provider.request({
         method: 'eth_decrypt',
         params: [ciphertext, account],
       });

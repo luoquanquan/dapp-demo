@@ -1,6 +1,5 @@
 import { Button, Space } from 'antd-mobile';
-import { useEffect, useMemo, useState } from 'react';
-import { ethers } from 'ethers';
+import { useMemo, useState } from 'react';
 import SignMessage from './components/SignMessage';
 import useNetwork from './hooks/useNetwork';
 import Network from './components/Network';
@@ -14,21 +13,20 @@ import DontHaveWallet from '../../components/DontHaveWallet';
 import BlackAddress from '../../components/BlackAddress';
 import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from '../../utils/const';
 import LinkButton from '../../components/LinkButton';
+import Eip6963 from './components/Eip6963';
 
 function Evm() {
-  const { chainId } = useNetwork();
+  const [provider, setProvider] = useState({});
   const {
     account, handleConnect, handleConnectAllChains, handleDisConnect,
-  } = useConnect();
-  const [provider, setProvider] = useState(null);
-  useEffect(() => {
-    setProvider(new ethers.providers.Web3Provider(window.ethereum, 'any'));
-  }, [chainId]);
+  } = useConnect(provider);
+  const { chainId } = useNetwork(provider);
 
   const context = useMemo(() => ({
     account,
     chainId,
     provider,
+    setProvider,
   }), [account, chainId, provider]);
 
   return (
@@ -37,12 +35,18 @@ function Evm() {
       <Space direction="vertical" style={{ width: '100%' }}>
         <Network />
 
+        <Eip6963 />
+
         <Account account={account} />
 
         <Connect handleConnect={handleConnect} account={account} handleDisConnect={handleDisConnect}>
-          <Button disabled={!!account} onClick={handleConnectAllChains}>
-            Connect All Chain
-          </Button>
+          {
+            provider.requestWallets ? (
+              <Button disabled={!!account} onClick={handleConnectAllChains}>
+                Connect All Chain
+              </Button>
+            ) : null
+          }
         </Connect>
 
         <SignMessage />
@@ -53,6 +57,7 @@ function Evm() {
 
         <BlackAddress type={BlackAddress.typeMap.eoa} address={getEvmBlackEoaAddress(chainId)} />
         <BlackAddress type={BlackAddress.typeMap.strongEoa} address={getStrongBlackEoaAddress(chainId)} />
+
       </Space>
     </EvmContext.Provider>
   );

@@ -5,14 +5,14 @@ import { toastFail, toastSuccess } from '../../../../../../utils/toast';
 import EvmContext from '../../../../context';
 
 function RareCases() {
-  const { account } = useContext(EvmContext);
+  const { account, provider } = useContext(EvmContext);
   const [loading, setLoading] = useState(false);
 
   const invokeEigenLayer = async () => {
     try {
       setLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x1' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x1' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,

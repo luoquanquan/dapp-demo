@@ -7,13 +7,13 @@ import EvmContext from '../../../context';
 import { myAddress } from '../../../../../utils/const';
 
 function GasChecker() {
-  const { account } = useContext(EvmContext);
+  const { account, provider } = useContext(EvmContext);
 
   const [loading, setLoading] = useState(false);
   const checkFn = (gasInfo = {}) => async () => {
     try {
       setLoading(true);
-      await ethereum.request({
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,

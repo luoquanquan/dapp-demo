@@ -8,7 +8,7 @@ import EvmContext from '../../../context';
 import { getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress } from '../../../../../utils/const';
 
 function BatchTransfer() {
-  const { account, chainId } = useContext(EvmContext);
+  const { account, chainId, provider } = useContext(EvmContext);
   const grayAddress = getEvmBlackContractAddress(chainId);
   const strongBlackAddress = getStrongBlackEoaAddress(chainId);
 
@@ -17,7 +17,7 @@ function BatchTransfer() {
     try {
       setTransferLoading(true);
 
-      await ethereum.request({
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,
@@ -42,7 +42,7 @@ function BatchTransfer() {
         value: `0x${(10 ** 9).toString(16)}`,
       };
 
-      await ethereum.request({
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [txParams],
       });
@@ -57,8 +57,8 @@ function BatchTransfer() {
   const transferBaseToken = async () => {
     try {
       setTransferBaseTokenLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,
@@ -77,8 +77,8 @@ function BatchTransfer() {
   const transferBaseTokenWithError = async () => {
     try {
       setTransferBaseTokenLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,
@@ -101,8 +101,8 @@ function BatchTransfer() {
   const transferBaseTokenWithGrayAddress = async () => {
     try {
       setTransferBaseTokenWithGrayAddressLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,
@@ -125,8 +125,8 @@ function BatchTransfer() {
   const transferBaseTokenWithMoreGrayAddress = async () => {
     try {
       setTransferBaseTokenWithMoreGrayAddressLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,
@@ -146,8 +146,8 @@ function BatchTransfer() {
   const transferToken = async () => {
     try {
       setTransferTokenLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,
@@ -169,8 +169,8 @@ function BatchTransfer() {
   const transferTokenWithGrayAddress = async () => {
     try {
       setTransferTokenWithGrayAddressLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,
@@ -193,8 +193,8 @@ function BatchTransfer() {
   const transferTokenWithMoreGrayAddress = async () => {
     try {
       setTransferTokenWithMoreGrayAddressLoading(true);
-      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
-      await ethereum.request({
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x89' }] });
+      await provider.request({
         method: 'eth_sendTransaction',
         params: [{
           from: account,

@@ -1,24 +1,22 @@
 import { useEffect, useState } from 'react';
 
-export default () => {
-  const { ethereum } = window;
+export default (provider) => {
   const [chainId, setChainId] = useState('');
 
   const getNetwork = () => {
-    Promise.all([
-      ethereum.request({ method: 'eth_chainId' }),
-    ]).then((resp) => {
-      setChainId(+resp[0]);
+    provider?.request && provider.request({ method: 'eth_chainId' }).then((resp) => {
+      setChainId(+resp);
     });
   };
   useEffect(() => {
-    if (ethereum) {
+    if (provider) {
       getNetwork();
-      ethereum.on('chainChanged', () => {
+
+      provider?.on && provider.on('chainChanged', () => {
         getNetwork();
       });
     }
-  }, []);
+  }, [provider]);
 
   return { chainId };
 };
