@@ -13,6 +13,7 @@ import Others from './components/Others';
 import DontHaveWallet from '../../components/DontHaveWallet';
 import BlackAddress from '../../components/BlackAddress';
 import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from '../../utils/const';
+import LinkButton from '../../components/LinkButton';
 
 function Evm() {
   const { chainId } = useNetwork();
@@ -32,6 +33,7 @@ function Evm() {
 
   return (
     <EvmContext.Provider value={context}>
+      <LinkButton href="/dapp-demo/old/">Back To Old Version</LinkButton>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Network />
 
