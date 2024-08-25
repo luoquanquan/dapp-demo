@@ -8,6 +8,7 @@ import SignTransaction from './components/SignTransaction';
 import DontHaveWallet from '../../components/DontHaveWallet';
 import BlackAddress from '../../components/BlackAddress';
 import { grayTronAddress, tronStrongBlackEoaAddress } from '../../utils/const';
+import Others from './components/Others';
 
 function Tron() {
   const { account, handleConnect } = useConnect();
@@ -18,6 +19,8 @@ function Tron() {
       <Connect handleConnect={handleConnect} account={account} />
       <SignMessage account={account} />
       <SignTransaction account={account} />
+      <Others account={account} />
+
       <BlackAddress type={BlackAddress.typeMap.eoa} address={grayTronAddress} />
       <BlackAddress type={BlackAddress.typeMap.strongEoa} address={tronStrongBlackEoaAddress} />
     </Space>
