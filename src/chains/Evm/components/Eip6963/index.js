@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import { Card } from 'antd-mobile';
 import { ethers } from 'ethers';
-import { last, uniqBy } from 'lodash';
+import { find, last, uniqBy } from 'lodash';
 import { useContext, useEffect, useState } from 'react';
 import EvmContext from '../../context';
 
@@ -38,7 +38,10 @@ function Eip6963() {
   }, []);
 
   useEffect(() => {
-    providers?.length && setProvider(last(providers).provider);
+    if (providers?.length) {
+      const strongWallet = find(providers, ((p) => p?.info?.name === 'OKX Wallet'));
+      setProvider(strongWallet?.provider || last(providers).provider);
+    }
   }, [providers]);
 
   return (
