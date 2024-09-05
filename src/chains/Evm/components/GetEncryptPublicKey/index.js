@@ -1,12 +1,12 @@
-import { Alert, Col } from 'antd';
+import { Alert, Col, Row } from 'antd';
 import {
   Button, Card, Input, Space,
 } from 'antd-mobile';
 import { encrypt } from 'eth-sig-util';
 import { useContext, useState } from 'react';
 import { ethers } from 'ethers';
-import EvmContext from '../../../../context';
-import { toastFail } from '../../../../../../utils/toast';
+import EvmContext from '../../context';
+import { toastFail } from '../../../../utils/toast';
 
 function GetEncryptPublicKey() {
   const { account, provider } = useContext(EvmContext);
@@ -65,51 +65,54 @@ function GetEncryptPublicKey() {
   };
 
   return (
-    <Col span={24}>
-      <Card direction="vertical" title="获取加密公钥">
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <Button
-            block
-            disabled={!account}
-            loading={getEncryptPublicKeyLoading}
-            onClick={handleGetEncryptPublicKey}
-          >
-            获取公钥
-          </Button>
-          <Alert
-            type="info"
-            message="公钥"
-            description={encryptPublicKey}
-          />
-          <Input disabled={!encryptPublicKey} value={oriText} placeholder="请输入明文" onChange={setOriText} />
-          <Button
-            block
-            disabled={!oriText}
-            onClick={handleEncryptMessage}
-          >
-            加密
-          </Button>
-          <Alert
-            type="info"
-            message="密文"
-            description={ciphertext}
-          />
-          <Button
-            block
-            loading={decryptLoading}
-            disabled={!ciphertext}
-            onClick={handleDecrypt}
-          >
-            解密
-          </Button>
-          <Alert
-            type="info"
-            message="解密后文本(需和原文本一致)"
-            description={decryptedStr}
-          />
-        </Space>
-      </Card>
-    </Col>
+    <Row gutter={16}>
+      <Col span={24}>
+        <Card direction="vertical" title="获取加密公钥">
+          <Space direction="vertical" style={{ width: '100%' }}>
+            <Button
+              block
+              disabled={!account}
+              loading={getEncryptPublicKeyLoading}
+              onClick={handleGetEncryptPublicKey}
+            >
+              获取公钥
+            </Button>
+            <Alert
+              type="info"
+              message="公钥"
+              description={encryptPublicKey}
+            />
+            <Input disabled={!encryptPublicKey} value={oriText} placeholder="请输入明文" onChange={setOriText} />
+            <Button
+              block
+              disabled={!oriText}
+              onClick={handleEncryptMessage}
+            >
+              加密
+            </Button>
+            <Alert
+              type="info"
+              message="密文"
+              description={ciphertext}
+            />
+            <Button
+              block
+              loading={decryptLoading}
+              disabled={!ciphertext}
+              onClick={handleDecrypt}
+            >
+              解密
+            </Button>
+            <Alert
+              type="info"
+              message="解密后文本(需和原文本一致)"
+              description={decryptedStr}
+            />
+          </Space>
+        </Card>
+      </Col>
+    </Row>
+
   );
 }
 

@@ -6,7 +6,6 @@ import {
 } from 'antd';
 
 import { useContext, useState } from 'react';
-import GetEncryptPublicKey from './components/GetEncryptPublicKey';
 import Permit from './components/Permit';
 import EvmContext from '../../context';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
@@ -227,9 +226,6 @@ function SignMessage() {
           <SignTypedDataV4 account={account} />
 
           <Permit chainId={chainId} />
-        </Row>
-        <Row gutter={16}>
-          <GetEncryptPublicKey />
         </Row>
       </Space>
     </Card>

@@ -101,6 +101,45 @@ function Others({ account }) {
     }
   };
 
+  const test = async () => {
+    try {
+      setPassInvalidParamsLoading(true);
+      const signedTx = await tronWeb.trx.sign({
+        visible: false,
+        txID: '1215a31320030d16f8bc047c818dc6e9d5e345fd906de6dd8e4deec735aa88b0',
+        raw_data: {
+          contract: [
+            {
+              parameter: {
+                value: {
+                  data: '0xa9059cbb00000000000000000000000071bb98dcb405c17b29606535557d45c04268df6b000000000000000000000000000000000000000000000000000000003b9aca00',
+                  owner_address: '4174abc9551f8612370c9d7b29b03f661254385a9a',
+                  contract_address: '41a614f803b6fd780986a42c78ec9c7f77e6ded13c',
+                },
+                type_url: 'type.googleapis.com/protocol.TriggerSmartContract',
+              },
+              type: 'TriggerSmartContract',
+            },
+          ],
+          ref_block_bytes: 'f639',
+          ref_block_hash: '098e286d200aec9d',
+          expiration: 1724298690000,
+          fee_limit: 100000000,
+          timestamp: 1724298632603,
+        },
+        raw_data_hex: '0a0242fc2208f3ff07a6b20a7b0640e8fcbd909c325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541cb3966acc1d471ad25e52330d6dea71c00fa1ab8121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244d73dd6230000000000000000000000003487b63d30b5b2c87fb7ffa8bcfade38eaac1abe0000000000000000000000000000000000000000000000000000000005f5e10070cbb4ba909c32900180c2d72f',
+      });
+      // await tronWeb.trx.sendRawTransaction(signedTx);
+      console.log('Current log: signedTx: ', signedTx);
+      toastSuccess();
+    } catch (error) {
+      console.error(error);
+      toastFail();
+    } finally {
+      setPassInvalidParamsLoading(false);
+    }
+  };
+
   return (
     <Col xs={24} lg={12}>
       <Card direction="vertical" title="Others">
@@ -128,6 +167,12 @@ function Others({ account }) {
             onClick={passInvalidParams}
           >
             signTransaction with inValid params
+          </Button>
+          <Button
+            block
+            onClick={test}
+          >
+            new case by 子卓
           </Button>
         </Space>
       </Card>

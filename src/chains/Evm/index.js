@@ -14,6 +14,7 @@ import BlackAddress from '../../components/BlackAddress';
 import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from '../../utils/const';
 import LinkButton from '../../components/LinkButton';
 import Eip6963 from './components/Eip6963';
+import GetEncryptPublicKey from './components/GetEncryptPublicKey';
 
 function Evm() {
   const [provider, setProvider] = useState({});
@@ -54,6 +55,8 @@ function Evm() {
         <SignTransaction />
 
         <Others />
+
+        <GetEncryptPublicKey />
 
         <BlackAddress type={BlackAddress.typeMap.eoa} address={getEvmBlackEoaAddress(chainId)} />
         <BlackAddress type={BlackAddress.typeMap.strongEoa} address={getStrongBlackEoaAddress(chainId)} />

@@ -5,7 +5,6 @@ import {
   Card,
 } from 'antd-mobile';
 import Tools from './components/Tools';
-import NeedNotConnectWallet from './components/NeedNotConnectWallet';
 import RareCases from './components/RareCases';
 import TestForDefaultGas from './components/TestForDefaultGas';
 import RouteContract from './components/RouteContract';
@@ -14,9 +13,6 @@ function Others() {
   return (
     <Card title="Others">
       <Row gutter={12}>
-        <Col xs={24} lg={8}>
-          <NeedNotConnectWallet />
-        </Col>
         <Col xs={24} lg={8}>
           <Tools />
         </Col>
