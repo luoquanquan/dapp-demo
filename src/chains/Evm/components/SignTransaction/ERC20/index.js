@@ -50,6 +50,12 @@ const usedTokens = [
     address: '0x6Ed7E67F6ee4833Fd4b461c0ce5F1949c133d4ed',
   },
   {
+    chain: 'Holesky Test Network',
+    symbol: defaultSymbol,
+    chainId: 17000,
+    address: '0x76bC79EB3bf2156a148793E8363D81c663B18957',
+  },
+  {
     chain: 'OKT Test',
     symbol: defaultSymbol,
     chainId: 65,
