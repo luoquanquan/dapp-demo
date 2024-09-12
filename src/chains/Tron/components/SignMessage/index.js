@@ -7,7 +7,7 @@ import { toastFail, toastSuccess } from '../../../../utils/toast';
 function SignMessageItem({ title, account, msg }) {
   const handleSign = async () => {
     try {
-      await okxwallet.tronWeb.trx.signMessage(msg).then((ret) => {
+      await tronWeb.trx.signMessage(msg).then((ret) => {
         console.log(ret);
         toastSuccess();
       });

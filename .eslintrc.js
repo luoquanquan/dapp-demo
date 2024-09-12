@@ -8,7 +8,6 @@ module.exports = {
     'airbnb',
   ],
   globals: {
-    okxwallet: 'readonly',
     ethereum: 'readonly',
     tronLink: 'readonly',
     tronWeb: 'readonly',

@@ -6,7 +6,6 @@ import { SafeArea, Tabs } from 'antd-mobile';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
-import Bitcoin from './chains/Bitcoin';
 import NEAR from './chains/NEAR';
 import ProjectInfo from './components/ProjectInfo';
 import Ton from './chains/Ton';
@@ -17,7 +16,6 @@ const tabs = [
   Evm,
   Tron,
   Solana,
-  Bitcoin,
   NEAR,
   Ton,
 ];

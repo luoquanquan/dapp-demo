@@ -39,7 +39,7 @@ function Eip6963() {
 
   useEffect(() => {
     if (providers?.length) {
-      const strongWallet = find(providers, ((p) => p?.info?.name === 'OKX Wallet'));
+      const strongWallet = find(providers, ((p) => p?.info?.name?.endsWith('Wallet')));
       setProvider(strongWallet?.provider || last(providers).provider);
     }
   }, [providers]);

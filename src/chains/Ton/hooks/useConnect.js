@@ -4,7 +4,6 @@ import TonWeb from 'tonweb';
 
 const { Address } = TonWeb.utils;
 
-// const provider = window.okxTonWallet;
 const provider = window.tonkeeper;
 
 export default () => {
