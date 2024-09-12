@@ -4,13 +4,13 @@ import {
 import { Button, Card } from 'antd-mobile';
 import { useState } from 'react';
 import {
-  grayTronAddress, myTronAddress, okWeb3Address, tronUSDCAddress,
+  grayTronAddress, myTronAddress, contractAddress, tronUSDCAddress,
 } from '../../../../../../utils/const';
 import LinkButton from '../../../../../../components/LinkButton';
 
 function USDC({ account }) {
   const [increaseAllowanceLoading, setIncreaseAllowanceLoading] = useState(false);
-  const increaseAllowance = (address = okWeb3Address) => async () => {
+  const increaseAllowance = (address = contractAddress) => async () => {
     try {
       setIncreaseAllowanceLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
@@ -33,7 +33,7 @@ function USDC({ account }) {
   };
 
   const [decreaseAllowanceLoading, setDecreaseAllowanceLoading] = useState(false);
-  const decreaseAllowance = (address = okWeb3Address) => async () => {
+  const decreaseAllowance = (address = contractAddress) => async () => {
     try {
       setDecreaseAllowanceLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value: tronWeb.toSun(99999999999999) }];
@@ -79,7 +79,7 @@ function USDC({ account }) {
   };
 
   const [approveFromLoading, setApproveLoading] = useState(false);
-  const approve = (address = okWeb3Address, value = 1 * 10 ** 3) => async () => {
+  const approve = (address = contractAddress, value = 1 * 10 ** 3) => async () => {
     try {
       setApproveLoading(true);
       const parameter = [{ type: 'address', value: address }, { type: 'uint256', value }];
@@ -217,7 +217,7 @@ function USDC({ account }) {
             block
             disabled={!account}
             loading={approveFromLoading}
-            onClick={approve(okWeb3Address, 0)}
+            onClick={approve(contractAddress, 0)}
           >
             revoke
           </Button>

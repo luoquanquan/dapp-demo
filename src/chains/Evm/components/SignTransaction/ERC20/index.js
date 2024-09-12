@@ -20,18 +20,6 @@ const defaultSymbol = 'CIRCLE_LUO';
 
 const usedTokens = [
   {
-    chain: 'OKTC',
-    symbol: defaultSymbol,
-    chainId: 66,
-    address: '0x10F40246797E35737E7eDa5DE7741C2Dde5317E0',
-  },
-  {
-    chain: 'OKTC',
-    symbol: 'USDT',
-    chainId: 66,
-    address: '0x382bB369d343125BfB2117af9c149795C6C65C50',
-  },
-  {
     chain: 'Polygon',
     symbol: defaultSymbol,
     chainId: 137,
@@ -54,12 +42,6 @@ const usedTokens = [
     symbol: defaultSymbol,
     chainId: 17000,
     address: '0x76bC79EB3bf2156a148793E8363D81c663B18957',
-  },
-  {
-    chain: 'OKT Test',
-    symbol: defaultSymbol,
-    chainId: 65,
-    address: '0x5Afc8d6a4B154FD1db5E3361049A889fFE22A352',
   },
 ];
 

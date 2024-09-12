@@ -16,11 +16,6 @@ import {
 } from '../../../../../utils/const';
 
 const usedNfts = [
-  // {
-  //   chain: 'OKTC',
-  //   chainId: '0x42',
-  //   address: '0xA5D57594b75ebD63c7e66f256c93769498180584',
-  // },
   {
     chain: 'Polygon',
     chainId: '0x89',
