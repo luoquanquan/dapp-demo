@@ -6,47 +6,49 @@ import {
 import {
   Button, Card, Space,
 } from 'antd-mobile';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
 import { myAddress } from '../../../../../utils/const';
 
-const initType = 'eip1559';
+const legacy = '0x0';
+const eip1559 = '0x2';
+
+const toWei = (gwei) => (gwei ? gwei * 10 ** 9 : '');
+const toHex = (num) => (num ? `0x${(+num).toString(16)}` : '');
 
 function FormTx() {
   const [form] = Form.useForm();
-  const [type, setType] = useState(initType);
+  const [type, setType] = useState(eip1559);
 
   const { account, provider } = useContext(EvmContext);
 
-  const toHex = (num) => `0x${(+num).toString(16)}`;
-
   const [transferLoading, setTransferLoading] = useState(false);
   const handleSubmit = async () => {
-    const formData = form.getFieldsValue();
-    console.log('Current log: formData: ', formData);
     try {
       setTransferLoading(true);
+      const formData = form.getFieldsValue();
+      const data = {
+        from: account,
+        to: myAddress,
+        type,
+        value: toHex(formData.value),
+        data: toHex(formData.data),
+        gas: toHex(formData.gasLimit),
+      };
 
-      // const data = {
-      //   from: account,
-      //   to: myAddress,
-      //   value: `0x${(10 ** 16).toString(16)}`,
-      //   gas: toHex(gasLimit),
-      // };
+      if (type === eip1559) {
+        data.maxPriorityFeePerGas = toHex(toWei(formData.maxPriorityFeePerGas));
+        data.maxFeePerGas = toHex(toWei(formData.maxFeePerGas));
+      } else {
+        data.gasPrice = toHex(toWei(formData.gasPrice));
+      }
 
-      // if (isEip1559) {
-      //   data.maxFeePerGas = toHex((+baseFeePerGas + +maxPriorityFeePerGas) * 10 ** 9);
-      //   data.maxPriorityFeePerGas = toHex(maxPriorityFeePerGas * 10 ** 9);
-      // } else {
-      //   data.gasPrice = toHex(gasPrice * 10 ** 9);
-      // }
-
-      // await provider.request({
-      //   method: 'eth_sendTransaction',
-      //   params: [data],
-      // });
+      await provider.request({
+        method: 'eth_sendTransaction',
+        params: [data],
+      });
     } catch (error) {
-      console.log(error);
+      console.log;
       message.error(error.message);
     } finally {
       console.log(`Current log: 1 ${Date.now()}`);
@@ -56,19 +58,6 @@ function FormTx() {
   const onValuesChange = (formData) => {
     setType(formData.type);
   };
-
-  const confirmDisabled = useMemo(() => {
-    if (!account) {
-      return true;
-    }
-
-    const {
- to, type, gasLimit, gasPrice, baseFeePerGas, maxPriorityFeePerGas
-} = form.getFieldsValue();
-    if (!to || !gasLimit) {
-      return true;
-    }
- [form]);
 
   return (
     <Col xs={24} lg={12}>
@@ -80,8 +69,12 @@ function FormTx() {
             onFinish={handleSubmit}
             onValuesChange={onValuesChange}
             initialValues={{
-              type: initType,
+              type: eip1559,
               to: myAddress,
+              gasPrice: 50,
+              maxFeePerGas: 35.00000029,
+              maxPriorityFeePerGas: 35,
+              gasLimit: 21000,
             }}
           >
             <Form.Item label="to" name="to">
@@ -90,30 +83,30 @@ function FormTx() {
 
             <Form.Item label="type" name="type">
               <Radio.Group>
-                <Radio.Button value="legacy">Legacy</Radio.Button>
-                <Radio.Button value="eip1559">EIP 1559</Radio.Button>
+                <Radio.Button value={legacy}>Legacy</Radio.Button>
+                <Radio.Button value={eip1559}>EIP 1559</Radio.Button>
               </Radio.Group>
             </Form.Item>
 
             {
-              type === 'eip1559' ? (
+              type === eip1559 ? (
                 <>
-                  <Form.Item label="baseFeePerGas(Gwei)" name="baseFeePerGas">
-                    <Input placeholder="baseFeePerGas(Gwei)" />
+                  <Form.Item label="maxFeePerGas(Gwei)" name="maxFeePerGas">
+                    <Input type="float" min={0} placeholder="maxFeePerGas(Gwei)" />
                   </Form.Item>
-                  <Form.Item label="maxPriorityFeePerGas(Gwei)" name="gasPrice">
-                    <Input placeholder="maxPriorityFeePerGas(Gwei)" />
+                  <Form.Item label="maxPriorityFeePerGas(Gwei)" name="maxPriorityFeePerGas">
+                    <Input type="float" min={0} placeholder="maxPriorityFeePerGas(Gwei)" />
                   </Form.Item>
                 </>
               ) : (
                 <Form.Item label="gasPrice(Gwei)" name="gasPrice">
-                  <Input placeholder="gasPrice(Gwei)" min={0} />
+                  <Input type="float" placeholder="gasPrice(Gwei)" min={0} />
                 </Form.Item>
               )
             }
 
             <Form.Item label="gasLimit" name="gasLimit">
-              <Input placeholder="gasLimit" />
+              <Input ype="number" min={0} placeholder="gasLimit" />
             </Form.Item>
 
             <Form.Item label="value" name="value">
@@ -124,7 +117,7 @@ function FormTx() {
               <Input placeholder="data" />
             </Form.Item>
 
-            <Form.Item label="data" name="data">
+            <Form.Item>
               <Button
                 block
                 type="submit"

@@ -6,7 +6,7 @@ import NFT from './NFT';
 import GasChecker from './GasChecker';
 import BatchTransfer from './BatchTransfer';
 import ERC20 from './ERC20';
-// import FormTx from './FormTx';
+import FormTx from './FormTx';
 
 export default function SignTransaction() {
   return (
@@ -21,7 +21,7 @@ export default function SignTransaction() {
           <BatchTransfer />
         </Row>
         <Row gutter={16}>
-          {/* <FormTx /> */}
+          <FormTx />
         </Row>
       </Space>
     </Card>
