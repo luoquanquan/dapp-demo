@@ -2,7 +2,7 @@ import { Col } from 'antd';
 import { Button, Card, Space } from 'antd-mobile';
 import { useState } from 'react';
 import { toastFail, toastSuccess } from '../../../../../../utils/toast';
-import { myTronAddress } from '../../../../../../utils/const';
+import { myTronAddress } from '../../../../const';
 
 function Others({ account }) {
   const [updateAccountPermissionsLoading, setUpdateAccountPermissionsLoading] = useState(false);

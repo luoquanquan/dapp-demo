@@ -7,8 +7,8 @@ import SignMessage from './components/SignMessage';
 import SignTransaction from './components/SignTransaction';
 import DontHaveWallet from '../../components/DontHaveWallet';
 import BlackAddress from '../../components/BlackAddress';
-import { grayTronAddress, tronStrongBlackEoaAddress } from '../../utils/const';
 import Others from './components/Others';
+import { grayTronAddress, tronStrongBlackEoaAddress } from './const';
 
 function Tron() {
   const { account, handleConnect } = useConnect();

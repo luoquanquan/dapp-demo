@@ -3,10 +3,11 @@ import {
 } from 'antd';
 import { Button, Card } from 'antd-mobile';
 import { useState } from 'react';
-import {
-  grayTronAddress, myTronAddress, contractAddress, tronUSDCAddress,
-} from '../../../../../../utils/const';
+
 import LinkButton from '../../../../../../components/LinkButton';
+import {
+  grayTronAddress, tronUSDCAddress, myTronAddress, contractAddress,
+} from '../../../../const';
 
 function USDC({ account }) {
   const [increaseAllowanceLoading, setIncreaseAllowanceLoading] = useState(false);

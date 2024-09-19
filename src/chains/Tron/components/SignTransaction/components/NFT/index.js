@@ -3,10 +3,8 @@ import {
 } from 'antd';
 import { Button, Card } from 'antd-mobile';
 import { useState } from 'react';
-import {
-  grayTronAddress, myTronAddress, tronNFTAddress,
-} from '../../../../../../utils/const';
 import LinkButton from '../../../../../../components/LinkButton';
+import { grayTronAddress, tronNFTAddress, myTronAddress } from '../../../../const';
 
 function NFT({ account }) {
   const [approveFromLoading, setApproveLoading] = useState(false);

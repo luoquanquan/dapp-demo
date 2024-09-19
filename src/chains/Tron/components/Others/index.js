@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Card, Space } from 'antd-mobile';
-import { tronUSDTAddress } from '../../../../utils/const';
+import { tronUSDTAddress } from '../../const';
 
 function Others({ account }) {
   const [watchAssetLoading, setWatchAssetLoading] = useState(false);
