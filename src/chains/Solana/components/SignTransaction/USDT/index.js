@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Button } from 'antd-mobile';
 import * as solanaWeb3 from '@solana/web3.js';
 import * as splToken from '@solana/spl-token';
-import { mySolAddress } from '../../../../../utils/const';
 import { toastFail, toastSuccess } from '../../../../../utils/toast';
+import { mySolAddress } from '../../../const';
 
 function USDT({ account, connection }) {
   const [sendUSDTLoading, setSendUSDTLoading] = useState(false);

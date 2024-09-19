@@ -9,10 +9,10 @@ import {
   TransactionMessage,
   VersionedTransaction,
 } from '@solana/web3.js';
-import { mySolAddress } from '../../../../utils/const';
 import USDT from './USDT';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
 import Assign from './Assign';
+import { mySolAddress } from '../../const';
 
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
 const withConnectionGenerateTx = (

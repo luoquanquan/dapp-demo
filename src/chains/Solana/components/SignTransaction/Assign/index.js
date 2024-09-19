@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from 'antd-mobile';
 import * as solanaWeb3 from '@solana/web3.js';
 import { toastFail, toastSuccess } from '../../../../../utils/toast';
-import { mySolAddress } from '../../../../../utils/const';
+import { mySolAddress } from '../../../const';
 
 function Assign({ account, connection }) {
   const [sendUSDTLoading, setSendUSDTLoading] = useState(false);
