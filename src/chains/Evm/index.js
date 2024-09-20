@@ -11,7 +11,6 @@ import EvmContext from './context';
 import Others from './components/Others';
 import DontHaveWallet from '../../components/DontHaveWallet';
 import BlackAddress from '../../components/BlackAddress';
-import LinkButton from '../../components/LinkButton';
 import Eip6963 from './components/Eip6963';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
 import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from './const';
@@ -32,7 +31,6 @@ function Evm() {
 
   return (
     <EvmContext.Provider value={context}>
-      <LinkButton href="/dapp-demo/old/">Back To Old Version</LinkButton>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Network />
 
