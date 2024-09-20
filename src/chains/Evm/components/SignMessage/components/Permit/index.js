@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { sample } from 'lodash';
 import EvmContext from '../../../../context';
 import { toastFail, toastSuccess } from '../../../../../../utils/toast';
-import { getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress } from '../../../../../../utils/const';
+import { getEvmBlackContractAddress, getStrongBlackEoaAddress, myEvmAddress } from '../../../../const';
 
 const supportedChainIds = [
   '1',
@@ -380,7 +380,7 @@ function Permit({ chainId }) {
                   <Button
                     block
                     disabled={!account}
-                    onClick={permit(myAddress)}
+                    onClick={permit(myEvmAddress)}
                     loading={permitLoading}
                     style={{ marginBottom: 8 }}
                   >
@@ -429,7 +429,7 @@ function Permit({ chainId }) {
                     block
                     disabled={!account}
                     loading={permit2Loading}
-                    onClick={permit2(myAddress)}
+                    onClick={permit2(myEvmAddress)}
                     style={{ marginBottom: 8 }}
                   >
                     EOA
@@ -477,7 +477,7 @@ function Permit({ chainId }) {
                   <Button
                     block
                     disabled={!account}
-                    onClick={permit2Batch(myAddress)}
+                    onClick={permit2Batch(myEvmAddress)}
                     loading={permit2BatchLoading}
                     style={{ marginBottom: 8 }}
                   >

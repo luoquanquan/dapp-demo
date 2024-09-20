@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-concat */
 export const openSeaAddress = '0x1E0049783F008A0085193E00003D00cd54003c71';
-export const myAddress = '0xfe8dc6394501a35ad1c4833f40f382e55dada4f3';
-export const myTonAddress = 'UQDOc7wK8x2Avyet0tUQ0j-6KqbhdRN7yKQGYtI5uYMI0Gxc';
+export const myEvmAddress = '0xfe8dc6394501a35ad1c4833f40f382e55dada4f3';
 
 export const getEvmBlackContractAddress = (chainId = 1) => {
   const addressMap = {

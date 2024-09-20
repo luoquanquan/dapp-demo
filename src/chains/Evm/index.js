@@ -11,10 +11,10 @@ import EvmContext from './context';
 import Others from './components/Others';
 import DontHaveWallet from '../../components/DontHaveWallet';
 import BlackAddress from '../../components/BlackAddress';
-import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from '../../utils/const';
 import LinkButton from '../../components/LinkButton';
 import Eip6963 from './components/Eip6963';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
+import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from './const';
 
 function Evm() {
   const [provider, setProvider] = useState({});

@@ -2,8 +2,7 @@ import TonWeb from 'tonweb';
 import { Button, Card, Space } from 'antd-mobile';
 import { Address, beginCell, toNano } from '@ton/ton';
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
-import { myTonAddress } from '../../../../utils/const';
-import { blackAddress, strongBlackAddress } from '../../const';
+import { blackTonAddress, myTonAddress, strongBlackTonAddress } from '../../const';
 
 const tonweb = new TonWeb();
 function SignTransaction() {
@@ -72,7 +71,7 @@ function SignTransaction() {
           block
           color="danger"
           disabled={!address}
-          onClick={sendTon(blackAddress)}
+          onClick={sendTon(blackTonAddress)}
         >
           sendTon to Black Address
         </Button>
@@ -81,7 +80,7 @@ function SignTransaction() {
           block
           color="danger"
           disabled={!address}
-          onClick={sendTon(strongBlackAddress)}
+          onClick={sendTon(strongBlackTonAddress)}
         >
           sendTon to Strong Black Address
         </Button>
@@ -98,7 +97,7 @@ function SignTransaction() {
           block
           color="danger"
           disabled={!address}
-          onClick={sendFish(blackAddress)}
+          onClick={sendFish(blackTonAddress)}
         >
           sendFish to Black Address
         </Button>
@@ -107,7 +106,7 @@ function SignTransaction() {
           block
           color="danger"
           disabled={!address}
-          onClick={sendFish(strongBlackAddress)}
+          onClick={sendFish(strongBlackTonAddress)}
         >
           sendFish to Strong Black Address
         </Button>

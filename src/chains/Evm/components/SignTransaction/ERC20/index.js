@@ -11,9 +11,10 @@ import _ from 'lodash';
 import { hstAbi, hstBytecode } from './const';
 import EvmContext from '../../../context';
 import { toastFail } from '../../../../../utils/toast';
+
 import {
-  getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress, openSeaAddress,
-} from '../../../../../utils/const';
+  getEvmBlackContractAddress, getStrongBlackEoaAddress, myEvmAddress, openSeaAddress,
+} from '../../../const';
 
 const anchorUsedTokens = 'anchorUsedTokens';
 const defaultSymbol = 'CIRCLE_LUO';
@@ -149,7 +150,7 @@ function ERC20() {
   const handleTransferToken = (
     gasInfo,
     needLoading = true,
-    transferTokenTo = myAddress,
+    transferTokenTo = myEvmAddress,
   ) => async () => {
     try {
       needLoading && setTransferTokensLoading(true);
@@ -310,7 +311,7 @@ function ERC20() {
                           color="warning"
                           style={{ marginBottom: 8 }}
                           loading={approveTokenLoading}
-                          onClick={handleApproveToken({ spender: myAddress })}
+                          onClick={handleApproveToken({ spender: myEvmAddress })}
                           disabled={!hstContract.address || !account}
                         >
                           To EOA
@@ -335,7 +336,7 @@ function ERC20() {
                           style={{ marginBottom: 8 }}
                           loading={approveTokenLoading}
                           onClick={handleApproveToken({
-                            spender: myAddress,
+                            spender: myEvmAddress,
                             amount: '0',
                           })}
                           disabled={!hstContract.address || !account}
@@ -356,7 +357,7 @@ function ERC20() {
                           color="warning"
                           style={{ marginBottom: 8 }}
                           loading={increaseAllowanceLoading}
-                          onClick={handleIncreaseAllowance(myAddress)}
+                          onClick={handleIncreaseAllowance(myEvmAddress)}
                           disabled={!hstContract.address || !account}
                         >
                           increaseAllowance to EOA

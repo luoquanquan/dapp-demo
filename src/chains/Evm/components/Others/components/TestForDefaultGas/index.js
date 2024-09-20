@@ -2,8 +2,8 @@ import { useContext, useState } from 'react';
 import { Button, Card, Space } from 'antd-mobile';
 
 import EvmContext from '../../../../context';
-import { myAddress } from '../../../../../../utils/const';
 import { toastFail, toastSuccess } from '../../../../../../utils/toast';
+import { myEvmAddress } from '../../../../const';
 
 function TestForDefaultGas() {
   const { account, provider } = useContext(EvmContext);
@@ -68,7 +68,7 @@ function TestForDefaultGas() {
         method: 'eth_sendTransaction',
         params: [{
           from: account,
-          to: myAddress,
+          to: myEvmAddress,
           value: `0x${(10 ** 15).toString(16)}`,
           ...gasInfo,
         }],

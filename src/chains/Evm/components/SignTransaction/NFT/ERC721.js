@@ -11,9 +11,10 @@ import {
 } from 'antd-mobile';
 import { nftsAbi, nftsBytecode } from './const';
 import EvmContext from '../../../context';
+
 import {
-  getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress, openSeaAddress,
-} from '../../../../../utils/const';
+  getStrongBlackEoaAddress, myEvmAddress, openSeaAddress, getEvmBlackContractAddress,
+} from '../../../const';
 
 const usedNfts = [
   {
@@ -254,7 +255,7 @@ function ERC721() {
             block
             color="warning"
             loading={approveLoading}
-            onClick={approve(myAddress)}
+            onClick={approve(myEvmAddress)}
             disabled={!ready || !approveNftId}
           >
             approve to EOA
@@ -297,7 +298,7 @@ function ERC721() {
             block
             color="warning"
             loading={setApprovalForAllLoading}
-            onClick={setApprovalForAll({ spender: myAddress })}
+            onClick={setApprovalForAll({ spender: myEvmAddress })}
             disabled={!ready}
           >
             setApprovalForAll to EOA

@@ -5,7 +5,7 @@ import {
 import { Button, Card, Space } from 'antd-mobile';
 import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
-import { getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress } from '../../../../../utils/const';
+import { getEvmBlackContractAddress, getStrongBlackEoaAddress, myEvmAddress } from '../../../const';
 
 function BatchTransfer() {
   const { account, chainId, provider } = useContext(EvmContext);
@@ -21,7 +21,7 @@ function BatchTransfer() {
         method: 'eth_sendTransaction',
         params: [{
           from: account,
-          to: myAddress,
+          to: myEvmAddress,
           value: `0x${(10 ** 10).toString(16)}`,
         }],
       });

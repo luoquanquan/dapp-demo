@@ -15,8 +15,8 @@ import {
 } from './const';
 import EvmContext from '../../../context';
 import {
-  getEvmBlackContractAddress, getStrongBlackEoaAddress, myAddress, openSeaAddress,
-} from '../../../../../utils/const';
+  getEvmBlackContractAddress, getStrongBlackEoaAddress, myEvmAddress, openSeaAddress,
+} from '../../../const';
 
 const usedNfts = [
   {
@@ -96,7 +96,7 @@ function ERC1155() {
   };
 
   const [batchTRansferLoading, setBatchTRansferLoading] = useState(false);
-  const batchTRansfer = (to = myAddress) => async () => {
+  const batchTRansfer = (to = myEvmAddress) => async () => {
     try {
       setBatchTRansferLoading(true);
       await nftsContract.safeBatchTransferFrom(
@@ -245,7 +245,7 @@ function ERC1155() {
           <Button
             block
             loading={approveLoading}
-            onClick={setApprovalForAll(true, myAddress)}
+            onClick={setApprovalForAll(true, myEvmAddress)}
             disabled={!nftsContract.address}
           >
             setApprovalForAll to EOA

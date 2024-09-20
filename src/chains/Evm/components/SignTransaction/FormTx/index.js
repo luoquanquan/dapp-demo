@@ -8,7 +8,7 @@ import {
 } from 'antd-mobile';
 import { useContext, useState } from 'react';
 import EvmContext from '../../../context';
-import { myAddress } from '../../../../../utils/const';
+import { myEvmAddress } from '../../../const';
 
 const legacy = '0x0';
 const eip1559 = '0x2';
@@ -29,7 +29,7 @@ function FormTx() {
       const formData = form.getFieldsValue();
       const data = {
         from: account,
-        to: myAddress,
+        to: myEvmAddress,
         type,
         value: toHex(formData.value),
         data: toHex(formData.data),
@@ -70,7 +70,7 @@ function FormTx() {
             onValuesChange={onValuesChange}
             initialValues={{
               type: eip1559,
-              to: myAddress,
+              to: myEvmAddress,
               gasPrice: 50,
               maxFeePerGas: 35.00000029,
               maxPriorityFeePerGas: 35,
