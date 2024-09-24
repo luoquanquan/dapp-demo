@@ -9,6 +9,7 @@ import Solana from './chains/Solana';
 import NEAR from './chains/NEAR';
 import ProjectInfo from './components/ProjectInfo';
 import Ton from './chains/Ton';
+import TG from './chains/TG';
 
 const localTabKey = 'localTabKey';
 
@@ -18,6 +19,7 @@ const tabs = [
   Solana,
   NEAR,
   Ton,
+  TG,
 ];
 
 export default function App() {

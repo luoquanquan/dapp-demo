@@ -11,7 +11,7 @@
     "@ton/core": "^0.56.3",
     "@ton/crypto": "^3.3.0",
     "@ton/ton": "^14.0.0",
-    "@tonconnect/ui-react": "^2.0.6",
+    "@tonconnect/ui-react": "^2.0.9",
     "@web3modal/ethers5": "^5.1.4",
     "antd": "^5.11.1",
     "antd-mobile": "^5.36.0",
