@@ -1,23 +1,31 @@
 import { TonConnectUIProvider, TonConnectButton, useTonAddress } from '@tonconnect/ui-react';
 
-function TG() {
+function APP() {
   const userFriendlyAddress = useTonAddress();
   const rawAddress = useTonAddress(false);
 
   return (
-    <TonConnectUIProvider manifestUrl="https://app.ston.fi/tonconnect-manifest.json">
+    <>
       <span>My App with React UI</span>
       <TonConnectButton />
       <div>
-        <span>
+        <div>
           User-friendly address:
           {userFriendlyAddress}
-        </span>
-        <span>
+        </div>
+        <div>
           Raw address:
           {rawAddress}
-        </span>
+        </div>
       </div>
+    </>
+  );
+}
+
+function TG() {
+  return (
+    <TonConnectUIProvider manifestUrl="https://app.ston.fi/tonconnect-manifest.json">
+      <APP />
     </TonConnectUIProvider>
   );
 }
