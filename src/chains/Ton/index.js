@@ -2,7 +2,6 @@ import { Space } from 'antd';
 
 import { TonConnectButton, TonConnectUIProvider } from '@tonconnect/ui-react';
 
-import DontHaveWallet from '../../components/DontHaveWallet';
 import SignTransaction from './components/SignTransaction';
 import BlackAddress from '../../components/BlackAddress';
 
@@ -24,5 +23,5 @@ function Ton() {
 const key = 'Ton';
 export default {
   key,
-  children: window.tronLink ? <Ton /> : <DontHaveWallet chain={key} />,
+  children: <Ton />,
 };
