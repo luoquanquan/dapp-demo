@@ -59,6 +59,7 @@ function APP() {
     <>
       <Button onClick={connect}>Connect</Button>
       <Button onClick={sendTx}>模拟发送交易</Button>
+      <TonConnectButton>Ton 链接</TonConnectButton>
     </>
   );
 }
