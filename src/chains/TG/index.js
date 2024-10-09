@@ -79,8 +79,8 @@ function TG() {
           imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
           about_url: 'https://www.okx.com/web3',
           aboutUrl: 'https://www.okx.com/web3',
-          universal_url: 'https://t.me/TCTestqdqwdqwdqBot?attach=wallet',
-          universalLink: 'https://t.me/TCTestqdqwdqwdqBot?attach=wallet',
+          universal_url: 'https://t.me/TCTestqdqwdqwdqBot?attach=TCTestqdqwdqwdqBot',
+          universalLink: 'https://t.me/TCTestqdqwdqwdqBot?attach=TCTestqdqwdqwdqBot',
           bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
           bridge: [
             {
