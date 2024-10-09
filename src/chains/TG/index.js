@@ -79,13 +79,13 @@ function TG() {
           imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
           about_url: 'https://www.okx.com/web3',
           aboutUrl: 'https://www.okx.com/web3',
-          universal_url: 'https://t.me/dewallet?attach=wallet',
-          universalLink: 'https://t.me/dewallet?attach=wallet',
-          bridgeUrl: 'https://t.me/dewallet?attach=wallet',
+          universal_url: 'https://t.me/TCTestqdqwdqwdqBot?attach=wallet',
+          universalLink: 'https://t.me/TCTestqdqwdqwdqBot?attach=wallet',
+          bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
           bridge: [
             {
               type: 'sse',
-              url: 'https://t.me/dewallet?attach=wallet',
+              url: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
             },
           ],
           platforms: ['ios', 'android', 'chrome', 'firefox', 'macos'],
