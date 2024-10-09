@@ -73,10 +73,15 @@ function TG() {
       walletsListConfiguration={{
         includeWallets: [{
           app_name: 'okxTestWallet',
+          appName: 'okxTestWallet',
           name: 'OKX Test Wallet',
           image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+          imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
           about_url: 'https://www.okx.com/web3',
+          aboutUrl: 'https://www.okx.com/web3',
           universal_url: 'https://t.me/dewallet?attach=wallet',
+          universalLink: 'https://t.me/dewallet?attach=wallet',
+          bridgeUrl: 'https://t.me/dewallet?attach=wallet',
           bridge: [
             {
               type: 'sse',
