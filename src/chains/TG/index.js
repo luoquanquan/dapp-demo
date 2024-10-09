@@ -1,4 +1,4 @@
-import { TonConnectUIProvider, TonConnectButton, useTonAddress } from '@tonconnect/ui-react';
+import { TonConnectUIProvider, TonConnectButton } from '@tonconnect/ui-react';
 import TonConnect from '@tonconnect/sdk';
 import {
   Button,
@@ -9,8 +9,6 @@ const connector = new TonConnect({
   manifestUrl: 'https://app.ston.fi/tonconnect-manifest.json',
 });
 
-const walletCliecntId = '68a1ecbb7ad7ebe3d0107a8d183316dc036efa90d0c8a8effce7e9eea645832a';
-
 function APP() {
   const initConnection = localStorage.getItem('ton-connect-storage_bridge-connection');
   const initPublicKey = initConnection ? JSON.parse(initConnection)?.sessionCrypto?.publicKey : '';
@@ -20,11 +18,15 @@ function APP() {
   const connect = () => {
     const walletConnectionSource = {
       universalLink: 'https://t.me/herewalletbot?attach=wallet',
-      bridgeUrl: 'https://sse-bridge.hot-labs.org',
+      bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
     };
     const universalLink = connector.connect(walletConnectionSource);
     console.log({ universalLink });
     setUlink(universalLink);
+  };
+
+  const disconnect = () => {
+    connector.disconnect();
   };
 
   const sendTx = async () => {
@@ -32,9 +34,8 @@ function APP() {
       validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
       messages: [
         {
-          address: 'EQBBJBB3HagsujBqVfqeDUPJ0kXjgTPLWPFFffuNXNiJL0aA',
-          amount: '20000000',
-          // stateInit: "base64bocblahblahblah==" // just for instance. Replace with your transaction initState or remove
+          address: 'UQDZDkV3FCWG1yvhI9REAUFR4wS3COV1I1DqDzg1-3WvP8ph',
+          amount: '100',
         },
       ],
     };
@@ -58,6 +59,7 @@ function APP() {
   return (
     <>
       <Button onClick={connect}>Connect</Button>
+      <Button onClick={disconnect}>Disconnect</Button>
       <Button onClick={sendTx}>模拟发送交易</Button>
       <TonConnectButton>Ton 链接</TonConnectButton>
     </>
@@ -66,7 +68,25 @@ function APP() {
 
 function TG() {
   return (
-    <TonConnectUIProvider manifestUrl="https://app.ston.fi/tonconnect-manifest.json">
+    <TonConnectUIProvider
+      connector={connector}
+      walletsListConfiguration={{
+        includeWallets: [{
+          app_name: 'okxTestWallet',
+          name: 'OKX Test Wallet',
+          image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+          about_url: 'https://www.okx.com/web3',
+          universal_url: 'https://t.me/dewallet?attach=wallet',
+          bridge: [
+            {
+              type: 'sse',
+              url: 'https://t.me/dewallet?attach=wallet',
+            },
+          ],
+          platforms: ['ios', 'android', 'chrome', 'firefox', 'macos'],
+        }],
+      }}
+    >
       <APP />
     </TonConnectUIProvider>
   );
