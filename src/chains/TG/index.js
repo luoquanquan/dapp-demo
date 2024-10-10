@@ -4,6 +4,7 @@ import {
   Button,
 } from 'antd-mobile';
 import { useEffect, useState } from 'react';
+import SignTransaction from './components/SignTransaction';
 
 const connector = new TonConnect({
   manifestUrl: 'https://app.ston.fi/tonconnect-manifest.json',
@@ -62,6 +63,7 @@ function APP() {
       <Button onClick={disconnect}>Disconnect</Button>
       <Button onClick={sendTx}>模拟发送交易</Button>
       <TonConnectButton>Ton 链接</TonConnectButton>
+      <SignTransaction />
     </>
   );
 }
