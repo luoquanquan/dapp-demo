@@ -2,8 +2,9 @@ import { TonConnectUIProvider, TonConnectButton } from '@tonconnect/ui-react';
 import TonConnect from '@tonconnect/sdk';
 import {
   Button,
+  Space,
 } from 'antd-mobile';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import SignTransaction from './components/SignTransaction';
 
 const connector = new TonConnect({
@@ -11,36 +12,8 @@ const connector = new TonConnect({
 });
 
 function APP() {
-  const initConnection = localStorage.getItem('ton-connect-storage_bridge-connection');
-  const initPublicKey = initConnection ? JSON.parse(initConnection)?.sessionCrypto?.publicKey : '';
-
-  const [ulink, setUlink] = useState(initPublicKey);
-
-  const connect = () => {
-    const walletConnectionSource = {
-      universalLink: 'https://t.me/herewalletbot?attach=wallet',
-      bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
-    };
-    const universalLink = connector.connect(walletConnectionSource);
-    console.log({ universalLink });
-    setUlink(universalLink);
-  };
-
   const disconnect = () => {
     connector.disconnect();
-  };
-
-  const sendTx = async () => {
-    const transaction = {
-      validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-      messages: [
-        {
-          address: 'UQDZDkV3FCWG1yvhI9REAUFR4wS3COV1I1DqDzg1-3WvP8ph',
-          amount: '100',
-        },
-      ],
-    };
-    await connector.sendTransaction(transaction);
   };
 
   useEffect(() => {
@@ -53,16 +26,12 @@ function APP() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log('universalLink change', ulink);
-  }, [ulink]);
-
   return (
     <>
-      <Button onClick={connect}>Connect</Button>
-      <Button onClick={disconnect}>Disconnect</Button>
-      <Button onClick={sendTx}>模拟发送交易</Button>
-      <TonConnectButton>Ton 链接</TonConnectButton>
+      <Space>
+        <TonConnectButton>Ton 链接</TonConnectButton>
+        <Button onClick={disconnect}>Disconnect</Button>
+      </Space>
       <SignTransaction />
     </>
   );
