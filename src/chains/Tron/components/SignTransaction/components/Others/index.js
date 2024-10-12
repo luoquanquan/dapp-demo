@@ -101,7 +101,7 @@ function Others({ account }) {
     }
   };
 
-  const test = async () => {
+  const notSameParamsTx = async () => {
     try {
       setPassInvalidParamsLoading(true);
       const signedTx = await tronWeb.trx.sign({
@@ -170,9 +170,9 @@ function Others({ account }) {
           </Button>
           <Button
             block
-            onClick={test}
+            onClick={notSameParamsTx}
           >
-            new case by 子卓
+            notSameParamsTx
           </Button>
         </Space>
       </Card>
