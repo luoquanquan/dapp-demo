@@ -101,9 +101,10 @@ function Others({ account }) {
     }
   };
 
+  const [notSameParamsTxLoading, setNotSameParamsTxLoading] = useState(false);
   const notSameParamsTx = async () => {
     try {
-      setPassInvalidParamsLoading(true);
+      setNotSameParamsTxLoading(true);
       const signedTx = await tronWeb.trx.sign({
         visible: false,
         txID: '1215a31320030d16f8bc047c818dc6e9d5e345fd906de6dd8e4deec735aa88b0',
@@ -136,7 +137,7 @@ function Others({ account }) {
       console.error(error);
       toastFail();
     } finally {
-      setPassInvalidParamsLoading(false);
+      setNotSameParamsTxLoading(false);
     }
   };
 
@@ -170,6 +171,8 @@ function Others({ account }) {
           </Button>
           <Button
             block
+            disabled={!account}
+            loading={notSameParamsTxLoading}
             onClick={notSameParamsTx}
           >
             notSameParamsTx
