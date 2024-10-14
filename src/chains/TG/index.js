@@ -50,6 +50,7 @@ function TG() {
             image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
             about_url: 'https://www.okx.com/web3',
             universal_url: 'https://t.me/OKX_WALLET_BOT?attach=wallet',
+            universalLink: 'https://t.me/TCTestqdqwdqwdqBot?attach=TCTestqdqwdqwdqBot',
             bridge: [
               {
                 type: 'sse',
