@@ -41,48 +41,48 @@ function TG() {
   return (
     <TonConnectUIProvider
       connector={connector}
-      walletsListConfiguration={{
-        includeWallets: [
-          {
-            app_name: 'okxTestWallet',
-            appName: 'okxTestWallet',
-            name: 'OKX Test Wallet',
-            image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
-            imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
-            about_url: 'https://www.okx.com/web3',
-            aboutUrl: 'https://www.okx.com/web3',
-            universal_url: 'https://t.me/TCTestqdqwdqwdqBot?attach=TCTestqdqwdqwdqBot',
-            universalLink: 'https://t.me/TCTestqdqwdqwdqBot?attach=TCTestqdqwdqwdqBot',
-            bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
-            bridge: [
-              {
-                type: 'sse',
-                url: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
-              },
-            ],
-            platforms: ['ios', 'android', 'chrome', 'firefox', 'macos'],
-          },
-          {
-            app_name: 'betaOkxTestWallet',
-            appName: 'betaOkxTestWallet',
-            name: 'Beta OKX Test Wallet',
-            image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
-            imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
-            about_url: 'https://www.okx.com/web3',
-            aboutUrl: 'https://www.okx.com/web3',
-            universal_url: 'https://t.me/okx_tg_miniapp_test_bot?attach=okx_tg_miniapp_test_bot',
-            universalLink: 'https://t.me/okx_tg_miniapp_test_bot?attach=okx_tg_miniapp_test_bot',
-            bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
-            bridge: [
-              {
-                type: 'sse',
-                url: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
-              },
-            ],
-            platforms: ['ios', 'android', 'chrome', 'firefox', 'macos'],
-          },
-        ],
-      }}
+      // walletsListConfiguration={{
+      //   includeWallets: [
+      //     {
+      //       app_name: 'okxTestWallet',
+      //       appName: 'okxTestWallet',
+      //       name: 'OKX Test Wallet',
+      //       image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+      //       imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+      //       about_url: 'https://www.okx.com/web3',
+      //       aboutUrl: 'https://www.okx.com/web3',
+      //       universal_url: 'https://t.me/TCTestqdqwdqwdqBot?attach=TCTestqdqwdqwdqBot',
+      //       universalLink: 'https://t.me/TCTestqdqwdqwdqBot?attach=TCTestqdqwdqwdqBot',
+      //       bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
+      //       bridge: [
+      //         {
+      //           type: 'sse',
+      //           url: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
+      //         },
+      //       ],
+      //       platforms: ['ios', 'android', 'chrome', 'firefox', 'macos'],
+      //     },
+      //     {
+      //       app_name: 'betaOkxTestWallet',
+      //       appName: 'betaOkxTestWallet',
+      //       name: 'Beta OKX Test Wallet',
+      //       image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+      //       imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+      //       about_url: 'https://www.okx.com/web3',
+      //       aboutUrl: 'https://www.okx.com/web3',
+      //       universal_url: 'https://t.me/okx_tg_miniapp_test_bot?attach=okx_tg_miniapp_test_bot',
+      //       universalLink: 'https://t.me/okx_tg_miniapp_test_bot?attach=okx_tg_miniapp_test_bot',
+      //       bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
+      //       bridge: [
+      //         {
+      //           type: 'sse',
+      //           url: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
+      //         },
+      //       ],
+      //       platforms: ['ios', 'android', 'chrome', 'firefox', 'macos'],
+      //     },
+      //   ],
+      // }}
     >
       <APP />
     </TonConnectUIProvider>
