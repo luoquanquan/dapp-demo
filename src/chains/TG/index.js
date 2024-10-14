@@ -45,6 +45,7 @@ function TG() {
         includeWallets: [
           {
             app_name: 'PROD OKX Mini Wallet',
+            appName: 'PROD OKX Mini Wallet',
             name: 'PROD OKX Mini Wallet',
             image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
             about_url: 'https://www.okx.com/web3',
