@@ -47,6 +47,7 @@ function SignTransaction() {
           block
           color="danger"
           disabled={!address}
+          loading={sendSuiLoading}
           onClick={sendSui(blackAddress)}
         >
           sendSui to Black Address
@@ -56,6 +57,7 @@ function SignTransaction() {
           block
           color="danger"
           disabled={!address}
+          loading={sendSuiLoading}
           onClick={sendSui(strongBlackAddress)}
         >
           sendSui to Strong Black Address
