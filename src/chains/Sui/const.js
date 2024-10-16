@@ -1,0 +1,3 @@
+export const myAddress = '0xa95dd12332d1e04af548ccf94c7b4729bce0683832581d2e8b82a25c3bfcc5c9';
+export const blackAddress = '0x262bf43308d07d13dcf8c8ad339da764d2faf2ad33f984dc5810681e6f1c8e15';
+export const strongBlackAddress = '0x78fcbc77de601967663cf19b24c2949606af8bf73a5a68f679ad371666d3f814';
