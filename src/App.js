@@ -26,7 +26,7 @@ const tabs = [
 
 const cachedChainKey = localStorage.getItem(localTabKey);
 const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
-const defaultActiveKey = isValidDefaultActiveKey || Evm.key;
+const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 
 export default function App() {
   return (
