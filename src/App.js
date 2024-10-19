@@ -24,12 +24,16 @@ const tabs = [
   Sui,
 ];
 
+const cachedChainKey = localStorage.getItem(localTabKey);
+const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
+const defaultActiveKey = isValidDefaultActiveKey || Evm.key;
+
 export default function App() {
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
       <Tabs
-        defaultActiveKey={localStorage.getItem(localTabKey) || Evm.key}
+        defaultActiveKey={defaultActiveKey}
         onChange={(target) => {
           localStorage.setItem(localTabKey, target);
         }}
