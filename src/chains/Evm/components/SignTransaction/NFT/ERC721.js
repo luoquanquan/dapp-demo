@@ -198,9 +198,7 @@ function ERC721() {
             value={mintCount}
             disabled={!ready}
             placeholder="请输入 mint 数量"
-            onChange={({ target: { value } }) => {
-              setMintCount(value);
-            }}
+            onChange={setMintCount}
           />
           <Button
             block
@@ -213,9 +211,7 @@ function ERC721() {
           <Input
             placeholder="请输入授权 nft id"
             value={approveNftId}
-            onChange={({ target: { value } }) => {
-              setApproveNftId(value);
-            }}
+            onChange={setApproveNftId}
           />
           <Button
             block
