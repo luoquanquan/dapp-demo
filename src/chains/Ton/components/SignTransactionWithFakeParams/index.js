@@ -54,10 +54,10 @@ function SignTransactionWithFakeParams() {
           block
           disabled={!address}
           onClick={sendTon({
-            validUntil: dayjs().unix(),
+            validUntil: dayjs().add(3, 'minute').unix(),
           })}
         >
-          sendTon with now
+          sendTon with 3 min
         </Button>
 
         <Button
