@@ -57,7 +57,7 @@ function SignTransactionWithFakeParams() {
             validUntil: dayjs().add(3, 'minute').unix(),
           })}
         >
-          sendTon with 3 min
+          sendTon with +3 minute
         </Button>
 
         <Button
