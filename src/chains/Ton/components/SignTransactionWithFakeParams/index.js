@@ -12,6 +12,7 @@ function SignTransactionWithFakeParams() {
 
   const sendTon = ({
     toAddress = myTonAddress, validUntil = defaultValidUntil, from,
+    network,
     messagesUndefined,
     messages = [
       {
@@ -21,6 +22,7 @@ function SignTransactionWithFakeParams() {
     ],
   }) => () => {
     const params = {
+      network,
       validUntil,
       from,
       messages,
@@ -45,8 +47,39 @@ function SignTransactionWithFakeParams() {
             validUntil: dayjs().subtract(1, 'day').unix(),
           })}
         >
-          sendTon with fake valid_until
+          sendTon with -1 day
         </Button>
+
+        <Button
+          block
+          disabled={!address}
+          onClick={sendTon({
+            validUntil: dayjs().unix(),
+          })}
+        >
+          sendTon with now
+        </Button>
+
+        <Button
+          block
+          disabled={!address}
+          onClick={sendTon({
+            validUntil: dayjs().add(1, 'day').unix(),
+          })}
+        >
+          sendTon with +1 day
+        </Button>
+
+        <Button
+          block
+          disabled={!address}
+          onClick={sendTon({
+            network: '-3',
+          })}
+        >
+          sendTon with fake network
+        </Button>
+
         <Button
           block
           disabled={!address}
@@ -56,6 +89,7 @@ function SignTransactionWithFakeParams() {
         >
           sendTon with fake from
         </Button>
+
         <Button
           block
           disabled={!address}
