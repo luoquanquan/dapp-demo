@@ -94,7 +94,7 @@ function SignTransactionWithFakeParams() {
           block
           disabled={!address}
           onClick={sendTon({
-            toAddress: '0:6b273bdc8b12c9ad3d0daf05950d520fd6c6d70ce16e1bedc7402e2d52d0e55b',
+            toAddress: 'kQCKWpx7cNMpvmcN50bM5lLUZHZRFKqYA4xmw9j0ry0Zs0TG',
           })}
         >
           sendTon with fake address
