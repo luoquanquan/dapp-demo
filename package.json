@@ -85,6 +85,7 @@
   "scripts": {
     "dev": "node scripts/start.js",
     "start": "node scripts/start.js",
+    "build": "./scripts/release.sh",
     "release": "./scripts/release.sh"
   },
   "eslintConfig": {
