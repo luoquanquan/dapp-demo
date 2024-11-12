@@ -1,0 +1,39 @@
+
+
+> @repo/dapp-demo@0.1.0 build /Users/elviswong/meili/elvis.wong_dacs_at_okg.com/108/Documents/okfe/wallet/GitHub/ok-mono/apps/quanquan-dapp
+> ./scripts/release.sh
+
+Start compile 2024-11-12 17:31:31
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+Creating an optimized production build...
+[31mFailed to compile.[39m
+[31m[39m
+[eslint] 
+src/index.js
+  [1mLine 1:19:[22m   Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 2:22:[22m   Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 3:22:[22m   Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 4:34:[22m   Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 5:17:[22m   Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 7:8:[22m    Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 11:28:[22m  Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 14:58:[22m  Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 17:39:[22m  Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 18:14:[22m  Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 19:13:[22m  Strings must use singlequote  [31m[4mquotes[24m[39m
+  [1mLine 21:31:[22m  Strings must use singlequote  [31m[4mquotes[24m[39m
+
+Search for the [4m[31mkeywords[39m[24m to learn more about each error.
+
+
+End compile 2024-11-12 17:31:31
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+Start push 2024-11-12 17:31:31
+Everything up-to-date
+Complete 2024-11-12 17:31:31
