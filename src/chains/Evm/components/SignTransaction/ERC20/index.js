@@ -53,8 +53,8 @@ const usedTokens = [
   {
     chain: 'Eth',
     symbol: 'cUSDCv3',
-    chainId: 1,
-    address: '0xc3d688b66703497daa19211eedff47f25384cdc3',
+    chainId: 137,
+    address: '0xf25212e676d1f7f89cd72ffee66158f541246445',
   },
 ];
 
@@ -190,7 +190,7 @@ function ERC20() {
     gasInfo,
     needLoading = true,
     // amount = `${100000000000 * 10 ** decimals}`,
-    amount = '12222222222123234324324234234324232342',
+    amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935',
     spender = openSeaAddress,
   }) => async () => {
     try {
