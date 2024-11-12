@@ -56,7 +56,7 @@ function FormTx() {
     }
   };
   const onValuesChange = (formData) => {
-    setType(formData.type);
+    formData.type && setType(formData.type);
   };
 
   return (
