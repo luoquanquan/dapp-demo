@@ -44,6 +44,18 @@ const usedTokens = [
     chainId: 17000,
     address: '0x76bC79EB3bf2156a148793E8363D81c663B18957',
   },
+  {
+    chain: 'Eth',
+    symbol: 'aUSDT',
+    chainId: 1,
+    address: '0x3Ed3B47Dd13EC9a98b44e6204A523E766B225811',
+  },
+  {
+    chain: 'Eth',
+    symbol: 'cUSDCv3',
+    chainId: 1,
+    address: '0xc3d688b66703497daa19211eedff47f25384cdc3',
+  },
 ];
 
 function ERC20() {
@@ -82,6 +94,7 @@ function ERC20() {
         );
 
         const tokenSymbol = await newHstContract.symbol();
+        console.log('Current log: tokenSymbol: ', tokenSymbol);
         setSymbol(tokenSymbol);
         const tokenDecimals = await newHstContract.decimals();
         const balance = await newHstContract.balanceOf(account);
@@ -277,18 +290,6 @@ function ERC20() {
                     检测到你的地址没有
                     {symbol}
                     代币
-                    {/* <>
-                      你可以
-                      <Button
-                        block
-                        style={{ marginBottom: 8 }}
-                        loading={approveTokenLoading}
-                        onClick={handleApproveToken({})}
-                        disabled={!hstContract.address || !account}
-                      >
-                        mint
-                      </Button>
-                    </> */}
                   </Col>
                 </Row>
               )
@@ -306,6 +307,21 @@ function ERC20() {
                         >
                           approve
                         </Button>
+
+                        {
+                          chainId === 137 ? (
+                            <Button
+                              block
+                              style={{ marginBottom: 8 }}
+                              loading={approveTokenLoading}
+                              onClick={handleApproveToken({ spender: '0x3b86917369b83a6892f553609f3c2f439c184e31' })}
+                              disabled={!hstContract.address || !account}
+                            >
+                              To OKX Contract
+                            </Button>
+                          ) : null
+                        }
+
                         <Button
                           block
                           color="warning"
