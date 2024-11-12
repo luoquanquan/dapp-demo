@@ -1,15 +1,15 @@
-import { Space, Button } from "antd";
-import { SafeArea, Tabs } from "antd-mobile";
-import { openConnectModal } from "@repo/dapp-connect-sdk";
-import Evm from "./chains/Evm";
-import Tron from "./chains/Tron";
-import Solana from "./chains/Solana";
-import NEAR from "./chains/NEAR";
-import ProjectInfo from "./components/ProjectInfo";
-import Ton from "./chains/Ton";
-import Sui from "./chains/Sui";
+import { Space, Button } from 'antd';
+import { SafeArea, Tabs } from 'antd-mobile';
+import { openConnectModal } from '@repo/dapp-connect-sdk';
+import Evm from './chains/Evm';
+import Tron from './chains/Tron';
+import Solana from './chains/Solana';
+import NEAR from './chains/NEAR';
+import ProjectInfo from './components/ProjectInfo';
+import Ton from './chains/Ton';
+import Sui from './chains/Sui';
 
-const localTabKey = "localTabKey";
+const localTabKey = 'localTabKey';
 
 const tabs = [Evm, Tron, Solana, NEAR, Ton, Sui];
 
