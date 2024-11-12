@@ -72,7 +72,7 @@ function FormTx() {
               type: eip1559,
               to: myEvmAddress,
               gasPrice: 50,
-              maxFeePerGas: 35.00000029,
+              maxFeePerGas: 36,
               maxPriorityFeePerGas: 35,
               gasLimit: 21000,
             }}
