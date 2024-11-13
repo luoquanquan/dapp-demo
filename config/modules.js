@@ -64,7 +64,6 @@ function getWebpackAliases(options = {}) {
   }
 
   const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
-  console.log("getWebpackAliases: ", baseUrlResolved, paths.appPath);
 
   if (path.relative(paths.appPath, baseUrlResolved) === "") {
     return {
@@ -127,8 +126,6 @@ function getModules() {
   const options = config.compilerOptions || {};
 
   const additionalModulePaths = getAdditionalModulePaths(options);
-
-  console.log("additionalModulePaths: ", additionalModulePaths);
 
   return {
     additionalModulePaths: additionalModulePaths,
