@@ -1,6 +1,6 @@
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
-import { openConnectModal } from '@repo/dapp-connect-sdk';
+import { openConnectModal, hackOKXConnectUI } from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
@@ -17,6 +17,7 @@ const cachedChainKey = localStorage.getItem(localTabKey);
 const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
 const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 
+hackOKXConnectUI();
 export default function App() {
   return (
     <Space direction="vertical" className="wrap">
