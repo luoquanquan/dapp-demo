@@ -1,7 +1,7 @@
 import React from 'react';
 import VConsole from 'vconsole';
 import ReactDOM from 'react-dom/client';
-import OKXConnectSDK from '@repo/dapp-connect-sdk';
+import OKXConnectSDK from 'dapp-connect-sdk';
 import App from './App';
 
 import './index.css';
