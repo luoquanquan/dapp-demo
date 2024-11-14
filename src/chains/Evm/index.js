@@ -15,6 +15,8 @@ import Eip6963 from './components/Eip6963';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
 import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from './const';
 
+const key = 'Evm';
+
 function Evm() {
   const [provider, setProvider] = useState({});
   const {
@@ -78,7 +80,6 @@ function Evm() {
   );
 }
 
-const key = 'Evm';
 export default {
   key,
   children: <Evm />,
