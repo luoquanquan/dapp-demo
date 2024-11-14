@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_repo_dapp_demo=self.webpackChunk_repo_dapp_demo||[]).push([[738],{64399:(e,o,p)=>{p.d(o,{i:()=>r,t:()=>c});var s=p(35316);const c=()=>{s.Ay.success("Cool, operation succeed, open console to check result ~")},r=()=>{s.Ay.error("ohh no, operation failed ~")}}}]);
