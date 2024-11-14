@@ -4,17 +4,19 @@ export default (provider) => {
   const [chainId, setChainId] = useState('');
 
   const getNetwork = () => {
-    provider?.request && provider.request({ method: 'eth_chainId' }).then((resp) => {
-      setChainId(+resp);
-    });
+    provider?.request
+      && provider.request({ method: 'eth_chainId' }).then((resp) => {
+        setChainId(+resp);
+      });
   };
   useEffect(() => {
     if (provider) {
       getNetwork();
 
-      provider?.on && provider.on('chainChanged', () => {
-        getNetwork();
-      });
+      provider?.on
+        && provider.on('chainChanged', () => {
+          getNetwork();
+        });
     }
   }, [provider]);
 

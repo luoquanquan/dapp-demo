@@ -22,12 +22,19 @@ function Evm() {
   } = useConnect(provider);
   const { chainId } = useNetwork(provider);
 
-  const context = useMemo(() => ({
-    account,
-    chainId,
-    provider,
-    setProvider,
-  }), [account, chainId, provider]);
+  const context = useMemo(
+    () => ({
+      account,
+      chainId,
+      provider,
+      setProvider,
+    }),
+    [account, chainId, provider],
+  );
+
+  if (!window.ethereum) {
+    return <DontHaveWallet chain={key} />;
+  }
 
   return (
     <EvmContext.Provider value={context}>
@@ -38,14 +45,16 @@ function Evm() {
 
         <Account account={account} />
 
-        <Connect handleConnect={handleConnect} account={account} handleDisConnect={handleDisConnect}>
-          {
-            provider.requestWallets ? (
-              <Button disabled={!!account} onClick={handleConnectAllChains}>
-                Connect All Chain
-              </Button>
-            ) : null
-          }
+        <Connect
+          handleConnect={handleConnect}
+          account={account}
+          handleDisConnect={handleDisConnect}
+        >
+          {provider.requestWallets ? (
+            <Button disabled={!!account} onClick={handleConnectAllChains}>
+              Connect All Chain
+            </Button>
+          ) : null}
         </Connect>
 
         <SignMessage />
@@ -56,9 +65,14 @@ function Evm() {
 
         <GetEncryptPublicKey />
 
-        <BlackAddress type={BlackAddress.typeMap.eoa} address={getEvmBlackEoaAddress(chainId)} />
-        <BlackAddress type={BlackAddress.typeMap.strongEoa} address={getStrongBlackEoaAddress(chainId)} />
-
+        <BlackAddress
+          type={BlackAddress.typeMap.eoa}
+          address={getEvmBlackEoaAddress(chainId)}
+        />
+        <BlackAddress
+          type={BlackAddress.typeMap.strongEoa}
+          address={getStrongBlackEoaAddress(chainId)}
+        />
       </Space>
     </EvmContext.Provider>
   );
@@ -67,5 +81,5 @@ function Evm() {
 const key = 'Evm';
 export default {
   key,
-  children: window.ethereum ? <Evm /> : <DontHaveWallet chain={key} />,
+  children: <Evm />,
 };

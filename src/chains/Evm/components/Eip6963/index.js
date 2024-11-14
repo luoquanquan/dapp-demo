@@ -39,7 +39,7 @@ function Eip6963() {
 
   useEffect(() => {
     if (providers?.length) {
-      const strongWallet = find(providers, ((p) => p?.info?.name?.endsWith('Wallet')));
+      const strongWallet = find(providers, (p) => p?.info?.name?.endsWith('Wallet'));
       setProvider(strongWallet?.provider || last(providers).provider);
     }
   }, [providers]);
@@ -47,18 +47,16 @@ function Eip6963() {
   return (
     <Card title="EIP 6963">
       <Row gutter={16}>
-        {
-          providers.map((item) => (
-            <Provider
-              active={provider === item.provider}
-              key={item.info.uuid}
-              provider={item}
-              onSelected={() => {
-                setProvider(item.provider);
-              }}
-            />
-          ))
-        }
+        {providers.map((item) => (
+          <Provider
+            active={provider === item.provider}
+            key={item.info.uuid}
+            provider={item}
+            onSelected={() => {
+              setProvider(item.provider);
+            }}
+          />
+        ))}
       </Row>
     </Card>
   );
