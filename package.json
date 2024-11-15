@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "dapp-connect-sdk": "0.0.1",
+    "@repo/dapp-connect-sdk": "workspace:*",
     "@babel/core": "^7.16.0",
     "@mysten/dapp-kit": "^0.14.26",
     "@mysten/sui": "^1.12.0",

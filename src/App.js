@@ -1,6 +1,6 @@
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
-import { openConnectModal } from 'dapp-connect-sdk';
+import { openConnectModal } from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
