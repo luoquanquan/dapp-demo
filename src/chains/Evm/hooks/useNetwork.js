@@ -6,7 +6,7 @@ export default (provider) => {
   const getNetwork = () => {
     provider?.request
       && provider.request({ method: 'eth_chainId' }).then((resp) => {
-        setChainId(+resp);
+        setChainId(resp);
       });
   };
   useEffect(() => {
