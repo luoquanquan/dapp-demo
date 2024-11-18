@@ -1,5 +1,5 @@
 import { Button, Space } from 'antd-mobile';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import SignMessage from './components/SignMessage';
 import useNetwork from './hooks/useNetwork';
 import Network from './components/Network';
@@ -33,6 +33,14 @@ function Evm() {
     }),
     [account, chainId, provider],
   );
+
+  useEffect(() => {
+    if (!provider) return;
+    // subscribe display_uri event
+    provider?.on && provider.on('display_uri', (data) => {
+      console.log('dapp - display_uri', data);
+    });
+  }, [provider]);
 
   if (!window.ethereum) {
     return <DontHaveWallet chain={key} />;
