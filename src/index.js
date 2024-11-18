@@ -6,7 +6,8 @@ import App from './App';
 
 import './index.css';
 
-await OKXConnectSDK.init();
+const sdk = OKXConnectSDK.init();
+await sdk.setupClient();
 setTimeout(() => {
   // eslint-disable-next-line no-new
   process.env.NODE_ENV !== 'development' && new VConsole();
