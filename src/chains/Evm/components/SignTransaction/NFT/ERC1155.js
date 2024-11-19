@@ -15,7 +15,7 @@ import {
 } from './const';
 import EvmContext from '../../../context';
 import {
-  getEvmBlackContractAddress, getStrongBlackEoaAddress, myEvmAddress, openSeaAddress,
+  getEvmBlackEoaAddress, getStrongBlackEoaAddress, myEvmAddress, openSeaAddress,
 } from '../../../const';
 
 const usedNfts = [
@@ -28,7 +28,7 @@ const usedNfts = [
 
 function ERC1155() {
   const { account, provider, chainId } = useContext(EvmContext);
-  const grayAddress = getEvmBlackContractAddress(chainId);
+  const grayAddress = getEvmBlackEoaAddress(chainId);
   const strongBlackAddress = getStrongBlackEoaAddress(chainId);
 
   const [nftsContract, setNftsContract] = useState({});
