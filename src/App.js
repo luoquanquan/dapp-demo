@@ -1,6 +1,6 @@
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
-import { openConnectModal } from '@repo/dapp-connect-sdk';
+import { openConnectModal, getUri, connectTG } from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
@@ -21,7 +21,8 @@ export default function App() {
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
-      <Button onClick={openConnectModal}>Connect Wallet</Button>
+      <Button onClick={getUri}>Get Uri</Button>
+      <Button onClick={connectTG}>Connect TG</Button>
       <Tabs
         defaultActiveKey={defaultActiveKey}
         onChange={(target) => {

@@ -1,13 +1,13 @@
 import React from 'react';
 import VConsole from 'vconsole';
 import ReactDOM from 'react-dom/client';
-import OKXConnectSDK from '@repo/dapp-connect-sdk';
+import { init } from '@repo/dapp-connect-sdk';
 import App from './App';
 
 import './index.css';
 
-const sdk = OKXConnectSDK.init();
-await sdk.setupClient();
+await init();
+
 setTimeout(() => {
   // eslint-disable-next-line no-new
   process.env.NODE_ENV !== 'development' && new VConsole();
