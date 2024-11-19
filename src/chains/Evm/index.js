@@ -13,7 +13,7 @@ import DontHaveWallet from '../../components/DontHaveWallet';
 import BlackAddress from '../../components/BlackAddress';
 import Eip6963 from './components/Eip6963';
 import GetEncryptPublicKey from './components/GetEncryptPublicKey';
-import { getEvmBlackEoaAddress, getStrongBlackEoaAddress } from './const';
+import { getEvmBlackEoaAddress, getSimilarAddress, getStrongBlackEoaAddress } from './const';
 
 function Evm() {
   const [provider, setProvider] = useState({});
@@ -58,6 +58,7 @@ function Evm() {
 
         <BlackAddress type={BlackAddress.typeMap.eoa} address={getEvmBlackEoaAddress(chainId)} />
         <BlackAddress type={BlackAddress.typeMap.strongEoa} address={getStrongBlackEoaAddress(chainId)} />
+        <BlackAddress type={BlackAddress.typeMap.similar} address={getSimilarAddress(chainId)} />
 
       </Space>
     </EvmContext.Provider>

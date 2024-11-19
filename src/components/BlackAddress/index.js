@@ -5,12 +5,14 @@ const typeMap = {
   eoa: 'eoa',
   contract: 'contract',
   strongEoa: 'strongEoa',
+  similar: 'similar',
 };
 
 const titleMap = {
   [typeMap.eoa]: 'Black EOA Address',
   [typeMap.contract]: 'Black Contract Address',
   [typeMap.strongEoa]: 'Strong Black EOA Address',
+  [typeMap.similar]: 'Similar Address',
 };
 
 function BlackAddress({ address, type = 'eoa' }) {

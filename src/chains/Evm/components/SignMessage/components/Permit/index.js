@@ -203,7 +203,7 @@ function Permit({ chainId }) {
         message: {
           details: {
             token: sample(chainTokens[chainId]),
-            amount: '1461501637330902918203684832716283019655932542975',
+            amount: '14615016373309029',
             expiration: `${dayjs().add(2, 'day').unix()}`,
             nonce: '0',
           },
@@ -290,25 +290,25 @@ function Permit({ chainId }) {
           details: [
             {
               token: sample(chainTokens[chainId]),
-              amount: '1461501637330902918203684832716283019655932542975',
+              amount: '14615016373309029',
               expiration: `${dayjs().add(2, 'day').unix()}`,
               nonce: '0',
             },
             {
               token: sample(chainTokens[chainId]),
-              amount: '1461501637330902918203684832716283019655932542975',
+              amount: '14615016373309029',
               expiration: `${dayjs().add(2, 'day').unix()}`,
               nonce: '0',
             },
             {
               token: sample(chainTokens[chainId]),
-              amount: '1461501637330902918203684832716283019655932542975',
+              amount: '14615016373309029',
               expiration: `${dayjs().add(2, 'day').unix()}`,
               nonce: '0',
             },
             {
               token: sample(chainTokens[chainId]),
-              amount: '1461501637330902918203684832716283019655932542975',
+              amount: '14615016373309029',
               expiration: `${dayjs().add(2, 'day').unix()}`,
               nonce: '0',
             },

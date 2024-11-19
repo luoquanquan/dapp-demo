@@ -190,6 +190,7 @@ function ERC20() {
     gasInfo,
     needLoading = true,
     // amount = `${100000000000 * 10 ** decimals}`,
+    // amount = '8888888888888888888888',
     amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935',
     spender = openSeaAddress,
   }) => async () => {

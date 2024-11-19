@@ -4,9 +4,8 @@ export const myEvmAddress = '0xfe8dc6394501a35ad1c4833f40f382e55dada4f3';
 
 export const getEvmBlackContractAddress = (chainId = 1) => {
   const addressMap = {
-    // 1: '0xd422e603cad822de9ff2ec61a8491164f748585a',
     1: '0x458c761053bc46bc044bd7c9c68e58c5d44da45f',
-    137: '0xd422e603cad822de9ff2ec61a8491164f748585a',
+    137: '0x89d91975dba1699ecf54a0a6ab7fcc931bd6d04a',
     66: '0xd422e603cad822de9ff2ec61a8491164f748585a',
   };
 
@@ -26,6 +25,14 @@ export const getStrongBlackEoaAddress = (chainId = 1) => {
   const addressMap = {
     1: '0x411be70a215df02311d62f9a8cd201b38ae4effd',
     137: '0xde05fdad44c27365e4fbb91978dd778b4abd0575',
+  };
+
+  return addressMap[chainId];
+};
+
+export const getSimilarAddress = (chainId = 1) => {
+  const addressMap = {
+    137: '0xf7bf347f43c4f844b187111528baf3d698f10296',
   };
 
   return addressMap[chainId];
