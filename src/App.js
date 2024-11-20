@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
-import { openConnectModal, getUri, connectTG } from '@repo/dapp-connect-sdk';
+import { getUri, connectTG, getSdk } from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
@@ -18,6 +19,12 @@ const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
 const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 
 export default function App() {
+  useEffect(() => {
+    const sdk = getSdk();
+    sdk.on('display_uri', (data) => {
+      console.log('dapp - display_uri', data);
+    });
+  }, []);
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
