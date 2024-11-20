@@ -6,7 +6,15 @@ import App from './App';
 
 import './index.css';
 
-await init();
+const sdk = await init();
+sdk.on('display_uri', (data) => {
+  console.log('dappppppppppppp - display_uri', data);
+});
+window.addEventListener('eip6963:announceProvider', (event) => {
+  event.detail.provider.on('accountChanged', (data) => {
+    console.log('dappppppppppppp accountChanged：', data);
+  });
+});
 
 setTimeout(() => {
   // eslint-disable-next-line no-new
