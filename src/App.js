@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
-  getUri, connectApp, connectTG, getSdk,
+  getUri, connectApp, connectTG, getSdk, getProvider, SupportedNetworks,
 } from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
@@ -23,8 +23,11 @@ const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 export default function App() {
   useEffect(() => {
     const sdk = getSdk();
-    sdk.on('display_uri', (data) => {
-      console.log('dapp - display_uri', data);
+    const provider = getProvider(SupportedNetworks.ETHEREUM);
+    console.log('sdk: ', sdk);
+    console.log('provider: ', provider);
+    provider.on('connect', (data) => {
+      console.log('provider connect: ', data);
     });
   }, []);
 
