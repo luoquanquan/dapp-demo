@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
-import { getUri, connectTG, getSdk } from '@repo/dapp-connect-sdk';
+import { getUri, connectApp, connectTG, getSdk } from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
@@ -25,10 +25,16 @@ export default function App() {
       console.log('dapp - display_uri', data);
     });
   }, []);
+
+  const onClickGetUri = async () => {
+    const uri = await getUri();
+    console.log('get display uri for QR code scan: ', uri);
+  };
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
-      <Button onClick={getUri}>Get Uri</Button>
+      <Button onClick={onClickGetUri}>Get Uri</Button>
+      <Button onClick={connectApp}>Connect Mobile App</Button>
       <Button onClick={connectTG}>Connect TG</Button>
       <Tabs
         defaultActiveKey={defaultActiveKey}
