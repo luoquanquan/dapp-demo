@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
-import { getUri, connectApp, connectTG, getSdk } from '@repo/dapp-connect-sdk';
+import {
+  getUri, connectApp, connectTG, getSdk,
+} from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
