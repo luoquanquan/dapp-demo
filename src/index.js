@@ -1,7 +1,7 @@
 import React from 'react';
 import VConsole from 'vconsole';
 import ReactDOM from 'react-dom/client';
-import { init } from '@repo/dapp-connect-sdk';
+import { init } from '@repo/dapp-connect';
 import App from './App';
 
 import './index.css';

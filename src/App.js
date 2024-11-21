@@ -3,7 +3,7 @@ import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
   getUri, connectApp, connectTG, getSdk, getProvider, SupportedNetworks, disconnect,
-} from '@repo/dapp-connect-sdk';
+} from '@repo/dapp-connect';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
