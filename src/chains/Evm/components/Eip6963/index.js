@@ -33,6 +33,9 @@ function Eip6963() {
 
     window.addEventListener('eip6963:announceProvider', (event) => {
       setProviders((p) => uniqBy([...p, event.detail], 'info.uuid'));
+      event?.detail?.provider.on('accountsChanged', (data) => {
+        console.log('dappppppppppppp accountsChanged', data);
+      });
     });
     window.dispatchEvent(new Event('eip6963:requestProvider'));
   }, []);

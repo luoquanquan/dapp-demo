@@ -8,14 +8,6 @@ import './index.css';
 
 const sdk = await init();
 console.log('dappppp add event listener', sdk);
-window.addEventListener('eip6963:announceProvider', (event) => {
-  console.log('test eip6963:announceProvider', event.detail.provider);
-
-  event.detail.provider.on('accountsChanged', (data) => {
-    console.log('dappppppppppppp accountsChanged', data);
-  });
-});
-window.dispatchEvent(new Event('eip6963:requestProvider'));
 
 setTimeout(() => {
   // eslint-disable-next-line no-new
