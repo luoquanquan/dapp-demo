@@ -7,9 +7,6 @@ import App from './App';
 import './index.css';
 
 const sdk = await init();
-sdk.on('display_uri', (data) => {
-  console.log('dappppppppppppp - display_uri', data);
-});
 console.log('dappppp add event listener', sdk);
 window.addEventListener('eip6963:announceProvider', (event) => {
   console.log('test eip6963:announceProvider', event.detail.provider);
