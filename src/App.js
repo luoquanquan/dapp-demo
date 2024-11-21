@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
-  getUri, connectApp, connectTG, getSdk, getProvider, SupportedNetworks,
+  getUri, connectApp, connectTG, getSdk, getProvider, SupportedNetworks, disconnect,
 } from '@repo/dapp-connect-sdk';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
@@ -41,6 +41,7 @@ export default function App() {
       <Button onClick={onClickGetUri}>Get Uri</Button>
       <Button onClick={connectApp}>Connect Mobile App</Button>
       <Button onClick={connectTG}>Connect TG</Button>
+      <Button onClick={disconnect}>Disconnect</Button>
       <Tabs
         defaultActiveKey={defaultActiveKey}
         onChange={(target) => {
