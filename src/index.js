@@ -10,11 +10,15 @@ const sdk = await init();
 sdk.on('display_uri', (data) => {
   console.log('dappppppppppppp - display_uri', data);
 });
+console.log('dappppp add event listener', sdk);
 window.addEventListener('eip6963:announceProvider', (event) => {
-  event.detail.provider.on('accountChanged', (data) => {
-    console.log('dappppppppppppp accountChanged：', data);
+  console.log('test eip6963:announceProvider', event.detail.provider);
+
+  event.detail.provider.on('accountsChanged', (data) => {
+    console.log('dappppppppppppp accountsChanged', data);
   });
 });
+window.dispatchEvent(new Event('eip6963:requestProvider'));
 
 setTimeout(() => {
   // eslint-disable-next-line no-new

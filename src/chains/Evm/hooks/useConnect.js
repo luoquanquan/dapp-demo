@@ -46,7 +46,7 @@ export default (provider) => {
     if (!provider || !provider?.on) return;
 
     try {
-      provider.on('accountChanged', ([connected]) => {
+      provider.on('accountsChanged', ([connected]) => {
         if (connected) {
           handleConnect();
         } else {

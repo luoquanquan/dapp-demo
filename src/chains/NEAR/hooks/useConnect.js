@@ -60,7 +60,7 @@ export default () => {
   useEffect(() => {
     try {
       if (providerRef.current) {
-        providerRef.current.on('accountChanged', (msg) => {
+        providerRef.current.on('accountsChanged', (msg) => {
           console.log('Current log: msg: ', msg);
         });
         providerRef.current.on('signOut', ((msg) => {
