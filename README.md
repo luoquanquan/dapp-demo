@@ -2,24 +2,23 @@
 
 ## develop
 
-### 依赖安装
+### install
 
 - `yarn`
 
-### 开发
+### develop
 
-直接在 main 分支就写代码就完事儿, 没有分支管理, 怎么简单怎么写.
-
-PS: 需要关注下响应式, 因为测试 dapp 移动端钱包也会用到
+Enjoy yourself ~
 
 ## release
 
-### 授权编译脚本
+### bash
 
-执行 `chmod -R a+x scripts/release.sh` 给编译脚本执行的权限
+`chmod -R a+x scripts/release.sh`
 
-### 部署
+### release
 
-开发完成并 `git commit` 之后, 执行 `npm run release` 即可, 测试页面会自动部署. 剩下的都不用管了 ~
+- `npm run release`
+- <https://luoquanquan.github.io/dapp-demo/>
 
 [LICENSE](./LICENSE)
