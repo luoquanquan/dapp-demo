@@ -289,36 +289,18 @@ function SignTypedDataV4() {
           <Button
             block
             disabled={!account}
-            onClick={eth_signTypedData_v4({ verifyingContract: '34567890ihdauhfljadfja' })}
-            loading={eth_signTypedData_v4Loading}
-          >
-            eip712NotStandard
-          </Button>
-          <Button
-            block
-            disabled={!account}
             onClick={eth_signTypedData_v4({ fakeMsg: true })}
             loading={eth_signTypedData_v4Loading}
           >
-            longSignText
+            Error Sign Messsage Body
           </Button>
-          <Popover content="eip712NotStandard & longSignText">
-            <Button
-              block
-              disabled={!account}
-              onClick={eth_signTypedData_v4({ verifyingContract: '34567890ihdauhfljadfja', fakeMsg: true })}
-              loading={eth_signTypedData_v4Loading}
-            >
-              both
-            </Button>
-          </Popover>
           <Button
             block
             disabled={!account}
             onClick={eth_signTypedData_v4_0}
             loading={eth_signTypedData_v4Loading}
           >
-            0 元购
+            low value to get NFT
           </Button>
         </Space>
       </Card>
