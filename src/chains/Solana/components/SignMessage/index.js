@@ -1,6 +1,4 @@
-import {
-  Button, Card, Space,
-} from 'antd-mobile';
+import { Button, Card, Space } from 'antd-mobile';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
 
 function SignMessage({ account }) {
@@ -9,9 +7,12 @@ function SignMessage({ account }) {
       const msg = 'Hello Solana';
       const encodedMsg = new TextEncoder().encode(msg);
       const ret = await solana.signMessage(encodedMsg, 'utf8');
-      console.log(ret);
+
+      console.log('rettttt', ret.message);
       toastSuccess();
     } catch (error) {
+      console.log('failed to sign message');
+
       console.log(error);
       toastFail();
     }
@@ -22,7 +23,9 @@ function SignMessage({ account }) {
       <Space direction="vertical" style={{ width: '100%' }}>
         <Card direction="vertical">
           <Space direction="vertical" style={{ width: '100%' }}>
-            <Button disabled={!account} block onClick={handleSignMsg}>签名</Button>
+            <Button disabled={!account} block onClick={handleSignMsg}>
+              签名
+            </Button>
           </Space>
         </Card>
       </Space>

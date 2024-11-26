@@ -1,5 +1,5 @@
 import { Space } from 'antd-mobile';
-
+import { useEffect } from 'react';
 import useConnect from './hooks/useConnect';
 
 import Connect from '../../components/Connect';
@@ -10,6 +10,28 @@ import DontHaveWallet from '../../components/DontHaveWallet';
 
 function Solana() {
   const { account, handleConnect, connection } = useConnect();
+  useEffect(() => {
+    window?.solana?.on('connect', (connectData) => {
+      console.log('connectData', connectData);
+    });
+    window?.solana?.on('disconnect', (disconnectData) => {
+      console.log('disconnectData', disconnectData);
+    });
+    window?.solana?.on('accountChanged', (accChangedData) => {
+      console.log('accChangedData', accChangedData);
+    });
+    window?.solana?.on('chainChanged', (chainChangeData) => {
+      console.log('chainChangeData', chainChangeData);
+    });
+  }, []);
+  if (!window.solana) {
+    return (
+      <>
+        <DontHaveWallet chain="Solana" />
+        21331
+      </>
+    );
+  }
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
@@ -20,9 +42,8 @@ function Solana() {
     </Space>
   );
 }
-
-const key = 'Solana';
-export default {
-  key,
-  children: window.solana ? <Solana /> : <DontHaveWallet chain={key} />,
+window.ls = () => {
+  console.log(window.solana, 'has solana ?');
 };
+const key = 'Solana';
+export default { key, children: <Solana /> };

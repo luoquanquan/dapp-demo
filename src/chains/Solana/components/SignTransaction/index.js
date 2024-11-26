@@ -15,46 +15,44 @@ import Assign from './Assign';
 import { mySolAddress } from '../../const';
 
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
-const withConnectionGenerateTx = (
-  connection,
-  toPubkey = new PublicKey(mySolAddress),
-) => async () => {
-  const tx = new Transaction();
+const withConnectionGenerateTx =
+  (connection, toPubkey = new PublicKey(mySolAddress)) =>
+  async () => {
+    const tx = new Transaction();
 
-  tx.add(
-    SystemProgram.transfer({
-      fromPubkey: solana.publicKey,
-      toPubkey,
-      // lamports: Math.random() > 0.3 ? LAMPORTS_PER_SOL : lamports,
-      lamports,
-    }),
-  );
-  const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-  tx.recentBlockhash = recentBlockhash;
-  tx.feePayer = solana.publicKey;
-
-  return tx;
-};
-
-const withConnectionGenerateVersionedTx = (
-  connection,
-  toPubkey = new PublicKey(mySolAddress),
-) => async () => {
-  const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-  const versionedTransactionMessage = new TransactionMessage({
-    payerKey: solana.publicKey,
-    recentBlockhash,
-    instructions: [
+    tx.add(
       SystemProgram.transfer({
         fromPubkey: solana.publicKey,
         toPubkey,
+        // lamports: Math.random() > 0.3 ? LAMPORTS_PER_SOL : lamports,
         lamports,
       }),
-    ],
-  }).compileToV0Message();
+    );
+    const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+    tx.recentBlockhash = recentBlockhash;
+    tx.feePayer = solana.publicKey;
 
-  return new VersionedTransaction(versionedTransactionMessage);
-};
+    return tx;
+  };
+
+const withConnectionGenerateVersionedTx =
+  (connection, toPubkey = new PublicKey(mySolAddress)) =>
+  async () => {
+    const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+    const versionedTransactionMessage = new TransactionMessage({
+      payerKey: solana.publicKey,
+      recentBlockhash,
+      instructions: [
+        SystemProgram.transfer({
+          fromPubkey: solana.publicKey,
+          toPubkey,
+          lamports,
+        }),
+      ],
+    }).compileToV0Message();
+
+    return new VersionedTransaction(versionedTransactionMessage);
+  };
 
 export default function SignTransaction({ account, connection }) {
   const generateTx = withConnectionGenerateTx(connection);
@@ -78,16 +76,14 @@ export default function SignTransaction({ account, connection }) {
     }
   };
 
-  const [signAllTransactionsLoading, setSignAllTransactionsLoading] = useState(false);
+  const [signAllTransactionsLoading, setSignAllTransactionsLoading] =
+    useState(false);
   const signAllTransactions = async () => {
     try {
       setSignAllTransactionsLoading(true);
-      const txs = [
-        await generateTx(),
-        await generateTx(),
-      ];
+      const txs = [await generateTx(), await generateTx()];
       const signedTxs = await solana.signAllTransactions(txs);
-
+      console.log('signedTxs', signedTxs);
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < signedTxs.length; i++) {
         const tx = signedTxs[i];
@@ -104,7 +100,8 @@ export default function SignTransaction({ account, connection }) {
     }
   };
 
-  const [signAndSendTransactionLoading, setSignAndSendTransactionLoading] = useState(false);
+  const [signAndSendTransactionLoading, setSignAndSendTransactionLoading] =
+    useState(false);
   const signAndSendTransaction = async () => {
     try {
       setSignAndSendTransactionLoading(true);
@@ -120,7 +117,8 @@ export default function SignTransaction({ account, connection }) {
     }
   };
 
-  const [signVersionedTransactionLoading, setSignVersionedTransactionLoading] = useState(false);
+  const [signVersionedTransactionLoading, setSignVersionedTransactionLoading] =
+    useState(false);
   const signVersionedTransaction = async () => {
     try {
       setSignVersionedTransactionLoading(true);
@@ -144,10 +142,7 @@ export default function SignTransaction({ account, connection }) {
   const signAllVersionedTransactions = async () => {
     try {
       setSignAllVersionedTransactionsLoading(true);
-      const txs = [
-        await generateVersionedTx(),
-        await generateVersionedTx(),
-      ];
+      const txs = [await generateVersionedTx(), await generateVersionedTx()];
       const signedTxs = await solana.signAllTransactions(txs);
 
       // eslint-disable-next-line no-plusplus
