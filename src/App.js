@@ -2,7 +2,13 @@ import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
-  getUri, connectApp, connectTG, getSdk, getProvider, SupportedNetworks, disconnect,
+  getUri,
+  connectApp,
+  connectTG,
+  getSdk,
+  getProvider,
+  SupportedNetworks,
+  disconnect,
 } from '@repo/dapp-connect';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
@@ -26,7 +32,7 @@ export default function App() {
     const provider = getProvider(SupportedNetworks.ETHEREUM);
     console.log('sdk: ', sdk);
     console.log('provider: ', provider);
-    provider.on('connect', (data) => {
+    provider?.on('connect', (data) => {
       console.log('provider connect: ', data);
     });
   }, []);

@@ -17,7 +17,7 @@ function Solana() {
     window?.solana?.on('disconnect', (disconnectData) => {
       console.log('disconnectData', disconnectData);
     });
-    window?.solana?.on('accountChanged', (accChangedData) => {
+    window?.solana?.on('accountsChanged', (accChangedData) => {
       console.log('accChangedData', accChangedData);
     });
     window?.solana?.on('chainChanged', (chainChangeData) => {
