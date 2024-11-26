@@ -9,12 +9,19 @@ import SignTransaction from './components/SignTransaction';
 import DontHaveWallet from '../../components/DontHaveWallet';
 
 function Solana() {
-  const { account, handleConnect, connection } = useConnect();
+  const { account, handleConnect, connection, handleDisconnect } = useConnect();
 
+  if (!window.solana) {
+    return <DontHaveWallet chain="Solana" />;
+  }
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       <Account account={account} />
-      <Connect handleConnect={handleConnect} account={account} />
+      <Connect
+        handleConnect={handleConnect}
+        account={account}
+        handleDisconnect={handleDisconnect}
+      />
       <SignMessage account={account} />
       <SignTransaction account={account} connection={connection} />
     </Space>
@@ -24,5 +31,5 @@ function Solana() {
 const key = 'Solana';
 export default {
   key,
-  children: window.solana ? <Solana /> : <DontHaveWallet chain={key} />,
+  children: <Solana />,
 };
