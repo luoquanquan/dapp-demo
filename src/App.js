@@ -12,10 +12,11 @@ import NEAR from './chains/NEAR';
 import ProjectInfo from './components/ProjectInfo';
 import Ton from './chains/Ton';
 import Sui from './chains/Sui';
+import Aptos from './chains/Aptos';
 
 const localTabKey = 'localTabKey';
 
-const tabs = [Evm, Tron, Solana, NEAR, Ton, Sui];
+const tabs = [Evm, Tron, Solana, NEAR, Ton, Sui, Aptos];
 
 const cachedChainKey = localStorage.getItem(localTabKey);
 const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);

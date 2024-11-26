@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aptos-labs/ts-sdk": "^1.33.0",
+    "@aptos-labs/wallet-adapter-react": "^3.7.7",
     "@babel/core": "^7.16.0",
     "@mysten/dapp-kit": "^0.14.26",
     "@mysten/sui": "^1.12.0",
