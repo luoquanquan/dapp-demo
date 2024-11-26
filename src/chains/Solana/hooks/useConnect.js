@@ -3,7 +3,36 @@ import { message } from 'antd';
 import { useEffect, useState } from 'react';
 
 const u = [
-  'h', 'tt', 'ps:', '//', 's', 'ol', 'an', 'a-m', 'ai', 'n', 'net.', 'co', 're', '.', 'ch', 'ain', 'stack', '.com', '/00173', 'f5a1d1a', '57', 'c', '2d', '9b', '6f', '6d', '003', '20', '70', '3f',
+  'h',
+  'tt',
+  'ps:',
+  '//',
+  's',
+  'ol',
+  'an',
+  'a-m',
+  'ai',
+  'n',
+  'net.',
+  'co',
+  're',
+  '.',
+  'ch',
+  'ain',
+  'stack',
+  '.com',
+  '/00173',
+  'f5a1d1a',
+  '57',
+  'c',
+  '2d',
+  '9b',
+  '6f',
+  '6d',
+  '003',
+  '20',
+  '70',
+  '3f',
 ].join('');
 
 export default () => {
@@ -21,8 +50,7 @@ export default () => {
 
   useEffect(() => {
     if (window.solana) {
-      solana.on('accountsChanged', handleConnect);
-      handleConnect();
+      // handleConnect();
     }
   }, []);
 

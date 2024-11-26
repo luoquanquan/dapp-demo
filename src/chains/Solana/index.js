@@ -1,7 +1,7 @@
 import { Space } from 'antd-mobile';
+
 import { useEffect } from 'react';
 import useConnect from './hooks/useConnect';
-
 import Connect from '../../components/Connect';
 import Account from '../../components/Account';
 import SignMessage from './components/SignMessage';
@@ -24,15 +24,10 @@ function Solana() {
       console.log('chainChangeData', chainChangeData);
     });
   }, []);
-  if (!window.solana) {
-    return (
-      <>
-        <DontHaveWallet chain="Solana" />
-        21331
-      </>
-    );
-  }
 
+  if (!window.solana) {
+    return <DontHaveWallet chain={key} />;
+  }
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       <Account account={account} />
@@ -42,8 +37,9 @@ function Solana() {
     </Space>
   );
 }
-window.ls = () => {
-  console.log(window.solana, 'has solana ?');
-};
+
 const key = 'Solana';
-export default { key, children: <Solana /> };
+export default {
+  key,
+  children: <Solana />,
+};

@@ -6,9 +6,8 @@ function SignMessage({ account }) {
     try {
       const msg = 'Hello Solana';
       const encodedMsg = new TextEncoder().encode(msg);
-      const ret = await solana.signMessage(encodedMsg, 'utf8');
-
-      console.log('rettttt', ret.message);
+      const ret = await solana.signMessage(msg);
+      console.log(ret);
       toastSuccess();
     } catch (error) {
       console.log('failed to sign message');
