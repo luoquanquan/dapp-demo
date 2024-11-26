@@ -30,7 +30,7 @@ export default () => {
 
   useEffect(() => {
     if (window.solana) {
-      solana.on('accountChanged', handleConnect);
+      solana.on('accountsChanged', handleConnect);
       solana.on('connect', (data) => {
         console.log('solana connect: ', data);
         if (data.publicKey) {
