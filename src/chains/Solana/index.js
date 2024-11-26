@@ -9,7 +9,9 @@ import SignTransaction from './components/SignTransaction';
 import DontHaveWallet from '../../components/DontHaveWallet';
 
 function Solana() {
-  const { account, handleConnect, connection, handleDisconnect } = useConnect();
+  const {
+    account, handleConnect, connection, handleDisconnect,
+  } = useConnect();
 
   if (!window.solana) {
     return <DontHaveWallet chain="Solana" />;
