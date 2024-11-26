@@ -52,8 +52,8 @@ export default function App() {
       setConnecting(false);
       console.log('dapppp connect_error');
     });
-    const uri = await getUri();
-    setUri(uri);
+    const newUri = await getUri();
+    setUri(newUri);
 
     console.log('get display uri for QR code scan: ', uri);
   };
