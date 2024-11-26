@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
   getUri, connectApp, connectTG, connect, getSdk, getProvider, SupportedNetworks, disconnect,
 } from '@repo/dapp-connect';
+import { QRCodeSVG } from 'qrcode.react';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
 import Solana from './chains/Solana';
@@ -21,6 +22,8 @@ const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
 const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 
 export default function App() {
+  const [connecting, setConnecting] = useState(false);
+  const [uri, setUri] = useState('');
   useEffect(() => {
     const sdk = getSdk();
     const provider = getProvider(SupportedNetworks.ETHEREUM);
@@ -35,13 +38,29 @@ export default function App() {
   }, []);
 
   const onClickGetUri = async () => {
+    const sdk = getSdk();
+    sdk.once('session_connecting', () => {
+      setConnecting(true);
+      console.log('session_connecting');
+    });
+    sdk.once('connect', () => {
+      setConnecting(false);
+      console.log('sdk connect and remove listener');
+    });
+    sdk.once('connect_error', () => {
+      setConnecting(false);
+      console.log('dapppp connect_error');
+    });
     const uri = await getUri();
+    setUri(uri);
+
     console.log('get display uri for QR code scan: ', uri);
   };
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
-      <Button onClick={onClickGetUri}>Get Uri</Button>
+      <Button onClick={onClickGetUri}>{connecting ? 'connecting' : 'Get Uri'}</Button>
+      {uri ? <QRCodeSVG value={uri} fgColor={connecting ? '#bbb' : ''} /> : null}
       <Button onClick={connectApp}>Connect Mobile App</Button>
       <Button onClick={connectTG}>Connect TG</Button>
       <Button onClick={connect}>Connect</Button>
