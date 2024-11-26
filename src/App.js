@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
-  getUri, connectApp, connectTG, getSdk, getProvider, SupportedNetworks, disconnect,
+  getUri, connectApp, connectTG, connect, getSdk, getProvider, SupportedNetworks, disconnect,
 } from '@repo/dapp-connect';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
@@ -26,9 +26,12 @@ export default function App() {
     const provider = getProvider(SupportedNetworks.ETHEREUM);
     console.log('sdk: ', sdk);
     console.log('provider: ', provider);
-    provider.on('connect', (data) => {
+    provider?.on && provider.on('connect', (data) => {
       console.log('provider connect: ', data);
     });
+
+    // for testing only
+    window.okxConnectSdk = sdk;
   }, []);
 
   const onClickGetUri = async () => {
@@ -41,6 +44,7 @@ export default function App() {
       <Button onClick={onClickGetUri}>Get Uri</Button>
       <Button onClick={connectApp}>Connect Mobile App</Button>
       <Button onClick={connectTG}>Connect TG</Button>
+      <Button onClick={connect}>Connect</Button>
       <Button onClick={disconnect}>Disconnect</Button>
       <Tabs
         defaultActiveKey={defaultActiveKey}
