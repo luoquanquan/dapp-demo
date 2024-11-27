@@ -11,7 +11,7 @@ import {
   getProvider,
   SupportedNetworks,
   disconnect,
-} from '@repo/dapp-connect';
+} from '@repo/connect-kit';
 import { QRCodeSVG } from 'qrcode.react';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
