@@ -61,7 +61,7 @@ export default function App() {
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
       <Button onClick={onClickGetUri}>{connecting ? 'connecting' : 'Get Uri'}</Button>
-      {uri ? <QRCodeSVG value={uri} fgColor={connecting ? '#bbb' : ''} /> : null}
+      {uri ? <QRCodeSVG style={{ marginLeft: '20px' }} value={uri} fgColor={connecting ? '#bbb' : ''} /> : null}
       <Button onClick={connectApp}>Connect Mobile App</Button>
       <Button onClick={connectTG}>Connect TG</Button>
       <Button onClick={connect}>Connect</Button>
