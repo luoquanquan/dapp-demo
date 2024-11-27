@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
-  getUri, connectApp, connectTG, connect, getSdk, getProvider, SupportedNetworks, disconnect,
+  getUri,
+  connectApp,
+  connectTG,
+  connect,
+  getSdk,
+  getProvider,
+  SupportedNetworks,
+  disconnect,
 } from '@repo/dapp-connect';
 import { QRCodeSVG } from 'qrcode.react';
 import Evm from './chains/Evm';
@@ -30,9 +37,34 @@ export default function App() {
     const provider = getProvider(SupportedNetworks.ETHEREUM);
     console.log('sdk: ', sdk);
     console.log('provider: ', provider);
-    provider?.on && provider.on('connect', (data) => {
-      console.log('provider connect: ', data);
-    });
+    provider?.on
+      && provider.on('connect', (data) => {
+        console.log('provider connect: ', data);
+      });
+
+    console.log('subscribe sdk connect');
+    sdk?.on
+      && sdk.on('connect', (session) => {
+        console.log('sdk connect - session: ', session);
+
+        // sdk.request
+        if (sdk.request) {
+          const request = async () => {
+            try {
+              const accounts = await sdk.request(
+                { method: 'eth_accounts' },
+                SupportedNetworks.ETHEREUM,
+              );
+              console.log('accounts: ', accounts);
+            } catch (err) {
+              console.log('err: ', err);
+            }
+          };
+          request();
+        }
+      });
+
+    sdk.connect();
 
     // for testing only
     window.okxConnectSdk = sdk;
@@ -60,8 +92,16 @@ export default function App() {
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
-      <Button onClick={onClickGetUri}>{connecting ? 'connecting' : 'Get Uri'}</Button>
-      {uri ? <QRCodeSVG style={{ marginLeft: '20px' }} value={uri} fgColor={connecting ? '#bbb' : ''} /> : null}
+      <Button onClick={onClickGetUri}>
+        {connecting ? 'connecting' : 'Get Uri'}
+      </Button>
+      {uri ? (
+        <QRCodeSVG
+          style={{ marginLeft: '20px' }}
+          value={uri}
+          fgColor={connecting ? '#bbb' : ''}
+        />
+      ) : null}
       <Button onClick={connectApp}>Connect Mobile App</Button>
       <Button onClick={connectTG}>Connect TG</Button>
       <Button onClick={connect}>Connect</Button>
