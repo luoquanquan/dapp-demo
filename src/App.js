@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
+  getSession,
   getUri,
   connectApp,
   connectTG,
@@ -34,6 +35,7 @@ export default function App() {
   const [uri, setUri] = useState('');
   useEffect(() => {
     const sdk = getSdk();
+    console.log('session: ', getSession());
     const provider = getProvider(SupportedNetworks.ETHEREUM);
     console.log('sdk: ', sdk);
     console.log('provider: ', provider);
@@ -63,8 +65,6 @@ export default function App() {
           request();
         }
       });
-
-    sdk.connect();
 
     // for testing only
     window.okxConnectSdk = sdk;
