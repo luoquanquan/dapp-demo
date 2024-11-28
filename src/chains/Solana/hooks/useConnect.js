@@ -48,11 +48,39 @@ export default () => {
     }
   };
 
+  const handleDisconnect = async () => {
+    try {
+      await solana.disconnect();
+      setAccount('');
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (window.solana) {
-      // handleConnect();
+      solana.on('accountsChanged', () => {});
+      solana.on('connect', (data) => {
+        console.log('solana connect: ', data);
+        if (data.publicKey) {
+          setAccount(data.publicKey.toBase58());
+        }
+      });
+      solana.on('chainChanged', (data) => {
+        console.log('solana chainChanged: ', data);
+      });
+      solana.on('disconnect', (data) => {
+        console.log('solana disconnect: ', data);
+        setAccount('');
+      });
+      handleConnect();
     }
   }, []);
 
-  return { account, handleConnect, connection };
+  return {
+    account,
+    handleConnect,
+    connection,
+    handleDisconnect,
+  };
 };

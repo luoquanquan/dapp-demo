@@ -5,7 +5,7 @@ function SignMessage({ account }) {
   const handleSignMsg = async () => {
     try {
       const msg = 'Hello Solana';
-      const encodedMsg = new TextEncoder().encode(msg);
+      // const encodedMsg = new TextEncoder().encode(msg);
       const ret = await solana.signMessage(msg);
       console.log(ret);
       toastSuccess();
