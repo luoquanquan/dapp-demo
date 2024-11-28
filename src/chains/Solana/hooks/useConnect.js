@@ -59,7 +59,11 @@ export default () => {
 
   useEffect(() => {
     if (window.solana) {
-      solana.on('accountsChanged', () => {});
+      solana.on('accountsChanged', (pubKey) => {
+        if (pubKey) {
+          setAccount(pubKey.toBase58());
+        }
+      });
       solana.on('connect', (data) => {
         console.log('solana connect: ', data);
         if (data.publicKey) {
