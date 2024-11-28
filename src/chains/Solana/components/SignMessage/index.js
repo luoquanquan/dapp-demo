@@ -2,7 +2,7 @@ import {
   Button, Card, Space,
 } from 'antd-mobile';
 import { message } from 'antd';
-import { OkxConnectSdkErrorCodes } from '@repo/connect-kit';
+import { ConnectKitErrorCodes } from '@repo/connect-kit';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
 
 function SignMessage({ account }) {
@@ -15,7 +15,7 @@ function SignMessage({ account }) {
       toastSuccess();
     } catch (error) {
       console.log('solana sign message: ', error, error.code);
-      if (error.code === OkxConnectSdkErrorCodes.USER_REJECTS_ERROR) {
+      if (error.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
         message.error('User rejected the request');
       } else {
         toastFail();

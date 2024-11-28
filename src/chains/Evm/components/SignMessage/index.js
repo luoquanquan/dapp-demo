@@ -4,7 +4,7 @@ import {
 import {
   Col, message, Row,
 } from 'antd';
-import { OkxConnectSdkErrorCodes } from '@repo/connect-kit';
+import { ConnectKitErrorCodes } from '@repo/connect-kit';
 
 import { useContext, useState } from 'react';
 import Permit from './components/Permit';
@@ -47,7 +47,7 @@ function SignMessage() {
       console.log(ret);
       toastSuccess();
     } catch (error) {
-      if (error.code === OkxConnectSdkErrorCodes.USER_REJECTS_ERROR) {
+      if (error.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
         // toastFail('User rejected the request');
         message.error('User rejected the request');
       } else {
