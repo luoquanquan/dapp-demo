@@ -65,7 +65,9 @@ export default function App() {
           request();
         }
       });
-
+    sdk.on('connect_error', (e) => {
+      console.log('dapppp connect_error:', e);
+    });
     // for testing only
     window.okxConnectSdk = sdk;
   }, []);
