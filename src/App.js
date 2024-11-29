@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Space, Button } from 'antd';
 import { SafeArea, Tabs } from 'antd-mobile';
 import {
@@ -11,6 +11,7 @@ import {
   getProvider,
   SupportedNetworks,
   disconnect,
+  restoreTGParam,
 } from '@repo/connect-kit';
 import { QRCodeSVG } from 'qrcode.react';
 import Evm from './chains/Evm';
@@ -91,9 +92,27 @@ export default function App() {
 
     console.log('get display uri for QR code scan: ', uri);
   };
+
+  const jumpToAnother = () => {
+    window.location.href = 'https://sherlockhomer.github.io/dapp-demo/';
+  };
+
+  const jumpToAnotherWithHash = () => {
+    window.location.href = `https://sherlockhomer.github.io/dapp-demo/#${window.location.hash}`;
+  };
+
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
+      <Button onClick={jumpToAnother}>
+        jump to another dapp
+      </Button>
+      <Button onClick={jumpToAnotherWithHash}>
+        jump to another dapp with hash
+      </Button>
+      <Button onClick={restoreTGParam}>
+        restoreTGParam
+      </Button>
       <Button onClick={onClickGetUri}>
         {connecting ? 'connecting' : 'Get Uri'}
       </Button>
