@@ -5,10 +5,10 @@ import { SafeArea } from 'antd-mobile';
 import {
   getSession,
   getUri,
-  connectApp,
-  connectTG,
+  connectOKXAppWallet,
+  connectOKXMiniWallet,
   connect,
-  getSdk,
+  getConnectKit,
   getProvider,
   SupportedNetworks,
   disconnect,
@@ -20,7 +20,7 @@ function Connect() {
   const [connecting, setConnecting] = useState(false);
   const [uri, setUri] = useState('');
   useEffect(() => {
-    const sdk = getSdk();
+    const sdk = getConnectKit();
     console.log('session: ', getSession());
     const provider = getProvider(SupportedNetworks.ETHEREUM);
     console.log('sdk: ', sdk);
@@ -59,7 +59,7 @@ function Connect() {
   }, []);
 
   const onClickGetUri = async () => {
-    const sdk = getSdk();
+    const sdk = getConnectKit();
     sdk.once('session_connecting', () => {
       setConnecting(true);
       console.log('session_connecting');
@@ -112,16 +112,14 @@ function Connect() {
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
-      <Button onClick={jumpToAnother}>
-        jump to another dapp
-      </Button>
+      <Button onClick={jumpToAnother}>jump to another dapp</Button>
       <Button onClick={jumpToAnotherWithHash}>
         jump to another dapp with hash
       </Button>
-      <a href="https://sherlockhomer.github.io/dapp-demo-local">a to dapp-demo-local</a>
-      <Button onClick={restoreTGParam}>
-        restoreTGParam
-      </Button>
+      <a href="https://sherlockhomer.github.io/dapp-demo-local">
+        a to dapp-demo-local
+      </a>
+      <Button onClick={restoreTGParam}>restoreTGParam</Button>
       <Button onClick={swap}>SWAP</Button>
       <Button onClick={onClickGetUri}>
         {connecting ? 'connecting' : 'Get Uri'}
@@ -133,8 +131,8 @@ function Connect() {
           fgColor={connecting ? '#bbb' : ''}
         />
       ) : null}
-      <Button onClick={connectApp}>Connect Mobile App</Button>
-      <Button onClick={connectTG}>Connect TG</Button>
+      <Button onClick={connectOKXAppWallet}>Connect Mobile App</Button>
+      <Button onClick={connectOKXMiniWallet}>Connect TG</Button>
       <Button onClick={connect}>Connect</Button>
       <Button onClick={disconnect}>Disconnect</Button>
     </Space>
