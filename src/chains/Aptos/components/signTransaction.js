@@ -1,17 +1,24 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button, Space, Card } from 'antd-mobile';
 import { message } from 'antd';
-import { AptosConfig, Aptos, Network } from '@aptos-labs/ts-sdk';
+import {
+  AptosConfig, Aptos, Network, APTOS_COIN,
+} from '@aptos-labs/ts-sdk';
 import { ConnectKitErrorCodes } from '@repo/connect-kit';
 import { toastFail, toastSuccess } from '../../../utils/toast';
 
 function SignTransaction({ account, disabled }) {
   const [signing, setSigning] = useState(false);
-
-  const buildTransaction = async ({ sender }) => {
+  const ref = useRef(() => {
     const config = new AptosConfig({ network: Network.MAINNET });
     const aptos = new Aptos(config);
-    return await aptos.transaction.build.simple({
+    return aptos;
+  });
+
+  const aptos = ref.current();
+
+  const buildTransaction = async ({ sender }) => {
+    const txData = await aptos.transaction.build.simple({
       sender,
       data: {
         function:
@@ -25,14 +32,18 @@ function SignTransaction({ account, disabled }) {
         functionArguments: ['10000', ['9104'], ['5'], ['true']],
       },
     });
+    return txData;
   };
 
   const handleSignTransaction = async () => {
     setSigning(true);
     const transactionData = await buildTransaction({ sender: account.address });
     try {
+      console.log('handleSignTransaction - txData: ', transactionData);
       const tx = await window.aptos.signTransaction(transactionData);
       console.log(tx);
+      const result = await aptos.waitForTransaction({ transactionHash: tx });
+      console.log(result);
       toastSuccess();
     } catch (err) {
       if (err.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
@@ -51,6 +62,11 @@ function SignTransaction({ account, disabled }) {
     try {
       const tx = await window.aptos.signAndSubmitTransaction(transactionData);
       console.log(tx);
+      const result = await aptos.waitForTransaction({
+        transactionHash: tx,
+      });
+      console.log(result);
+      toastSuccess();
     } catch (err) {
       if (err.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
         message.error('User rejected the request');
