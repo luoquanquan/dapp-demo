@@ -36,7 +36,7 @@ function SignMessage() {
   };
 
   const [personal_signLoading, setPersonal_signLoading] = useState(false);
-  const handlePersonalSign = (msg = 'Example `personal_sign` message') => async () => {
+  const handlePersonalSign = (msg = 'personal_sign') => async () => {
     try {
       setPersonal_signLoading(true);
       const ret = await provider.request({
