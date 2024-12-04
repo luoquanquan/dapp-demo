@@ -1,4 +1,6 @@
 import { Button, Card, Space } from 'antd-mobile';
+import { message } from 'antd';
+import { ConnectKitErrorCodes } from '@repo/connect-kit';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
 
 function SignMessage({ account }) {
@@ -14,6 +16,12 @@ function SignMessage({ account }) {
 
       console.log(error);
       toastFail();
+      console.log('solana sign message: ', error, error.code);
+      if (error.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
+        message.error('User rejected the request');
+      } else {
+        toastFail();
+      }
     }
   };
 

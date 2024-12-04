@@ -6,7 +6,7 @@ import App from './App';
 
 import './index.css';
 
-const sdk = await init();
+const sdk = await init({ appName: 'Quanquan Dapp Demo' });
 console.log('dappppp add event listener', sdk);
 
 setTimeout(() => {

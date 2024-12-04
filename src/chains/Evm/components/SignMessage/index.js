@@ -2,8 +2,9 @@ import {
   Button, Card, Space,
 } from 'antd-mobile';
 import {
-  Col, Row,
+  Col, message, Row,
 } from 'antd';
+import { ConnectKitErrorCodes } from '@repo/connect-kit';
 
 import { useContext, useState } from 'react';
 import Permit from './components/Permit';
@@ -46,8 +47,12 @@ function SignMessage() {
       console.log(ret);
       toastSuccess();
     } catch (error) {
-      console.log(error);
-      toastFail();
+      if (error.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
+        // toastFail('User rejected the request');
+        message.error('User rejected the request');
+      } else {
+        toastFail();
+      }
     } finally {
       setPersonal_signLoading(false);
     }
