@@ -4,7 +4,13 @@ export default function Account({ account, children }) {
   return (
     <Card title="Current connected account">
       <Space direction="vertical">
-        {account || '--'}
+        Address:
+        {' '}
+        {account.address || '--'}
+        <br />
+        Public Key:
+        {' '}
+        {account.publicKey || '--'}
         {children}
       </Space>
     </Card>
