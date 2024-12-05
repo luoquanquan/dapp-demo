@@ -1,13 +1,14 @@
+/* eslint-disable class-methods-use-this */
 import { Space } from 'antd-mobile';
 import { useEffect } from 'react';
 
 import {
   SuiClientProvider,
   WalletProvider,
-  ConnectButton,
 } from '@mysten/dapp-kit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Theme } from '@radix-ui/themes';
+import { message } from 'antd';
 import SignTransaction from './components/SignTransaction';
 import { networkConfig } from './networkConfig';
 import BlackAddress from '../../components/BlackAddress';
@@ -54,22 +55,22 @@ class AppReadyEvent extends Event {
 }
 function Sui() {
   useEffect(() => {
-    try {
-      window.addEventListener(
-        'wallet-standard:register-wallet',
-        ({ detail: callback }) =>
-          callback({
-            register: (sol) => {
-              console.log(sol, 'register-wallet callback');
-            },
-          }),
-      );
-    } catch (error) {
-      console.error(
-        'wallet-standard:register-wallet event listener could not be added\n',
-        error,
-      );
-    }
+    //   try {
+    //     window.addEventListener(
+    //       'wallet-standard:register-wallet',
+    //       ({ detail: callback }) =>
+    //         callback({
+    //           register: (sol) => {
+    //             console.log(sol, 'register-wallet callback');
+    //           },
+    //         }),
+    //     );
+    //   } catch (error) {
+    //     console.error(
+    //       'wallet-standard:register-wallet event listener could not be added\n',
+    //       error,
+    //     );
+    //   }
     try {
       window.dispatchEvent(
         new AppReadyEvent({
@@ -85,8 +86,9 @@ function Sui() {
       );
     }
   }, []);
+
   if (!window.sui) {
-    return <DontHaveWallet chain={key} />;
+    return <div>no sui</div>;
   }
   return (
     <Theme appearance="light">
@@ -94,7 +96,19 @@ function Sui() {
         <SuiClientProvider networks={networkConfig} defaultNetwork="mainnet">
           <WalletProvider autoConnect>
             <Space direction="vertical" style={{ width: '100%' }}>
-              <ConnectButton />
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await window?.sui?.connect();
+                    message.success('connect success');
+                  } catch (error) {
+                    message.error('connect error');
+                  }
+                }}
+              >
+                connect tg
+              </button>
 
               <SignTransaction />
 

@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { useCurrentWallet } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { message } from 'antd';
+import { getWallets } from '@mysten/wallet-standard';
 
 function SignTransaction() {
   const wallet = useCurrentWallet();
   console.log('wallets', wallet);
-  const address = window?.sui?.getAccount()?.address;
 
   const [smLoading, setSmLoading] = useState(false);
   const [spmLoading, setSpmLoading] = useState(false);
@@ -62,7 +62,6 @@ function SignTransaction() {
         [coin],
         '0x791e21d7d3cc6ecd6f748bb0961380510851e99a7de26eeb29778a24334cb2eb',
       );
-
       const res = await window.sui.signTransactionBlock({
         transactionBlock: tx,
       });
@@ -99,22 +98,28 @@ function SignTransaction() {
       setSAndExeTxLoading(false);
     }
   };
-  const [account, setAccount] = useState('');
+  const [account, setAccount] = useState(window?.sui?.getAccount()?.address);
+  useEffect(() => {}, []);
   useEffect(() => {
     if (window.sui) {
-      sui.on('accountChanged', (accountInfo) => {
+      window?.sui.on('accountChanged', (accountInfo) => {
+        message.success('accountsChanged success');
+
         console.log('ssssssssssssssssui accountChanged', accountInfo);
       });
-      sui.on('connect', (accountInfo) => {
+      window?.sui.on('connect', (accountInfo) => {
+        message.success('connect success');
         console.log('sssssssssssui connect: ', accountInfo);
         if (accountInfo) {
+          const availableWallets = getWallets().get();
+          console.log('availableWallets', availableWallets);
           setAccount(accountInfo?.address);
           const formatSuiPublicKey = (pbk) => {
             console.log('pbk', pbk);
             console.log(
               '字符串 公钥 是否相等',
-              new Ed25519PublicKey(pbk).toBase64() ===
-                '5xjVmGap6wC+Of2GFy1VlOdFY9Qq2QMOs4UHe0JYXMg=',
+              new Ed25519PublicKey(pbk).toBase64()
+                === '5xjVmGap6wC+Of2GFy1VlOdFY9Qq2QMOs4UHe0JYXMg=',
             );
 
             console.log(
@@ -125,14 +130,18 @@ function SignTransaction() {
           formatSuiPublicKey(accountInfo?.publicKey);
         }
       });
-      sui.on('chainChanged', (data) => {
+      window?.sui.on('chainChanged', (data) => {
+        message.success('chainChanged success');
+
         console.log('sssssssssssui chainChanged: ', data);
       });
-      sui.on('disconnect', (data) => {
+      window?.sui.on('disconnect', (data) => {
         console.log('ssssssssui disconnect: ', data);
         setAccount('');
       });
-      sui.on('change', (data) => {
+      window?.sui.on('change', (data) => {
+        message.success('changed success');
+
         console.log('ssssssssui change event: ', data);
       });
     }
@@ -149,7 +158,7 @@ function SignTransaction() {
         )}
         <Button
           block
-          disabled={!address}
+          disabled={!account}
           loading={smLoading}
           onClick={signMessage}
         >
@@ -157,7 +166,7 @@ function SignTransaction() {
         </Button>
         <Button
           block
-          disabled={!address}
+          disabled={!account}
           loading={spmLoading}
           onClick={signPersonalMessage}
         >
@@ -165,7 +174,7 @@ function SignTransaction() {
         </Button>
         <Button
           block
-          disabled={!address}
+          disabled={!account}
           loading={stxLoading}
           onClick={signTransaction}
         >
@@ -173,7 +182,7 @@ function SignTransaction() {
         </Button>
         <Button
           block
-          disabled={!address}
+          disabled={!account}
           loading={sAndExeTxLoading}
           onClick={signAndExecuteTransaction}
         >
