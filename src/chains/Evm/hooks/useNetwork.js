@@ -15,6 +15,7 @@ export default (provider) => {
 
       provider?.on
         && provider.on('chainChanged', () => {
+          console.log('chainChanged');
           getNetwork();
         });
     }

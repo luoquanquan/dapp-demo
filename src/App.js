@@ -14,6 +14,7 @@ import Aptos from './chains/Aptos';
 const localTabKey = 'localTabKey';
 
 const tabs = [Connect, Evm, Tron, Solana, NEAR, Ton, Sui, Aptos];
+// const tabs = [Connect, Evm, Tron, NEAR, Aptos];
 
 const cachedChainKey = localStorage.getItem(localTabKey);
 const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
