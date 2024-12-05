@@ -109,20 +109,20 @@ function SignTransaction() {
         console.log('sssssssssssui connect: ', accountInfo);
         if (accountInfo) {
           setAccount(accountInfo?.address);
-          // const formatSuiPublicKey = (pbk) => {
-          //   console.log('pbk', pbk);
-          //   console.log(
-          //     '字符串 公钥 是否相等',
-          //     new Ed25519PublicKey(pbk).toBase64() ===
-          //       '5xjVmGap6wC+Of2GFy1VlOdFY9Qq2QMOs4UHe0JYXMg=',
-          //   );
+          const formatSuiPublicKey = (pbk) => {
+            console.log('pbk', pbk);
+            console.log(
+              '字符串 公钥 是否相等',
+              new Ed25519PublicKey(pbk).toBase64() ===
+                '5xjVmGap6wC+Of2GFy1VlOdFY9Qq2QMOs4UHe0JYXMg=',
+            );
 
-          //   console.log(
-          //     'address 等于 bytes公钥生产的地址？',
-          //     accountInfo?.address === new Ed25519PublicKey(pbk).toSuiAddress(),
-          //   );
-          // };
-          // formatSuiPublicKey(accountInfo?.publicKey);
+            console.log(
+              'address 等于 bytes公钥生产的地址？',
+              accountInfo?.address === new Ed25519PublicKey(pbk).toSuiAddress(),
+            );
+          };
+          formatSuiPublicKey(accountInfo?.publicKey);
         }
       });
       sui.on('chainChanged', (data) => {
