@@ -1,4 +1,5 @@
 import { Space } from 'antd';
+import TonWeb from 'tonweb';
 import { TonConnectButton, TonConnectUIProvider } from '@tonconnect/ui-react';
 import useConnect from './hooks/useConnect';
 import SignTransaction from './components/SignTransaction';
@@ -13,12 +14,12 @@ function Ton() {
   const {
     account, handleConnect, handleDisconnect,
   } = useConnect();
-
+  console.log(account, 'account');
   return (
     <>
       <>
         <h1>kit demo test</h1>
-        {account}
+        {account && new TonWeb.utils.Address(account).toString(true, true, false)}
         <Connect
           handleConnect={handleConnect}
           account={account}

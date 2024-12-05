@@ -24,7 +24,7 @@ export default () => {
 
   useEffect(() => {
     if (window.ton) {
-      window.ton.on('accountsChanged', handleConnect);
+      window.ton.on('accountChanged', handleConnect);
       window.ton.on('connect', (data) => {
         console.log('window.ton connect: ', data);
         if (data.address) {
