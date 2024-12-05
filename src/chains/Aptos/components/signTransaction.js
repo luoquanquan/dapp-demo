@@ -73,13 +73,14 @@ function SignTransaction({ account, disabled }) {
 
   const handleSignTransaction = async () => {
     setSigning(true);
-    const transactionData = await buildTransaction({ sender: account.address });
+    const transactionData = await buildTransaction({ sender: account.address.toString() });
     try {
       console.log('handleSignTransaction - txData: ', transactionData);
-      const tx = await window.aptos.signTransaction(transactionData);
-      console.log(tx);
-      const result = await aptos.waitForTransaction({ transactionHash: tx });
-      console.log(result);
+      const signedTx = await window.aptos.signTransaction(transactionData);
+      console.log('signedTx', signedTx);
+      // TODO: submit transaction
+      // const result = await aptos.waitForTransaction({ transactionHash: tx });
+      // console.log(result);
       toastSuccess();
     } catch (err) {
       if (err.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
@@ -94,7 +95,7 @@ function SignTransaction({ account, disabled }) {
 
   const handleSignAndSubmitTransaction = async () => {
     setSigning(true);
-    const transactionData = await buildTransaction({ sender: account.address });
+    const transactionData = await buildTransaction({ sender: account.address.toString() });
     try {
       const tx = await window.aptos.signAndSubmitTransaction(transactionData);
       console.log(tx);

@@ -10,7 +10,11 @@ function SignMessage({ disabled }) {
   const handleSignMessage = async () => {
     setSigning(true);
     try {
-      const result = await window.aptos.signMessage('Hello world');
+      const data = {
+        message: 'Hello, world!',
+        nonce: '123',
+      };
+      const result = await window.aptos.signMessage(data);
       console.log(result);
       toastSuccess();
     } catch (err) {
