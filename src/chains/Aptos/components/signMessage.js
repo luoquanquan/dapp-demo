@@ -15,9 +15,10 @@ function SignMessage({ disabled }) {
         nonce: '123',
       };
       const result = await window.aptos.signMessage(data);
-      console.log(result);
+      console.log('handleSignMessage: ', result);
       toastSuccess();
     } catch (err) {
+      console.log('handleSignMessage error: ', err);
       if (err.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
         message.error('User rejected the request');
       } else {

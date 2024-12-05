@@ -4,6 +4,7 @@ import EvmContext from '../../context';
 
 export default function Network() {
   const { chainId } = useContext(EvmContext);
+  console.log('chainId: ', chainId);
 
   return (
     <Card title="Network">
