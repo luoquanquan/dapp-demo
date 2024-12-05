@@ -33,7 +33,7 @@ function SignTransactionWithFakeParams({ address }) {
 
     console.log('Current log: params: ', params);
 
-    ton.signTransaction(params);
+    window.ton.signTransaction(params);
   };
 
   return (

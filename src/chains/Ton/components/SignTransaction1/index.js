@@ -38,11 +38,11 @@ function SignTransaction({ address }) {
         },
       ],
     };
-    ton.signTransaction(myTransaction);
+    window.ton.signTransaction(myTransaction);
   };
 
   const sendTon = (toAddress = myTonAddress) => () => {
-    ton.signTransaction({
+    window.ton.signTransaction({
       validUntil,
       messages: [
         {
