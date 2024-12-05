@@ -4,16 +4,17 @@ import { SafeArea, Tabs } from 'antd-mobile';
 import Connect from './Connect';
 import Evm from './chains/Evm';
 import Tron from './chains/Tron';
-import Solana from './chains/Solana';
+// import Solana from './chains/Solana';
 import NEAR from './chains/NEAR';
 import ProjectInfo from './components/ProjectInfo';
-import Ton from './chains/Ton';
-import Sui from './chains/Sui';
+// import Ton from './chains/Ton';
+// import Sui from './chains/Sui';
 import Aptos from './chains/Aptos';
 
 const localTabKey = 'localTabKey';
 
-const tabs = [Connect, Evm, Tron, Solana, NEAR, Ton, Sui, Aptos];
+// const tabs = [Connect, Evm, Tron, Solana, NEAR, Ton, Sui, Aptos];
+const tabs = [Connect, Evm, Tron, NEAR, Aptos];
 
 const cachedChainKey = localStorage.getItem(localTabKey);
 const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
