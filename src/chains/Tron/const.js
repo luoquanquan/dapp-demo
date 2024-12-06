@@ -1,4 +1,4 @@
-export const myTronAddress = 'TNssWTZnEakY2fN2Aaa71k85yRqVcjcv69';
+export const myTronAddress = 'TGJ4iAu7Pr7gJiDL7YUQ2o8ifm9CsrGDPc';
 
 export const contractAddress = 'THRAE2VhGNAcvPKtT96AqyXtSQwhiU1XL8';
 export const tronUSDTAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
