@@ -13,8 +13,6 @@ import {
   SupportedNetworks,
   disconnect,
   restoreTGParam,
-  connectAndGetAllAddresses,
-  syncAllAddresses,
 } from '@repo/connect-kit';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -137,8 +135,8 @@ function Connect() {
       <Button onClick={connectOKXMiniWallet}>Connect TG</Button>
       <Button onClick={connect}>Connect</Button>
       <Button onClick={disconnect}>Disconnect</Button>
-      <Button onClick={syncAllAddresses}>Sync All Addresses</Button>
-      <Button onClick={connectAndGetAllAddresses}>Connect and Get All Addresses</Button>
+      {/* <Button onClick={syncAllAddresses}>Sync All Addresses</Button> */}
+      {/* <Button onClick={connectAndGetAllAddresses}>Connect and Get All Addresses</Button> */}
     </Space>
   );
 }
