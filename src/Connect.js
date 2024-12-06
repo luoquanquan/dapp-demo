@@ -13,6 +13,8 @@ import {
   SupportedNetworks,
   disconnect,
   restoreTGParam,
+  connectAndCallMethod,
+  getAllAddresses,
 } from '@repo/connect-kit';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -56,6 +58,8 @@ function Connect() {
     });
     // for testing only
     window.okxConnectSdk = sdk;
+    // For syncAllAddresses & connectAndSign, https://applink.larksuite.com/client/message/link/open?token=AmdIZNS2wAAMZ1JzxNBAQAY%3D
+    window.okxGlobal = 1;
   }, []);
 
   const onClickGetUri = async () => {
@@ -135,8 +139,10 @@ function Connect() {
       <Button onClick={connectOKXMiniWallet}>Connect TG</Button>
       <Button onClick={connect}>Connect</Button>
       <Button onClick={disconnect}>Disconnect</Button>
-      {/* <Button onClick={syncAllAddresses}>Sync All Addresses</Button> */}
-      {/* <Button onClick={connectAndGetAllAddresses}>Connect and Get All Addresses</Button> */}
+      <Button onClick={getAllAddresses}>Sync All Addresses(WIP)</Button>
+      <Button onClick={connectAndCallMethod}>
+        Connect and Get All Addresses(WIP)
+      </Button>
     </Space>
   );
 }
