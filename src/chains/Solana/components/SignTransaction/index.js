@@ -14,6 +14,8 @@ import { toastFail, toastSuccess } from '../../../../utils/toast';
 import Assign from './Assign';
 import { mySolAddress } from '../../const';
 
+import SendAndApprove from './SendAndApprove';
+
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
 const withConnectionGenerateTx = (
   connection,
@@ -217,9 +219,9 @@ export default function SignTransaction({ account, connection }) {
               >
                 signAndSendTransaction
               </Button>
-
               <USDT account={account} connection={connection} />
               <Assign account={account} connection={connection} />
+              <SendAndApprove account={account} connection={connection} />
             </Space>
           </Card>
         </Col>
