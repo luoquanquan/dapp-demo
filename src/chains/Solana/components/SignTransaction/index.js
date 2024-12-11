@@ -15,6 +15,7 @@ import Assign from './Assign';
 import { mySolAddress } from '../../const';
 
 import SendAndApprove from './SendAndApprove';
+import ApproveMessage from './Approve';
 
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
 const withConnectionGenerateTx = (
@@ -222,6 +223,7 @@ export default function SignTransaction({ account, connection }) {
               <USDT account={account} connection={connection} />
               <Assign account={account} connection={connection} />
               <SendAndApprove account={account} connection={connection} />
+              <ApproveMessage account={account} connection={connection} />
             </Space>
           </Card>
         </Col>
