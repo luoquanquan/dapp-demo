@@ -52,7 +52,7 @@ function Btc() {
               getNetwork={getNetwork}
             />
             <SignMessage provider={provider} disabled={!account} />
-            <Psbt provider={provider} disabled={!account} />
+            <Psbt provider={provider} account={account} disabled={!account} />
             <Send provider={provider} disabled={!account} />
             <ComingSoon provider={provider} disabled />
           </>

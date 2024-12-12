@@ -62,11 +62,13 @@ export default (provider) => {
     // request account
     requestAccounts();
 
-    // get public key
-    getPublicKey();
+    if (provider.connected) {
+      // get public key
+      getPublicKey();
 
-    // getAccounts
-    getAccounts();
+      // getAccounts
+      getAccounts();
+    }
   }, [provider]);
 
   return {

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ConnectKitErrorCodes } from '@repo/connect-kit';
 import { toastSuccess } from '../../../utils/toast';
 
-function Psbt({ provider, disabled }) {
+function Psbt({ provider, account, disabled }) {
   const [signing, setSigning] = useState(false);
 
   const handleSignPsbt = async () => {
@@ -23,10 +23,8 @@ function Psbt({ provider, disabled }) {
             disableTweakSigner - boolean: (optional) When signing and unlocking Taproot addresses, tweakSigner is used to generate signatures by default, enable this option to allow signing with the original private key.
             */
             index: 0,
-            address: '',
-            publicKey: '',
-            sighashTypes: [],
-            disableTweakSigner: false,
+            address: account.address,
+            publicKey: account.publicKey,
           },
         ],
       };
@@ -34,7 +32,7 @@ function Psbt({ provider, disabled }) {
       console.log('handleSignAndPushPsbt: ', hexStr);
       toastSuccess();
     } catch (err) {
-      console.log('handleSignAndPushPsbt error: ', err);
+      console.log('handleSignAndPushPsbt error: ', err, err.code);
       if (err.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
         message.error('User rejected the request');
       } else {
@@ -53,13 +51,13 @@ function Psbt({ provider, disabled }) {
         txId: '1e0f92720ef34ab75eefc5d691b551fb2f783eac61503a69cdf63eb7305d2306',
         vOut: 2,
         amount: 341474,
-        address: 'tb1q8h8....mjxzny',
-        privateKey: '0s79......ldjejke',
-        publicKey: 'tb1q8h8....mjxzny',
+        address: '',
+        privateKey: '',
+        publicKey: '',
         bip32Derivation: [
           {
             masterFingerprint: 'a22e8e32',
-            pubkey: 'tb1q8h8....mjxzny',
+            pubkey: '',
             path: "m/49'/0'/0'/0/0",
           },
         ],
