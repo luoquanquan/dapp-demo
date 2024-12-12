@@ -147,7 +147,11 @@ function Send({ provider, disabled }) {
 
         <Button
           block
-          onClick={() => handleSendInscription()}
+          onClick={() => handleSendInscription({
+            to: 'bc1peqgjr3cwl09mmsh6kvjsvv3ffu4waha00x7xrqrt85wt3zgdwphs72ctnu',
+            inscriptionId:
+                'bf8ed84463c0a82da6292c9a6d90102417c3864ad1a2e8ba2735d58a153fab54i0',
+          })}
           disabled={disabled}
           loading={sending}
         >
