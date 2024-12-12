@@ -57,14 +57,10 @@ function Send({ provider, disabled }) {
     to: '',
     inscriptionId: '',
   }) => {
-    const { to = '', inscriptionId = '', feeRate } = params;
+    const { to = '', inscriptionId = '', options = { feeRate: '' } } = params;
     setSending(true);
     try {
-      const options = {};
-      if (feeRate) {
-        options.feeRate = feeRate;
-      }
-      const txHash = await provider.sendInscription(to, inscriptionId, feeRate);
+      const txHash = await provider.sendInscription(to, inscriptionId, options);
       console.log('handleSendInscription: ', txHash);
       toastSuccess();
     } catch (err) {

@@ -104,7 +104,11 @@ export default function SignTransaction({ account, connection }) {
       toastSuccess();
     } catch (error) {
       console.log(error);
-      toastFail();
+      if (error.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
+        message.error('User rejected the request');
+      } else {
+        toastFail();
+      }
     } finally {
       setSignAndSendTransactionLoading(false);
     }

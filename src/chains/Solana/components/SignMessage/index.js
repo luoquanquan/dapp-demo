@@ -12,9 +12,6 @@ function SignMessage({ account }) {
       toastSuccess();
     } catch (error) {
       console.log('failed to sign message');
-      console.log(error);
-      toastFail();
-      console.log('solana sign message: ', error, error.code);
       if (error.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
         message.error('User rejected the request');
       } else {
