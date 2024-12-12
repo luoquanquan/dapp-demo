@@ -23,7 +23,7 @@ function Btc() {
   const { chain, getNetwork } = useNetwork(provider);
 
   useEffect(() => {
-    if (!window.okxWallet.bitcoin) {
+    if (!window?.okxWallet?.bitcoin) {
       return;
     }
     const init = async () => {
@@ -33,7 +33,7 @@ function Btc() {
     init();
   }, []);
 
-  if (!window.okxWallet.bitcoin) {
+  if (!window?.okxWallet?.bitcoin) {
     return <DontHaveWallet chain={key} />;
   }
 
