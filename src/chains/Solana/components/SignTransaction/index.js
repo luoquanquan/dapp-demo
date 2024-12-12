@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Row, message } from 'antd';
 import { Button, Card, Space } from 'antd-mobile';
 import { useState } from 'react';
 import {
@@ -9,6 +9,7 @@ import {
   TransactionMessage,
   VersionedTransaction,
 } from '@solana/web3.js';
+import { ConnectKitErrorCodes } from '@repo/connect-kit';
 import USDT from './USDT';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
 import Assign from './Assign';
