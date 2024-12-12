@@ -7,7 +7,9 @@ import dayjs from 'dayjs';
 import { sample } from 'lodash';
 import EvmContext from '../../../../context';
 import { toastFail, toastSuccess } from '../../../../../../utils/toast';
-import { getEvmBlackContractAddress, getStrongBlackEoaAddress, myEvmAddress } from '../../../../const';
+import {
+  getEvmBlackContractAddress, getStrongBlackEoaAddress, myEvmAddress, unKnownSpender,
+} from '../../../../const';
 
 const supportedChainIds = [
   '1',
@@ -386,6 +388,16 @@ function Permit({ chainId }) {
                   >
                     EOA
                   </Button>
+
+                  <Button
+                    block
+                    disabled={!account}
+                    onClick={permit(unKnownSpender)}
+                    loading={permit2BatchLoading}
+                    style={{ marginBottom: 8 }}
+                  >
+                    unKnown Spender
+                  </Button>
                 </Col>
                 <Col xs={24} lg={8}>
                   <Button
@@ -433,6 +445,16 @@ function Permit({ chainId }) {
                     style={{ marginBottom: 8 }}
                   >
                     EOA
+                  </Button>
+
+                  <Button
+                    block
+                    disabled={!account}
+                    onClick={permit2(unKnownSpender)}
+                    loading={permit2BatchLoading}
+                    style={{ marginBottom: 8 }}
+                  >
+                    unKnown Spender
                   </Button>
                 </Col>
                 <Col xs={24} lg={8}>
@@ -482,6 +504,16 @@ function Permit({ chainId }) {
                     style={{ marginBottom: 8 }}
                   >
                     EOA
+                  </Button>
+
+                  <Button
+                    block
+                    disabled={!account}
+                    onClick={permit2Batch(unKnownSpender)}
+                    loading={permit2BatchLoading}
+                    style={{ marginBottom: 8 }}
+                  >
+                    unKnown Spender
                   </Button>
                 </Col>
               </Row>
