@@ -46,40 +46,15 @@ function Psbt({ provider, account, disabled }) {
   const handleSignPsbts = async () => {
     setSigning(true);
     try {
-      const txInputs = [];
-      txInputs.push({
-        txId: '1e0f92720ef34ab75eefc5d691b551fb2f783eac61503a69cdf63eb7305d2306',
-        vOut: 2,
-        amount: 341474,
-        address: '',
-        privateKey: '',
-        publicKey: '',
-        bip32Derivation: [
-          {
-            masterFingerprint: 'a22e8e32',
-            pubkey: '',
-            path: "m/49'/0'/0'/0/0",
-          },
-        ],
-      });
-      const options = {
-        autoFinalized: true,
-        toSignInput: [
-          {
-            /* index - number: the input to sign
-address - string: the address of the corresponding private key to be used for signing
-publicKey - string: the public key of the corresponding private key to be used for signature
-sighashTypes - number[]: (optional) sighashTypes
-disableTweakSigner - boolean: (optional) When signing and unlocking Taproot addresses, tweakSigner is used to generate signatures by default, enable this option to allow signing with the original private key.
-*/
-            index: 0,
-            address: '',
-            publicKey: '',
-            sighashTypes: [],
-            disableTweakSigner: false,
-          },
-        ],
-      };
+      const txInputs = ['', ''];
+      const options = [
+        {
+          autoFinalized: true,
+        },
+        {
+          autoFinalized: true,
+        },
+      ];
       const hexStr = await provider.signPsbts(txInputs, options);
       console.log('handleSignPsbts: ', hexStr);
       toastSuccess();

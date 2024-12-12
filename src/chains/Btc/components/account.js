@@ -6,13 +6,10 @@ export default function Account({ account, publicKey }) {
       <Space direction="vertical">
         Address:
         {' '}
-        {account?.address?.toString() || '--'}
+        {account || '--'}
         <br />
         Public Key:
         {' '}
-        {account?.publicKey || '--'}
-        <br />
-        Get Public Key:
         {publicKey || '--'}
       </Space>
     </Card>
