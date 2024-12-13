@@ -22,7 +22,8 @@ function Aptos() {
         account = await window.aptos.getAccount();
       }
       if (window.aptos.account) {
-        account = window.aptos.account();
+        await window.aptos.connect();
+        account = await window.aptos.account();
       }
       setContext({ account });
     };
