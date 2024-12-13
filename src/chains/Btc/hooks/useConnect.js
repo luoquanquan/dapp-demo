@@ -12,8 +12,8 @@ export default (provider) => {
   const requestAccounts = async () => {
     const accounts = await provider.requestAccounts();
     setAccount(accounts[0]);
-    const publicKey = await provider.getPublicKey();
-    setPublicKey(publicKey);
+    const key = await provider.getPublicKey();
+    setPublicKey(key);
   };
 
   const connect = async () => {
