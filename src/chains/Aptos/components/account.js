@@ -6,7 +6,7 @@ export default function Account({ account, children }) {
       <Space direction="vertical">
         Address:
         {' '}
-        {account.address.toString() || '--'}
+        {account.address || '--'}
         <br />
         Public Key:
         {' '}
