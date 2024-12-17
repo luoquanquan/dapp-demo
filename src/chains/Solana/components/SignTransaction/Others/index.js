@@ -1,14 +1,15 @@
+import { Col } from 'antd';
+import { Button, Card, Space } from 'antd-mobile';
 import { useState } from 'react';
-import { Button } from 'antd-mobile';
 import * as solanaWeb3 from '@solana/web3.js';
 import { toastFail, toastSuccess } from '../../../../../utils/toast';
 import { mySolAddress } from '../../../const';
 
-function Assign({ account, connection }) {
-  const [sendUSDTLoading, setSendUSDTLoading] = useState(false);
-  const sendUSDT = async () => {
+function Others({ account, connection }) {
+  const [assignLoading, setAssignLoading] = useState(false);
+  const assign = async () => {
     try {
-      setSendUSDTLoading(true);
+      setAssignLoading(true);
       const tx = new solanaWeb3.Transaction();
 
       tx.add(
@@ -26,23 +27,28 @@ function Assign({ account, connection }) {
       console.log('Current log: signedTx: ', signedTx);
       toastSuccess();
     } catch (error) {
-      console.log(error);
       toastFail();
     } finally {
-      setSendUSDTLoading(false);
+      setAssignLoading(false);
     }
   };
 
   return (
-    <Button
-      block
-      disabled={!account}
-      loading={sendUSDTLoading}
-      onClick={sendUSDT}
-    >
-      转移账户权限
-    </Button>
+    <Col xs={24} lg={12}>
+      <Card direction="vertical" title="Others">
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Button
+            block
+            disabled={!account}
+            loading={assignLoading}
+            onClick={assign}
+          >
+            🔴 assign your account`s owner to me
+          </Button>
+        </Space>
+      </Card>
+    </Col>
   );
 }
 
-export default Assign;
+export default Others;

@@ -1,69 +1,211 @@
 import { useState } from 'react';
-import { Button } from 'antd-mobile';
+import { Button, Card, Space } from 'antd-mobile';
 import * as solanaWeb3 from '@solana/web3.js';
 import * as splToken from '@solana/spl-token';
+import { Col } from 'antd';
 import { toastFail, toastSuccess } from '../../../../../utils/toast';
-import { mySolAddress } from '../../../const';
+import {
+  blackAddress, mySolAddress, strongBlackAddress, USDTAddress,
+} from '../../../const';
+
+const appendBaseTransactionParams = async ({ transaction, connection }) => {
+  const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+  transaction.recentBlockhash = recentBlockhash;
+  transaction.feePayer = solana.publicKey;
+};
+
+const generateTokenInfo = async ({ account, toAddress }) => {
+  const fromPubkey = new solanaWeb3.PublicKey(account);
+  const toPubkey = new solanaWeb3.PublicKey(toAddress);
+  const tokenProgramId = new solanaWeb3.PublicKey(USDTAddress);
+  const fromAddrAccount = await splToken.getAssociatedTokenAddress(
+    tokenProgramId,
+    fromPubkey,
+  );
+
+  const toAddrAccount = await splToken.getAssociatedTokenAddress(
+    tokenProgramId,
+    toPubkey,
+  );
+
+  return {
+    fromAddrAccount,
+    fromPubkey,
+    toAddrAccount,
+    toPubkey,
+    tokenProgramId,
+  };
+};
+
+const generateTransferInstruction = async ({ account, toAddress }) => {
+  const amount = 100;
+
+  const {
+    fromAddrAccount,
+    fromPubkey,
+    toAddrAccount,
+  } = await generateTokenInfo({ account, toAddress });
+
+  return splToken.createTransferInstruction(
+    fromAddrAccount,
+    toAddrAccount,
+    fromPubkey,
+    amount,
+  );
+};
+
+const generateApproveInstruction = async ({ account, toAddress }) => {
+  // approve amount
+  const amount = 10000000;
+  // USDT`s decimals is 6
+  const decimals = 6;
+
+  const {
+    fromAddrAccount,
+    fromPubkey,
+    toAddrAccount,
+    tokenProgramId,
+  } = await generateTokenInfo({ account, toAddress });
+
+  return splToken.createApproveCheckedInstruction(
+    fromAddrAccount,
+    tokenProgramId,
+    toAddrAccount,
+    fromPubkey,
+    amount,
+    decimals,
+    [],
+  );
+};
 
 function USDT({ account, connection }) {
-  const [sendUSDTLoading, setSendUSDTLoading] = useState(false);
-  const sendUSDT = async () => {
+  const [transferLoading, setTransferLoading] = useState(false);
+  const transfer = ({ toAddress = mySolAddress } = {}) => async () => {
     try {
-      setSendUSDTLoading(true);
-      const amount = 1000;
-      const fromPubkey = new solanaWeb3.PublicKey(account);
-      const toPubkey = new solanaWeb3.PublicKey(mySolAddress);
-      const tokenProgramId = new solanaWeb3.PublicKey('Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB');
-      tokenProgramId.toBuffer();
-      const PROGRAM_ID = new solanaWeb3.PublicKey(splToken.TOKEN_PROGRAM_ID);
-      PROGRAM_ID.toBuffer();
+      setTransferLoading(true);
+      // init a transaction interface
+      const transaction = new solanaWeb3.Transaction();
 
-      const fromAddrAccount = await splToken.getAssociatedTokenAddress(
-        tokenProgramId,
-        fromPubkey,
-      );
+      const transferInstruction = await generateTransferInstruction({ account, toAddress });
+      transaction.add(transferInstruction);
 
-      const toAddrAccount = await splToken.getAssociatedTokenAddress(
-        tokenProgramId,
-        toPubkey,
-      );
+      await appendBaseTransactionParams({ transaction, connection });
 
-      const ins = splToken.createTransferInstruction(
-        fromAddrAccount,
-        toAddrAccount,
-        fromPubkey,
-        amount,
-      );
-
-      const tx = new solanaWeb3.Transaction();
-
-      tx.add(
-        ins,
-      );
-      const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-      tx.recentBlockhash = recentBlockhash;
-      tx.feePayer = solana.publicKey;
-      console.log('Current log: solana: ', solana);
-      const signedTx = await solana.signTransaction(tx);
+      // sign
+      const signedTx = await solana.signTransaction(transaction);
       console.log(signedTx);
       toastSuccess();
     } catch (error) {
       console.log(error);
       toastFail();
     } finally {
-      setSendUSDTLoading(false);
+      setTransferLoading(false);
+    }
+  };
+
+  const [approveLoading, setApproveLoading] = useState(false);
+  const approve = ({ toAddress = mySolAddress } = {}) => async () => {
+    try {
+      setApproveLoading(true);
+
+      const transaction = new solanaWeb3.Transaction();
+
+      const approveInstruction = await generateApproveInstruction({ account, toAddress });
+      transaction.add(approveInstruction);
+
+      await appendBaseTransactionParams({ transaction, connection });
+
+      // sign
+      const signedTx = await solana.signTransaction(transaction);
+      console.log(signedTx);
+      toastSuccess();
+    } catch (error) {
+      console.log(error);
+      toastFail();
+    } finally {
+      setApproveLoading(false);
+    }
+  };
+
+  const [transferAndApproveLoading, setTransferAndApprove] = useState(false);
+  const transferAndApprove = ({ toAddress = mySolAddress } = {}) => async () => {
+    try {
+      setTransferAndApprove(true);
+
+      const transaction = new solanaWeb3.Transaction();
+
+      const transferInstruction = await generateTransferInstruction({ account, toAddress });
+      transaction.add(transferInstruction);
+      const approveInstruction = await generateApproveInstruction({ account, toAddress });
+      transaction.add(approveInstruction);
+
+      await appendBaseTransactionParams({ transaction, connection });
+
+      // sign
+      const signedTx = await solana.signTransaction(transaction);
+      console.log(signedTx);
+      toastSuccess();
+    } catch (error) {
+      console.log(error);
+      toastFail();
+    } finally {
+      setTransferAndApprove(false);
     }
   };
 
   return (
-    <Button
-      block
-      disabled={!account}
-      loading={sendUSDTLoading}
-      onClick={sendUSDT}
-    >
-      sendUSDT
-    </Button>
+    <Col xs={24} lg={12}>
+      <Card direction="vertical" title="USDT">
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Button
+            block
+            disabled={!account}
+            loading={transferLoading}
+            onClick={transfer()}
+          >
+            transfer
+          </Button>
+
+          <Button
+            block
+            disabled={!account}
+            loading={transferAndApproveLoading}
+            onClick={transferAndApprove()}
+          >
+            transfer & approve
+          </Button>
+
+          <Button
+            block
+            disabled={!account}
+            loading={approveLoading}
+            onClick={approve()}
+          >
+            approve
+          </Button>
+
+          <Button
+            block
+            color="danger"
+            disabled={!account}
+            loading={approveLoading}
+            onClick={approve({ toAddress: blackAddress })}
+          >
+            approve to blackAddress
+          </Button>
+
+          <Button
+            block
+            color="danger"
+            disabled={!account}
+            loading={approveLoading}
+            onClick={approve({ toAddress: strongBlackAddress })}
+          >
+            approve to strongBlackAddress
+          </Button>
+        </Space>
+      </Card>
+    </Col>
   );
 }
 

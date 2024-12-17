@@ -11,11 +11,8 @@ import {
 } from '@solana/web3.js';
 import USDT from './USDT';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
-import Assign from './Assign';
 import { mySolAddress } from '../../const';
-
-import SendAndApprove from './SendAndApprove';
-import ApproveMessage from './Approve';
+import Others from './Others';
 
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
 const withConnectionGenerateTx = (
@@ -189,7 +186,7 @@ export default function SignTransaction({ account, connection }) {
   };
 
   return (
-    <Card title="合约交互 - 请打开控制台查看签名信息">
+    <Card title="Contract Transaction - Open console tab to check the result">
       <Row gutter={16}>
         <Col xs={24} lg={12}>
           <Card title="Transaction">
@@ -220,10 +217,6 @@ export default function SignTransaction({ account, connection }) {
               >
                 signAndSendTransaction
               </Button>
-              <USDT account={account} connection={connection} />
-              <Assign account={account} connection={connection} />
-              <SendAndApprove account={account} connection={connection} />
-              <ApproveMessage account={account} connection={connection} />
             </Space>
           </Card>
         </Col>
@@ -259,6 +252,10 @@ export default function SignTransaction({ account, connection }) {
             </Space>
           </Card>
         </Col>
+      </Row>
+      <Row>
+        <USDT account={account} connection={connection} />
+        <Others account={account} connection={connection} />
       </Row>
     </Card>
   );
