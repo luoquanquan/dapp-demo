@@ -12,22 +12,29 @@ import SignMessage from './components/signMessage';
 import Psbt from './components/psbt';
 import Send from './components/send';
 import ComingSoon from './components/comingSoon';
+import Rpc from './components/rpc';
 
 const key = 'Btc';
 
 function Btc() {
   const [provider, setProvider] = useState(null);
+  const [fractalProvider, setFractalProvider] = useState(null);
   const {
     account, publicKey, connect, disconnect,
   } = useConnect(provider);
   const { chain, getNetwork } = useNetwork(provider);
 
   useEffect(() => {
-    if (!window?.okxWallet?.bitcoin) {
+    if (!window?.okxWallet?.bitcoin && !window?.okxWallet?.fractalbitcoin) {
       return;
     }
     const init = async () => {
-      setProvider(window.okxWallet.bitcoin); // set window.okxWallet.bitcoin as provider
+      if (window.okxWallet?.bitcoin) {
+        setProvider(window.okxWallet.bitcoin); // set window.okxWallet.bitcoin as provider
+      }
+      if (window.okxWallet?.fractalbitcoin) {
+        setFractalProvider(window.okxWallet.fractalbitcoin); // set window.okxWallet.fractalbitcoin as fractalProvider
+      }
     };
 
     init();
@@ -51,9 +58,28 @@ function Btc() {
               disabled={!account}
               getNetwork={getNetwork}
             />
-            <SignMessage provider={provider} disabled={!account} />
-            <Psbt provider={provider} account={account} disabled={!account} />
-            <Send provider={provider} disabled={!account} />
+            <SignMessage
+              provider={provider}
+              fractalProvider={fractalProvider}
+              disabled={!account}
+            />
+            <Psbt
+              provider={provider}
+              fractalProvider={fractalProvider}
+              account={account}
+              disabled={!account}
+            />
+            <Send
+              provider={provider}
+              fractalProvider={fractalProvider}
+              account={account}
+              disabled={!account}
+            />
+            <Rpc
+              provider={provider}
+              fractalProvider={fractalProvider}
+              disabled={!account}
+            />
             <ComingSoon provider={provider} disabled />
           </>
         ) : (

@@ -9,8 +9,17 @@ export default (provider) => {
     setAccount(val);
   };
 
+  const handleAccountChanged = async (val) => {
+    console.log('handleAccountChanged: ', val);
+    setAccount(val);
+    const newPublicKey = await provider.getPublicKey();
+    setPublicKey(newPublicKey);
+  };
+
   const requestAccounts = async () => {
+    console.log('btc - requestAccounts');
     const accounts = await provider.requestAccounts();
+    console.log('btc - requestAccounts - accounts: ', accounts);
     setAccount(accounts[0]);
     const key = await provider.getPublicKey();
     setPublicKey(key);
@@ -53,7 +62,7 @@ export default (provider) => {
 
     // subscribe to accountChanged
     provider.on('accountChanged', (newAccount) => {
-      console.log('btc - accountChanged: ', newAccount);
+      handleAccountChanged(newAccount);
     });
 
     // subscribe to accountsChanged
