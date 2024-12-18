@@ -16,14 +16,17 @@ import Others from './Others';
 
 const lamports = LAMPORTS_PER_SOL / 10 ** 4;
 const withConnectionGenerateTx = (
-  connection,
-  toPubkey = new PublicKey(mySolAddress),
+  {
+    wallet,
+    connection,
+    toPubkey = new PublicKey(mySolAddress),
+  },
 ) => async () => {
   const tx = new Transaction();
 
   tx.add(
     SystemProgram.transfer({
-      fromPubkey: solana.publicKey,
+      fromPubkey: wallet.publicKey,
       toPubkey,
       // lamports: Math.random() > 0.3 ? LAMPORTS_PER_SOL : lamports,
       lamports,
@@ -31,22 +34,25 @@ const withConnectionGenerateTx = (
   );
   const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
   tx.recentBlockhash = recentBlockhash;
-  tx.feePayer = solana.publicKey;
+  tx.feePayer = wallet.publicKey;
 
   return tx;
 };
 
 const withConnectionGenerateVersionedTx = (
-  connection,
-  toPubkey = new PublicKey(mySolAddress),
+  {
+    wallet,
+    connection,
+    toPubkey = new PublicKey(mySolAddress),
+  },
 ) => async () => {
   const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
   const versionedTransactionMessage = new TransactionMessage({
-    payerKey: solana.publicKey,
+    payerKey: wallet.publicKey,
     recentBlockhash,
     instructions: [
       SystemProgram.transfer({
-        fromPubkey: solana.publicKey,
+        fromPubkey: wallet.publicKey,
         toPubkey,
         lamports,
       }),
@@ -56,16 +62,16 @@ const withConnectionGenerateVersionedTx = (
   return new VersionedTransaction(versionedTransactionMessage);
 };
 
-export default function SignTransaction({ account, connection }) {
-  const generateTx = withConnectionGenerateTx(connection);
-  const generateVersionedTx = withConnectionGenerateVersionedTx(connection);
+export default function SignTransaction({ account, connection, wallet }) {
+  const generateTx = withConnectionGenerateTx({ connection, wallet });
+  const generateVersionedTx = withConnectionGenerateVersionedTx({ connection, wallet });
 
   const [signTransactionLoading, setSignTransactionLoading] = useState(false);
   const signTransaction = async () => {
     try {
       setSignTransactionLoading(true);
       const tx = await generateTx();
-      const signedTx = await solana.signTransaction(tx);
+      const signedTx = await wallet.signTransaction(tx);
       console.log('Current log: signedTx: ', signedTx);
       const ret = await connection.sendRawTransaction(signedTx.serialize());
       console.log(ret);
@@ -86,7 +92,7 @@ export default function SignTransaction({ account, connection }) {
         await generateTx(),
         await generateTx(),
       ];
-      const signedTxs = await solana.signAllTransactions(txs);
+      const signedTxs = await wallet.signAllTransactions(txs);
 
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < signedTxs.length; i++) {
@@ -109,7 +115,7 @@ export default function SignTransaction({ account, connection }) {
     try {
       setSignAndSendTransactionLoading(true);
       const tx = await generateTx();
-      const ret = await solana.signAndSendTransaction(tx);
+      const ret = await wallet.signAndSendTransaction(tx);
       console.log(ret);
       toastSuccess();
     } catch (error) {
@@ -125,7 +131,7 @@ export default function SignTransaction({ account, connection }) {
     try {
       setSignVersionedTransactionLoading(true);
       const tx = await generateVersionedTx();
-      const signedTx = await solana.signTransaction(tx);
+      const signedTx = await wallet.signTransaction(tx);
       const ret = await connection.sendRawTransaction(signedTx.serialize());
       console.log(ret);
       toastSuccess();
@@ -148,7 +154,7 @@ export default function SignTransaction({ account, connection }) {
         await generateVersionedTx(),
         await generateVersionedTx(),
       ];
-      const signedTxs = await solana.signAllTransactions(txs);
+      const signedTxs = await wallet.signAllTransactions(txs);
 
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < signedTxs.length; i++) {
@@ -174,7 +180,7 @@ export default function SignTransaction({ account, connection }) {
     try {
       setSignAndSendVersionedTransactionLoading(true);
       const tx = await generateVersionedTx();
-      const ret = await solana.signAndSendTransaction(tx);
+      const ret = await wallet.signAndSendTransaction(tx);
       console.log(ret);
       toastSuccess();
     } catch (error) {
@@ -254,8 +260,8 @@ export default function SignTransaction({ account, connection }) {
         </Col>
       </Row>
       <Row>
-        <USDT account={account} connection={connection} />
-        <Others account={account} connection={connection} />
+        <USDT account={account} wallet={wallet} connection={connection} />
+        <Others account={account} wallet={wallet} connection={connection} />
       </Row>
     </Card>
   );

@@ -8,10 +8,10 @@ import {
   blackAddress, mySolAddress, strongBlackAddress, USDTAddress,
 } from '../../../const';
 
-const appendBaseTransactionParams = async ({ transaction, connection }) => {
+const appendBaseTransactionParams = async ({ transaction, connection, wallet }) => {
   const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
   transaction.recentBlockhash = recentBlockhash;
-  transaction.feePayer = solana.publicKey;
+  transaction.feePayer = wallet.publicKey;
 };
 
 const generateTokenInfo = async ({ account, toAddress }) => {
@@ -78,7 +78,7 @@ const generateApproveInstruction = async ({ account, toAddress }) => {
   );
 };
 
-function USDT({ account, connection }) {
+function USDT({ account, connection, wallet }) {
   const [transferLoading, setTransferLoading] = useState(false);
   const transfer = ({ toAddress = mySolAddress } = {}) => async () => {
     try {
@@ -89,10 +89,10 @@ function USDT({ account, connection }) {
       const transferInstruction = await generateTransferInstruction({ account, toAddress });
       transaction.add(transferInstruction);
 
-      await appendBaseTransactionParams({ transaction, connection });
+      await appendBaseTransactionParams({ transaction, connection, wallet });
 
       // sign
-      const signedTx = await solana.signTransaction(transaction);
+      const signedTx = await wallet.signTransaction(transaction);
       console.log(signedTx);
       toastSuccess();
     } catch (error) {
@@ -113,10 +113,10 @@ function USDT({ account, connection }) {
       const approveInstruction = await generateApproveInstruction({ account, toAddress });
       transaction.add(approveInstruction);
 
-      await appendBaseTransactionParams({ transaction, connection });
+      await appendBaseTransactionParams({ transaction, connection, wallet });
 
       // sign
-      const signedTx = await solana.signTransaction(transaction);
+      const signedTx = await wallet.signTransaction(transaction);
       console.log(signedTx);
       toastSuccess();
     } catch (error) {
@@ -139,10 +139,10 @@ function USDT({ account, connection }) {
       const approveInstruction = await generateApproveInstruction({ account, toAddress });
       transaction.add(approveInstruction);
 
-      await appendBaseTransactionParams({ transaction, connection });
+      await appendBaseTransactionParams({ transaction, connection, wallet });
 
       // sign
-      const signedTx = await solana.signTransaction(transaction);
+      const signedTx = await wallet.signTransaction(transaction);
       console.log(signedTx);
       toastSuccess();
     } catch (error) {

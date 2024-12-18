@@ -9,14 +9,14 @@ import { toastFail, toastSuccess } from '../../../../utils/toast';
 const msg = 'Hello Solana';
 const encodedMsg = decodeUTF8(msg);
 
-function SignMessage({ account }) {
+function SignMessage({ account, wallet }) {
   const [loading, setLoading] = useState(false);
   const [signEdRet, setSignEdRet] = useState(null);
 
   const handleSignMsg = async () => {
     try {
       setLoading(true);
-      const ret = await solana.signMessage(encodedMsg, 'utf8');
+      const ret = await wallet.signMessage(encodedMsg);
       console.log(ret);
       setSignEdRet(ret);
       toastSuccess();
@@ -33,11 +33,11 @@ function SignMessage({ account }) {
       setLoading(true);
       const verified = nacl.sign.detached.verify(
         encodedMsg,
-        signEdRet.signature,
+        signEdRet,
         solana.publicKey.toBuffer(),
       );
       console.log(verified);
-      toastSuccess();
+      toastSuccess('Verify Succeed, you have the account Bro ~');
     } catch (error) {
       console.log(error);
       toastFail();

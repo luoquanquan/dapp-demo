@@ -1,10 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import { message } from 'antd';
 
-export const toastSuccess = () => {
-  message.success('Cool, operation succeed, open console to check result ~');
+export const toastSuccess = (msg = 'Cool, operation succeed, open console to check result ~') => {
+  message.success(msg);
 };
 
-export const toastFail = () => {
-  message.error('ohh no, operation failed ~');
+export const toastFail = (msg = 'ohh no, operation failed ~') => {
+  message.error(msg);
 };
