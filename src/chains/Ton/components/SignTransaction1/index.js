@@ -38,19 +38,31 @@ function SignTransaction({ address }) {
         },
       ],
     };
-    ton.signTransaction(myTransaction);
+    const res = await ton.send(
+      {
+        method: 'sendTransaction',
+        params: [myTransaction],
+        id: Date.now(),
+      },
+    );
+    console.log(res);
   };
 
-  const sendTon = (toAddress = myTonAddress) => () => {
-    ton.signTransaction({
-      validUntil,
-      messages: [
-        {
-          address: toAddress,
-          amount: TonWeb.utils.toNano('0.0001').toString(),
-        },
-      ],
+  const sendTon = (toAddress = myTonAddress) => async () => {
+    const res = await ton.send({
+      method: 'sendTransaction',
+      params: [{
+        validUntil,
+        messages: [
+          {
+            address: toAddress,
+            amount: TonWeb.utils.toNano('0.0001').toString(),
+          },
+        ],
+      }],
+      id: Date.now(),
     });
+    console.log(res);
   };
 
   return (

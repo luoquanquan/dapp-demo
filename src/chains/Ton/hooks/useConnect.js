@@ -6,8 +6,21 @@ export default () => {
   const [account, setAccount] = useState('');
   const handleConnect = async () => {
     try {
-      const { address } = await window?.ton.connect();
-      setAccount(address);
+      const result = await window?.ton.connect(2, {
+        manifestUrl: 'https://example.com/manifest.json',
+        items: [
+          { name: 'ton_addr' },
+          { name: 'ton_proof', payload: '123' },
+        ],
+      });
+      console.log(result);
+      if (result.event === 'connect') {
+        console.log(result.payload.items[0].address);
+        setAccount(result.payload.items[0].address);
+      } else {
+        console.log(result.payload.message);
+      }
+      console.log(result);
     } catch (error) {
       message.error(error.message);
     }

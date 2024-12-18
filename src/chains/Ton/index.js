@@ -14,7 +14,6 @@ function Ton() {
   const {
     account, handleConnect, handleDisconnect,
   } = useConnect();
-  console.log(account, 'account');
   return (
     <>
       <>
