@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Button } from 'antd';
+import { Space, Button, message } from 'antd';
 import { SafeArea } from 'antd-mobile';
 
 import {
@@ -13,8 +13,8 @@ import {
   SupportedNetworks,
   disconnect,
   restoreTGParam,
-  connectAndGetAllAddresses,
-  syncAllAddresses,
+  getAllAddresses,
+  ConnectKitErrorCodes,
 } from '@repo/connect-kit';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -58,6 +58,8 @@ function Connect() {
     });
     // for testing only
     window.okxConnectSdk = sdk;
+    // For syncAllAddresses & connectAndSign, https://applink.larksuite.com/client/message/link/open?token=AmdIZNS2wAAMZ1JzxNBAQAY%3D
+    window.okxGlobal = 1;
   }, []);
 
   const onClickGetUri = async () => {
@@ -66,9 +68,11 @@ function Connect() {
       setConnecting(true);
       console.log('session_connecting');
     });
-    sdk.once('connect', () => {
+    sdk.once('connect', async () => {
       setConnecting(false);
       console.log('sdk connect and remove listener');
+      const allAddresses = await getAllAddresses();
+      console.log('SDK connected - allAddresses: ', allAddresses);
     });
     sdk.once('connect_error', () => {
       setConnecting(false);
@@ -78,6 +82,38 @@ function Connect() {
     setUri(newUri);
 
     console.log('get display uri for QR code scan: ', uri);
+  };
+
+  const handleConnectMobileApp = async () => {
+    try {
+      const session = await connectOKXAppWallet();
+      console.log('mobile app connected - session: ', session);
+      const allAddresses = await getAllAddresses();
+      console.log('mobile app connected - allAddresses: ', allAddresses);
+    } catch (err) {
+      console.log('connect mobile app error: ', err);
+      if (err.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
+        message.error('User rejected the request');
+      } else {
+        message.error('Failed to connect mobile app');
+      }
+    }
+  };
+
+  const handleConnectMiniWallet = async () => {
+    try {
+      const session = await connectOKXMiniWallet();
+      console.log('mini wallet connected - session: ', session);
+      const allAddresses = await getAllAddresses();
+      console.log('mini wallet connected - allAddresses: ', allAddresses);
+    } catch (err) {
+      console.log('connect mini wallet error: ', err);
+      if (err.code === ConnectKitErrorCodes.USER_REJECTS_ERROR) {
+        message.error('User rejected the request');
+      } else {
+        message.error('Failed to connect mini wallet');
+      }
+    }
   };
 
   const jumpToAnother = () => {
@@ -133,12 +169,11 @@ function Connect() {
           fgColor={connecting ? '#bbb' : ''}
         />
       ) : null}
-      <Button onClick={connectOKXAppWallet}>Connect Mobile App</Button>
-      <Button onClick={connectOKXMiniWallet}>Connect TG</Button>
+      <Button onClick={handleConnectMobileApp}>Connect Mobile App</Button>
+      <Button onClick={handleConnectMiniWallet}>Connect TG</Button>
       <Button onClick={connect}>Connect</Button>
       <Button onClick={disconnect}>Disconnect</Button>
-      <Button onClick={syncAllAddresses}>Sync All Addresses</Button>
-      <Button onClick={connectAndGetAllAddresses}>Connect and Get All Addresses</Button>
+      <Button onClick={getAllAddresses}>Get all addresses</Button>
     </Space>
   );
 }

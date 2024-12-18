@@ -73,10 +73,21 @@ function SignTransaction({ account, disabled }) {
 
   const handleSignTransaction = async () => {
     setSigning(true);
-    const transactionData = await buildTransaction({ sender: account.address.toString() });
+    console.log(
+      'handleSignTransaction - address: ',
+      account.address,
+      typeof account.address,
+    );
+    const transactionData = await buildTransaction({ sender: typeof account.address === 'object' ? account.address.toString() : account.address });
     try {
+      const transaction = {
+        arguments: [account.address.toString(), '717'],
+        function: '0x1::coin::transfer',
+        type: 'entry_function_payload',
+        type_arguments: ['0x1::aptos_coin::AptosCoin'],
+      };
       console.log('handleSignTransaction - txData: ', transactionData);
-      const signedTx = await window.aptos.signTransaction(transactionData);
+      const signedTx = await window.aptos.signTransaction(transaction);
       console.log('signedTx', signedTx);
       // TODO: submit transaction
       // const result = await aptos.waitForTransaction({ transactionHash: tx });
@@ -96,8 +107,15 @@ function SignTransaction({ account, disabled }) {
   const handleSignAndSubmitTransaction = async () => {
     setSigning(true);
     const transactionData = await buildTransaction({ sender: account.address.toString() });
+    const transaction = {
+      arguments: [account.address.toString(), '717'],
+      function: '0x1::coin::transfer',
+      type: 'entry_function_payload',
+      type_arguments: ['0x1::aptos_coin::AptosCoin'],
+    };
     try {
-      const tx = await window.aptos.signAndSubmitTransaction(transactionData);
+      console.log('transactionData: ', transaction);
+      const tx = await window.aptos.signAndSubmitTransaction(transaction);
       console.log(tx);
       const result = await aptos.waitForTransaction({
         transactionHash: tx,

@@ -10,10 +10,11 @@ import ProjectInfo from './components/ProjectInfo';
 import Ton from './chains/Ton';
 import Sui from './chains/Sui';
 import Aptos from './chains/Aptos';
+import Btc from './chains/Btc';
 
 const localTabKey = 'localTabKey';
 
-const tabs = [Connect, Evm, Tron, Solana, NEAR, Ton, Sui, Aptos];
+const tabs = [Connect, Evm, Tron, Solana, NEAR, Ton, Sui, Aptos, Btc];
 // const tabs = [Connect, Evm, Tron, NEAR, Aptos];
 
 const cachedChainKey = localStorage.getItem(localTabKey);

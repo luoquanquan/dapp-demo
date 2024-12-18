@@ -17,7 +17,14 @@ function Aptos() {
       return;
     }
     const init = async () => {
-      const account = await window.aptos.getAccount();
+      let account = '';
+      if (window.aptos.getAccount) {
+        account = await window.aptos.getAccount();
+      }
+      if (window.aptos.account) {
+        await window.aptos.connect();
+        account = await window.aptos.account();
+      }
       setContext({ account });
     };
 

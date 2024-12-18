@@ -62,7 +62,6 @@ function SignTransaction({ address }) {
       }],
       id: Date.now(),
     });
-    console.log(res);
   };
 
   return (

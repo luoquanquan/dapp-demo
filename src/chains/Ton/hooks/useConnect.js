@@ -5,6 +5,10 @@ export default () => {
   // 连接钱包
   const [account, setAccount] = useState('');
   const handleConnect = async () => {
+    if (!window.ton) {
+      message.error('Ton wallet is not available');
+      return;
+    }
     try {
       const result = await window?.ton.connect(2, {
         manifestUrl: 'https://example.com/manifest.json',
@@ -21,6 +25,8 @@ export default () => {
         console.log(result.payload.message);
       }
       console.log(result);
+      const { address } = await window.ton.connect();
+      setAccount(address);
     } catch (error) {
       message.error(error.message);
     }
