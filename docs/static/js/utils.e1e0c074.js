@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdapp_demo=self.webpackChunkdapp_demo||[]).push([[738],{99388:(e,o,s)=>{s.d(o,{i:()=>a,t:()=>p});var c=s(86858);const p=()=>{c.Ay.success("Cool, operation succeed, open console to check result ~")},a=()=>{c.Ay.error("ohh no, operation failed ~")}}}]);
