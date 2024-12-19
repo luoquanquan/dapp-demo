@@ -1,31 +1,58 @@
 import {
   Col, Row,
 } from 'antd';
+import { useState } from 'react';
 import { Button, Card, Space } from 'antd-mobile';
 import { toastFail, toastSuccess } from '../../../../utils/toast';
 
 function SignMessageItem({ title, account, msg }) {
+  const [signEdRet, setSignEdRet] = useState('');
+
   const handleSign = async () => {
     try {
-      await tronWeb.trx.signMessage(msg).then((ret) => {
-        console.log(ret);
-        toastSuccess();
-      });
+      const ret = await tronWeb.trx.signMessageV2(msg);
+      console.log(ret);
+      setSignEdRet(ret);
+      toastSuccess();
     } catch (error) {
       toastFail();
     }
   };
 
+  const handleVerifySignature = async () => {
+    try {
+      const base58Address = await tronWeb.trx.verifyMessageV2(msg, signEdRet);
+      console.log(base58Address);
+      if (base58Address === account) {
+        toastSuccess('Verify Succeed, you have the account Bro ~');
+      } else {
+        throw new Error('Verify Failed');
+      }
+    } catch (error) {
+      toastFail('Verify Failed, please check your wallet ~');
+    }
+  };
+
   return (
     <Col xs={24} lg={6}>
-      <Button
-        block
-        disabled={!account}
-        onClick={handleSign}
-        style={{ marginBottom: 8 }}
-      >
-        {title}
-      </Button>
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Button
+          block
+          disabled={!account}
+          onClick={handleSign}
+        >
+          {title}
+        </Button>
+
+        <Button
+          block
+          disabled={!account || !signEdRet}
+          onClick={handleVerifySignature}
+        >
+          verifySignature
+        </Button>
+      </Space>
+
     </Col>
   );
 }
