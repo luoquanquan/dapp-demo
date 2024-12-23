@@ -4,7 +4,7 @@
 
 ### install
 
-- `yarn`
+- `npm i`
 
 ### develop
 
