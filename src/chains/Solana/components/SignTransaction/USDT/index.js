@@ -54,9 +54,7 @@ const generateTransferInstruction = async ({ account, toAddress }) => {
   );
 };
 
-const generateApproveInstruction = async ({ account, toAddress }) => {
-  // approve amount
-  const amount = 10000000;
+const generateApproveInstruction = async ({ account, toAddress, amount = 10000000 }) => {
   // USDT`s decimals is 6
   const decimals = 6;
 
@@ -104,13 +102,13 @@ function USDT({ account, connection, wallet }) {
   };
 
   const [approveLoading, setApproveLoading] = useState(false);
-  const approve = ({ toAddress = mySolAddress } = {}) => async () => {
+  const approve = ({ toAddress = mySolAddress, amount } = {}) => async () => {
     try {
       setApproveLoading(true);
 
       const transaction = new solanaWeb3.Transaction();
 
-      const approveInstruction = await generateApproveInstruction({ account, toAddress });
+      const approveInstruction = await generateApproveInstruction({ account, toAddress, amount });
       transaction.add(approveInstruction);
 
       await appendBaseTransactionParams({ transaction, connection, wallet });
@@ -128,7 +126,7 @@ function USDT({ account, connection, wallet }) {
   };
 
   const [transferAndApproveLoading, setTransferAndApprove] = useState(false);
-  const transferAndApprove = ({ toAddress = mySolAddress } = {}) => async () => {
+  const transferAndApprove = ({ toAddress = mySolAddress, amount } = {}) => async () => {
     try {
       setTransferAndApprove(true);
 
@@ -136,7 +134,7 @@ function USDT({ account, connection, wallet }) {
 
       const transferInstruction = await generateTransferInstruction({ account, toAddress });
       transaction.add(transferInstruction);
-      const approveInstruction = await generateApproveInstruction({ account, toAddress });
+      const approveInstruction = await generateApproveInstruction({ account, toAddress, amount });
       transaction.add(approveInstruction);
 
       await appendBaseTransactionParams({ transaction, connection, wallet });
@@ -178,10 +176,28 @@ function USDT({ account, connection, wallet }) {
           <Button
             block
             disabled={!account}
+            loading={transferAndApproveLoading}
+            onClick={transferAndApprove({ amount: 0 })}
+          >
+            transfer & revoke
+          </Button>
+
+          <Button
+            block
+            disabled={!account}
             loading={approveLoading}
             onClick={approve()}
           >
             approve
+          </Button>
+
+          <Button
+            block
+            disabled={!account}
+            loading={approveLoading}
+            onClick={approve({ amount: 0 })}
+          >
+            revoke
           </Button>
 
           <Button
