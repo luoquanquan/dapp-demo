@@ -37,9 +37,7 @@ const generateTokenInfo = async ({ account, toAddress }) => {
   };
 };
 
-const generateTransferInstruction = async ({ account, toAddress }) => {
-  const amount = 100;
-
+const generateTransferInstruction = async ({ account, toAddress, amount = 100 }) => {
   const {
     fromAddrAccount,
     fromPubkey,
@@ -68,23 +66,23 @@ const generateApproveInstruction = async ({ account, toAddress, amount = 1000000
   return splToken.createApproveCheckedInstruction(
     fromAddrAccount,
     tokenProgramId,
+    // new solanaWeb3.PublicKey(toAddress),
     toAddrAccount,
     fromPubkey,
     amount,
     decimals,
-    [],
   );
 };
 
 function USDT({ account, connection, wallet }) {
   const [transferLoading, setTransferLoading] = useState(false);
-  const transfer = ({ toAddress = mySolAddress } = {}) => async () => {
+  const transfer = ({ toAddress = mySolAddress, amount } = {}) => async () => {
     try {
       setTransferLoading(true);
       // init a transaction interface
       const transaction = new solanaWeb3.Transaction();
 
-      const transferInstruction = await generateTransferInstruction({ account, toAddress });
+      const transferInstruction = await generateTransferInstruction({ account, toAddress, amount });
       transaction.add(transferInstruction);
 
       await appendBaseTransactionParams({ transaction, connection, wallet });
@@ -102,7 +100,7 @@ function USDT({ account, connection, wallet }) {
   };
 
   const [approveLoading, setApproveLoading] = useState(false);
-  const approve = ({ toAddress = mySolAddress, amount } = {}) => async () => {
+  const approve = ({ toAddress = 'GokA1R67GqSavkd15zR62QD68Tuc5AEfvjssntVDEbM8', amount } = {}) => async () => {
     try {
       setApproveLoading(true);
 
@@ -162,6 +160,15 @@ function USDT({ account, connection, wallet }) {
             onClick={transfer()}
           >
             transfer
+          </Button>
+
+          <Button
+            block
+            disabled={!account}
+            loading={transferLoading}
+            onClick={transfer({ amount: 1000000000000 })}
+          >
+            transfer failed
           </Button>
 
           <Button
