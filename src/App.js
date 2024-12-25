@@ -37,12 +37,12 @@ export default function App() {
         }}
       >
         {
-            tabs.map((tab) => (
-              <Tabs.Tab title={tab.key} key={tab.key}>
-                {tab.children}
-              </Tabs.Tab>
-            ))
-          }
+          tabs.map((tab) => (
+            <Tabs.Tab title={tab.key} key={tab.key}>
+              {tab.children}
+            </Tabs.Tab>
+          ))
+        }
       </Tabs>
       <ProjectInfo />
       <SafeArea position="bottom" />

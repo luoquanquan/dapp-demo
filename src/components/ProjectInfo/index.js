@@ -18,7 +18,6 @@ function ProjectInfo() {
           <a href={githubUrl}>{githubUrl}</a>
         </div>
       </Space>
-
     </Card>
   );
 }
