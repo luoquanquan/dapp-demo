@@ -13,7 +13,7 @@ function BatchTransfer() {
   const strongBlackAddress = getStrongBlackEoaAddress(chainId);
 
   const [transferLoading, setTransferLoading] = useState(false);
-  const transfer = async () => {
+  const transfer = (extParams = {}) => async () => {
     try {
       setTransferLoading(true);
 
@@ -23,6 +23,8 @@ function BatchTransfer() {
           from: account,
           to: myEvmAddress,
           value: `0x${(10 ** 10).toString(16)}`,
+          // value: `${(13200444011979470000).toString(16)}`,
+          extParams,
         }],
       });
     } catch (error) {
@@ -217,10 +219,26 @@ function BatchTransfer() {
           <Button
             block
             loading={transferLoading}
-            onClick={transfer}
+            onClick={transfer()}
             disabled={!account}
           >
             transfer baseCoin
+          </Button>
+          <Button
+            block
+            loading={transferLoading}
+            onClick={transfer({ isMev: false })}
+            disabled={!account}
+          >
+            transfer baseCoin isMev false
+          </Button>
+          <Button
+            block
+            loading={transferLoading}
+            onClick={transfer({ isMev: true })}
+            disabled={!account}
+          >
+            transfer baseCoin isMev true
           </Button>
           {
             !!grayAddress && (
