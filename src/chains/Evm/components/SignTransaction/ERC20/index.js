@@ -40,9 +40,15 @@ const usedTokens = [
   },
   {
     chain: 'Holesky Test Network',
-    symbol: defaultSymbol,
+    symbol: `${defaultSymbol}-4`,
     chainId: 17000,
     address: '0x76bC79EB3bf2156a148793E8363D81c663B18957',
+  },
+  {
+    chain: 'Holesky Test Network',
+    symbol: `${defaultSymbol}-18`,
+    chainId: 17000,
+    address: '0x26552DA22a20054FB030e489b56B10B7F3bE8EA2',
   },
   {
     chain: 'Eth',
@@ -65,7 +71,7 @@ function ERC20() {
   const { account, provider, chainId } = useContext(EvmContext);
   const grayAddress = getEvmBlackContractAddress(chainId);
   const strongBlackAddress = getStrongBlackEoaAddress(chainId);
-  const [decimals, setDecimals] = useState(4);
+  const [decimals, setDecimals] = useState(6);
   const [symbol, setSymbol] = useState();
 
   const [hstContract, setHstContract] = useState({});
@@ -79,7 +85,6 @@ function ERC20() {
         setNotHaveToken(false);
         setSymbol(undefined);
         setHstContract({});
-        setDecimals(4);
         createTokenRef.current?.scrollIntoView({ behavior: 'smooth' });
 
         const targetToken = usedTokens.find(({ address }) => address === tokenAddress);
