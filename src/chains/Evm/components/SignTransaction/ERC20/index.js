@@ -62,6 +62,12 @@ const usedTokens = [
     chainId: 137,
     address: '0xf25212e676d1f7f89cd72ffee66158f541246445',
   },
+  {
+    chain: 'Kaia',
+    symbol: defaultSymbol,
+    chainId: 8217,
+    address: '0x831f4bC8002Ec130617e5bf0B401DB8a9E4E5204',
+  },
 ];
 
 function ERC20() {
