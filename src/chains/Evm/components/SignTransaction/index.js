@@ -7,6 +7,7 @@ import GasChecker from './GasChecker';
 import BatchTransfer from './BatchTransfer';
 import ERC20 from './ERC20';
 import FormTx from './FormTx';
+import Kaia from './Kaia';
 
 export default function SignTransaction() {
   return (
@@ -22,6 +23,7 @@ export default function SignTransaction() {
         </Row>
         <Row gutter={16}>
           <FormTx />
+          <Kaia />
         </Row>
       </Space>
     </Card>
