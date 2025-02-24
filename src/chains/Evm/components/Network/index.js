@@ -7,8 +7,17 @@ export default function Network() {
 
   return (
     <Card title="Network">
-      ChainId:
-      {chainId}
+      <p>
+        ChainId:
+        {' '}
+        {chainId}
+      </p>
+
+      <p>
+        ChainIdHex:
+        {' '}
+        {`0x${chainId.toString(16)}`}
+      </p>
     </Card>
   );
 }
