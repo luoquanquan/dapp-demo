@@ -8,6 +8,7 @@ import Tools from './components/Tools';
 import RareCases from './components/RareCases';
 import TestForDefaultGas from './components/TestForDefaultGas';
 import RouteContract from './components/RouteContract';
+import DemoTx from './components/DemoTx';
 
 function Others() {
   return (
@@ -18,6 +19,9 @@ function Others() {
         </Col>
         <Col xs={24} lg={8}>
           <RareCases />
+        </Col>
+        <Col xs={24} lg={8}>
+          <DemoTx />
         </Col>
       </Row>
       <Row gutter={12}>

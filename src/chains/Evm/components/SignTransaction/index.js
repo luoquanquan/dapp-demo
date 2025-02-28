@@ -8,7 +8,6 @@ import BatchTransfer from './BatchTransfer';
 import ERC20 from './ERC20';
 import FormTx from './FormTx';
 import Kaia from './Kaia';
-import DemoTx from './DemoTx';
 
 export default function SignTransaction() {
   return (
@@ -25,10 +24,6 @@ export default function SignTransaction() {
         <Row gutter={16}>
           <FormTx />
           <Kaia />
-        </Row>
-
-        <Row gutter={16}>
-          <DemoTx />
         </Row>
       </Space>
     </Card>
