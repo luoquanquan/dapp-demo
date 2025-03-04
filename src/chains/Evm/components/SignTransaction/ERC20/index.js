@@ -320,20 +320,6 @@ function ERC20() {
                           approve
                         </Button>
 
-                        {
-                          chainId === 137 ? (
-                            <Button
-                              block
-                              style={{ marginBottom: 8 }}
-                              loading={approveTokenLoading}
-                              onClick={handleApproveToken({ spender: '0x3b86917369b83a6892f553609f3c2f439c184e31' })}
-                              disabled={!hstContract.address || !account}
-                            >
-                              To OKX Contract
-                            </Button>
-                          ) : null
-                        }
-
                         <Button
                           block
                           color="warning"
