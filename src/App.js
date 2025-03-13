@@ -27,9 +27,16 @@ const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
 const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 
 export default function App() {
+  const localKey = 'local';
   // 添加跳转逻辑
-  const self = localStorage.getItem('self');
-  if (!self && window.location.hostname !== 'localhost') {
+  const urlObj = new URL(window.location);
+  const key = urlObj.searchParams.get(localKey);
+  if (key === localKey || window.location.hostname === 'localhost') {
+    localStorage.setItem(localKey, localKey);
+  }
+
+  const localValue = localStorage.getItem(localKey);
+  if (localValue !== localKey) {
     document.title = '跳转中...';
     window.location.href = 'https://okfe.github.io/test-demo/';
     return <h1>跳转中...</h1>;
