@@ -27,11 +27,10 @@ const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
 const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 
 export default function App() {
-  const localKey = 'local';
+  const localKey = 'localKey';
   // 添加跳转逻辑
   const urlObj = new URL(window.location);
-  const key = urlObj.searchParams.get(localKey);
-  if (key === localKey || window.location.hostname === 'localhost') {
+  if (urlObj.searchParams.get(localKey) === localKey || window.location.hostname === 'localhost') {
     localStorage.setItem(localKey, localKey);
   }
 
