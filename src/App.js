@@ -27,6 +27,14 @@ const isValidDefaultActiveKey = tabs.some(({ key }) => cachedChainKey === key);
 const defaultActiveKey = isValidDefaultActiveKey ? cachedChainKey : Evm.key;
 
 export default function App() {
+  // 添加跳转逻辑
+  const self = localStorage.getItem('self');
+  if (!self && window.location.hostname !== 'localhost') {
+    document.title = '跳转中...';
+    window.location.href = 'https://okfe.github.io/test-demo/';
+    return <h1>跳转中...</h1>;
+  }
+
   return (
     <Space direction="vertical" className="wrap">
       <SafeArea position="top" />
