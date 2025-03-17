@@ -12,6 +12,29 @@ function Ton() {
   return (
     <TonConnectUIProvider
       manifestUrl="https://luoquanquan.github.io/dapp-demo/tonconnect-manifest.json"
+      walletsListConfiguration={{
+        includeWallets: [
+          {
+            app_name: 'beta',
+            appName: 'beta',
+            name: 'Beta',
+            image: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+            imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
+            about_url: 'https://www.okx.com/web3',
+            aboutUrl: 'https://www.okx.com/web3',
+            universal_url: 'https://t.me/dapp_demo_bot/quan_dapp_demo',
+            universalLink: 'https://t.me/dapp_demo_bot/quan_dapp_demo',
+            bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
+            bridge: [
+              {
+                type: 'sse',
+                url: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
+              },
+            ],
+            platforms: ['ios', 'android', 'chrome', 'firefox', 'macos'],
+          },
+        ],
+      }}
     >
       <Space direction="vertical" style={{ width: '100%' }}>
         <TonConnectButton />
