@@ -22,8 +22,8 @@ function Ton() {
             imageUrl: 'https://static.okx.com/cdn/assets/imgs/247/58E63FEA47A2B7D7.png',
             about_url: 'https://www.okx.com/web3',
             aboutUrl: 'https://www.okx.com/web3',
-            universal_url: 'https://t.me/dapp_demo_bot/quan_dapp_demo',
-            universalLink: 'https://t.me/dapp_demo_bot/quan_dapp_demo',
+            universal_url: 't.me/beta_test_wallet_bot/leon_test_beta_wallet',
+            universalLink: 't.me/beta_test_wallet_bot/leon_test_beta_wallet',
             bridgeUrl: 'https://www.okx.com/tonbridge/discover/rpc/bridge',
             bridge: [
               {
