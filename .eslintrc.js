@@ -34,5 +34,6 @@ module.exports = {
     'no-console': 0,
     'max-len': 0,
     'import/no-unresolved': 0,
+    'import/no-extraneous-dependencies': 0,
   },
 };
