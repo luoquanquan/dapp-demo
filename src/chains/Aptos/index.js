@@ -6,12 +6,19 @@ import DontHaveWallet from '../../components/DontHaveWallet';
 import SignMessage from './components/SignMessage';
 
 import '@aptos-labs/wallet-adapter-ant-design/dist/index.css';
+import SignTransaction from './components/SignTransaction';
+import LinkButton from '../../components/LinkButton';
 
 function AptosWrap() {
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       <WalletSelector />
       <SignMessage />
+      <SignTransaction />
+
+      <LinkButton href="https://aptos-labs.github.io/aptos-wallet-adapter/">
+        Offical Dapp
+      </LinkButton>
     </Space>
   );
 }
