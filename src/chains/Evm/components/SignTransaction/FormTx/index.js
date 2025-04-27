@@ -29,10 +29,10 @@ function FormTx() {
       const formData = form.getFieldsValue();
       const data = {
         from: account,
-        to: myEvmAddress,
+        to: formData.to,
         type,
         value: toHex(formData.value),
-        data: toHex(formData.data),
+        data: formData.data,
         gas: toHex(formData.gasLimit),
       };
 
