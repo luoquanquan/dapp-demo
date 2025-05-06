@@ -88,7 +88,8 @@ function USDT({ account, connection, wallet }) {
       await appendBaseTransactionParams({ transaction, connection, wallet });
 
       // sign
-      const signedTx = await wallet.signTransaction(transaction);
+      // const signedTx = await wallet.signTransaction(transaction);
+      const signedTx = await window.okxwallet.solana.signAndSendTransaction(transaction);
       console.log(signedTx);
       toastSuccess();
     } catch (error) {

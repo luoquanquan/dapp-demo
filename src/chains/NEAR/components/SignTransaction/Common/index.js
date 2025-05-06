@@ -61,6 +61,41 @@ function Common({ account, provider }) {
       setSwapToWNearLoading(false);
     }
   };
+  const swapToWNea2 = (fullParams = false, withGas = false) => async () => {
+    try {
+      setSwapToWNearLoading(true);
+      const dataForSign = fullParams ? {
+        receiverId: wNearContractId,
+        actions: [
+          {
+            type: 'FunctionCall',
+            params: {
+              methodName: 'near_deposit',
+              args: {},
+              deposit: '1250000000000000000000',
+            },
+          },
+        ],
+      } : {
+        receiverId: wNearContractId,
+        actions: [
+          {
+            methodName: 'near_deposit',
+            args: {},
+            deposit: '1250000000000000000000',
+            ...(withGas ? { gas: '300000000000000' } : {}),
+          },
+        ],
+      };
+      const resp = await provider.signTransaction(dataForSign);
+      handleNearResp(resp);
+    } catch (error) {
+      console.log(error);
+      toastFail();
+    } finally {
+      setSwapToWNearLoading(false);
+    }
+  };
 
   const [sendWNearLoading, setSendWNearLoading] = useState(false);
   const sendWNear = ({ useU8Array = false } = {}) => async () => {
@@ -282,6 +317,19 @@ function Common({ account, provider }) {
               disabled={!account}
             >
               sendWNear(with U8Array args)
+            </Button>
+          </Space>
+        </Card>
+
+        <Card title="signTransaction">
+          <Space direction="vertical" style={{ width: '100%' }}>
+            <Button
+              block
+              loading={swapToWNearLoading}
+              onClick={swapToWNea2()}
+              disabled={!account}
+            >
+              swapToWNear signTransaction
             </Button>
           </Space>
         </Card>
